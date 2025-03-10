@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 
 const register = () => {
   const router = useRouter();
-  return <Text></Text>;
+  return <Text>register</Text>;
 };
 
 export default register;
