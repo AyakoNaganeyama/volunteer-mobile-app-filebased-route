@@ -5,13 +5,16 @@ import {
   SafeAreaView,
   TextInput,
   StyleSheet,
+  TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
 
 import Fontisto from "@expo/vector-icons/Fontisto";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { useRouter } from "expo-router";
 
 const VolunteerSignup = () => {
+  const router = useRouter();
   const [inputs, setInputs] = useState({
     fullName: "",
 
@@ -77,6 +80,12 @@ const VolunteerSignup = () => {
             secureTextEntry={!showPass}
           />
         </View>
+        <TouchableOpacity
+          onPress={() => router.replace("/(tabs)/one")}
+          style={styles.buttonStyle}
+        >
+          <Text style={styles.buttonText}>Join now! </Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -91,7 +100,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   container: {
-    width: "85%",
     alignItems: "center",
   },
   heading: {
@@ -145,5 +153,19 @@ const styles = StyleSheet.create({
     color: "#ff5252",
     fontSize: 13,
     marginBottom: 10,
+  },
+
+  buttonStyle: {
+    backgroundColor: "#0d528f",
+    paddingVertical: 16,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 10,
+    width: "100%",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
 });

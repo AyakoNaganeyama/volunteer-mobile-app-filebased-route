@@ -3,7 +3,6 @@ import { Stack, useRouter } from "expo-router";
 import { View, ActivityIndicator, Image } from "react-native";
 
 const _layout = () => {
-  // Render navigation stack (only for index page)
   return (
     <Stack>
       <Stack.Screen name="choose" options={{ headerShown: false }} />
