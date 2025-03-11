@@ -28,14 +28,14 @@ const choose = () => {
       </View>
       <View style={{ alignItems: "center" }}>
         <TouchableOpacity
-          onPress={() => router.replace("/auth/authVolunteer")}
+          onPress={() => router.push("/auth/authVolunteer")}
           style={styles.buttonStyle}
         >
           <Text style={styles.buttonText}>You are a volunteer</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => router.replace("/auth/authOrganisation")}
+          onPress={() => router.push("/auth/authOrganisation")}
           style={styles.buttonStyle}
         >
           <Text style={styles.buttonText}>You are a organisaiton</Text>
