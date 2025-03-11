@@ -1,12 +1,12 @@
 import { View, Text } from "react-native";
 import React from "react";
 
-const resister2 = () => {
+const authVolunteer = () => {
   return (
     <View>
-      <Text>resister2</Text>
+      <Text>authVolunteer</Text>
     </View>
   );
 };
 
-export default resister2;
+export default authVolunteer;

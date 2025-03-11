@@ -10,9 +10,15 @@ const index = () => {
   return (
     <View>
       {name ? (
-        <Button title="Open" onPress={() => router.replace("/register")} />
+        <Button
+          title="Open"
+          onPress={() => router.replace("/auth/authOrganisation")}
+        />
       ) : (
-        <Button title="Open" onPress={() => router.replace("/(tabs)/one")} />
+        <Button
+          title="Open"
+          onPress={() => router.replace("/auth/authVolunteer")}
+        />
       )}
     </View>
   );
