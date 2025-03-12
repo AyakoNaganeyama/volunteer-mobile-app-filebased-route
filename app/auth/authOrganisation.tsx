@@ -1,10 +1,57 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
+import { useState } from "react";
+import OrgLogin from "@/components/OrgLogin";
+import OrgSignup from "@/components/OrgSignup";
 
 const auth = () => {
+  const [isAccount, setIsAccount] = useState(false);
   return (
-    <View>
-      <Text>auth</Text>
+    <View
+      style={{
+        flex: 1,
+        alignItems: "center",
+        width: "100%",
+        marginTop: 100,
+      }}
+    >
+      <View style={{ width: "85%" }}>
+        {!isAccount ? (
+          <Text
+            style={{
+              marginBottom: 10,
+              textAlign: "left",
+              alignSelf: "flex-start",
+              fontSize: 20,
+              fontWeight: "bold",
+              color: "#0d528f",
+            }}
+          >
+            Let's get familiar
+          </Text>
+        ) : (
+          <Text
+            style={{
+              marginBottom: 10,
+              textAlign: "left",
+              alignSelf: "flex-start",
+              fontSize: 20,
+              fontWeight: "bold",
+              color: "#0d528f",
+            }}
+          >
+            Let's begin!
+          </Text>
+        )}
+
+        {isAccount ? <OrgLogin /> : <OrgSignup />}
+
+        <TouchableOpacity onPress={() => setIsAccount(!isAccount)}>
+          <Text style={{ color: "#0d528f", fontSize: 16, textAlign: "center" }}>
+            {isAccount ? "Don't have an account?" : "Already have an account?"}
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

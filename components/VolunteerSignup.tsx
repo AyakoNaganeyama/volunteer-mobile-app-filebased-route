@@ -13,11 +13,16 @@ import Fontisto from "@expo/vector-icons/Fontisto";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useRouter } from "expo-router";
 
+interface InputFields {
+  fullName: string;
+  email: string;
+  pass: string;
+}
+
 const VolunteerSignup = () => {
   const router = useRouter();
-  const [inputs, setInputs] = useState({
+  const [inputs, setInputs] = useState<InputFields>({
     fullName: "",
-
     email: "",
     pass: "",
   });
@@ -39,7 +44,9 @@ const VolunteerSignup = () => {
           <TextInput
             placeholder="Enter Full Name"
             value={inputs.fullName}
-            onChangeText={(text) => setInputs({ ...inputs, fullName: text })}
+            onChangeText={(text) =>
+              setInputs((prev) => ({ ...prev, fullName: text }))
+            }
             style={styles.input}
             placeholderTextColor={"#8e8e93"}
           />
@@ -56,7 +63,9 @@ const VolunteerSignup = () => {
           <TextInput
             placeholder="Enter Email"
             value={inputs.email}
-            onChangeText={(text) => setInputs({ ...inputs, email: text })}
+            onChangeText={(text) =>
+              setInputs((prev) => ({ ...prev, email: text }))
+            }
             style={styles.input}
             placeholderTextColor={"#8e8e93"}
             keyboardType="email-address"
@@ -74,12 +83,39 @@ const VolunteerSignup = () => {
           <TextInput
             placeholder="Enter Password"
             value={inputs.pass}
-            onChangeText={(text) => setInputs({ ...inputs, pass: text })}
+            onChangeText={(text) =>
+              setInputs((prev) => ({ ...prev, pass: text }))
+            }
             style={styles.input}
             placeholderTextColor={"#8e8e93"}
             secureTextEntry={!showPass}
           />
         </View>
+
+        {/* Confirm Pass */}
+        {/* <View style={styles.inputContainer}>
+          <AntDesign
+            name="lock"
+            size={20}
+            color="#8e8e93"
+            style={styles.icon}
+          />
+
+          <AntDesign
+            name="eyeo"
+            size={20}
+            color="#8e8e93"
+            style={styles.icon}
+          />
+          <TextInput
+            placeholder="Confirm Password"
+            value={inputs.pass}
+            onChangeText={(text) => setInputs({ ...inputs, pass: text })}
+            style={styles.input}
+            placeholderTextColor={"#8e8e93"}
+            secureTextEntry={!showPass}
+          />
+        </View> */}
         <TouchableOpacity
           onPress={() => router.replace("/(tabs)/one")}
           style={styles.buttonStyle}
