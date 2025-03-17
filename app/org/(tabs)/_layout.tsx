@@ -8,7 +8,7 @@ const _layout = () => {
       screenOptions={{
         headerTitle: () => (
           <Image
-            source={require("../../assets/images/logo.png")}
+            source={require("../../../assets/images/logo.png")}
             style={{ width: 100, height: 40, resizeMode: "contain" }}
           />
         ),

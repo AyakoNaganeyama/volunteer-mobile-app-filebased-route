@@ -10,7 +10,7 @@ const index = () => {
   const name = null;
 
   if (name) {
-    return <Redirect href="/(tabs)/one" />;
+    return <Redirect href="/org/(tabs)/one" />;
   }
   return <View>{!name && <Redirect href="/auth/choose" />}</View>;
 };

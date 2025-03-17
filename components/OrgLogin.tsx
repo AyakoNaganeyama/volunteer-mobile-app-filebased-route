@@ -71,7 +71,7 @@ const OrgLogin = () => {
         </View>
 
         <TouchableOpacity
-          onPress={() => router.replace("/(tabs)/one")}
+          onPress={() => router.replace("/org/(tabs)/one")}
           style={styles.buttonStyle}
         >
           <Text style={styles.buttonText}>Login </Text>
