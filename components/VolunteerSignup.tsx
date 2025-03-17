@@ -117,7 +117,7 @@ const VolunteerSignup = () => {
           />
         </View> */}
         <TouchableOpacity
-          onPress={() => router.replace("/(tabs)/one")}
+          onPress={() => router.replace("/vol/(group)/one")}
           style={styles.buttonStyle}
         >
           <Text style={styles.buttonText}>Join now! </Text>
