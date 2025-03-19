@@ -5,6 +5,8 @@ import {
   SafeAreaView,
   TextInput,
   StyleSheet,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import React, { useState } from "react";
 import { useRouter } from "expo-router";
@@ -25,101 +27,103 @@ const filter = () => {
   });
   const [showPass, setShowPass] = useState(false);
   return (
-    <SafeAreaView style={styles.safeArea}>
-      {/* Arrow-back at the top */}
-      <View style={styles.header}>
-        <Ionicons
-          name="arrow-back"
-          size={24}
-          color="black"
-          onPress={() => router.back()}
-        />
-      </View>
-
-      {/* Category */}
-      <View style={styles.centerContainer}>
-        <Text
-          style={{
-            fontWeight: "bold",
-            color: "#0d528f",
-            fontSize: 16,
-            alignSelf: "flex-start",
-            padding: 5,
-          }}
-        >
-          What
-        </Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="What are you interested in? "
-            value={inputs.email}
-            onChangeText={(text) =>
-              setInputs((prev) => ({ ...prev, email: text }))
-            }
-            style={styles.input}
-            placeholderTextColor="#8e8e93"
-            keyboardType="email-address"
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SafeAreaView style={styles.safeArea}>
+        {/* Arrow-back at the top */}
+        <View style={styles.header}>
+          <Ionicons
+            name="arrow-back"
+            size={24}
+            color="black"
+            onPress={() => router.back()}
           />
         </View>
 
-        {/* Commitment */}
-        <Text
-          style={{
-            fontWeight: "bold",
-            color: "#0d528f",
-            fontSize: 16,
-            alignSelf: "flex-start",
-            padding: 5,
-          }}
-        >
-          Commitment
-        </Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="Any Commitment"
-            value={inputs.pass}
-            onChangeText={(text) =>
-              setInputs((prev) => ({ ...prev, pass: text }))
-            }
-            style={styles.input}
-            placeholderTextColor="#8e8e93"
-            secureTextEntry={!showPass}
-          />
-        </View>
+        {/* Category */}
+        <View style={styles.centerContainer}>
+          <Text
+            style={{
+              fontWeight: "bold",
+              color: "#0d528f",
+              fontSize: 16,
+              alignSelf: "flex-start",
+              padding: 5,
+            }}
+          >
+            What
+          </Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="What are you interested in? "
+              value={inputs.email}
+              onChangeText={(text) =>
+                setInputs((prev) => ({ ...prev, email: text }))
+              }
+              style={styles.input}
+              placeholderTextColor="#8e8e93"
+              keyboardType="email-address"
+            />
+          </View>
 
-        {/* Where */}
-        <Text
-          style={{
-            fontWeight: "bold",
-            color: "#0d528f",
-            fontSize: 16,
-            alignSelf: "flex-start",
-            padding: 5,
-          }}
-        >
-          Where
-        </Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="Enter town or city"
-            value={inputs.pass}
-            onChangeText={(text) =>
-              setInputs((prev) => ({ ...prev, pass: text }))
-            }
-            style={styles.input}
-            placeholderTextColor="#8e8e93"
-            secureTextEntry={!showPass}
-          />
-        </View>
+          {/* Commitment */}
+          <Text
+            style={{
+              fontWeight: "bold",
+              color: "#0d528f",
+              fontSize: 16,
+              alignSelf: "flex-start",
+              padding: 5,
+            }}
+          >
+            Commitment
+          </Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="Any Commitment"
+              value={inputs.pass}
+              onChangeText={(text) =>
+                setInputs((prev) => ({ ...prev, pass: text }))
+              }
+              style={styles.input}
+              placeholderTextColor="#8e8e93"
+              secureTextEntry={!showPass}
+            />
+          </View>
 
-        <TouchableOpacity
-          onPress={() => router.replace("/org/(tabs)/one")}
-          style={styles.buttonStyle}
-        >
-          <Text style={styles.buttonText}>Discover</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+          {/* Where */}
+          <Text
+            style={{
+              fontWeight: "bold",
+              color: "#0d528f",
+              fontSize: 16,
+              alignSelf: "flex-start",
+              padding: 5,
+            }}
+          >
+            Where
+          </Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="Enter town or city"
+              value={inputs.pass}
+              onChangeText={(text) =>
+                setInputs((prev) => ({ ...prev, pass: text }))
+              }
+              style={styles.input}
+              placeholderTextColor="#8e8e93"
+              secureTextEntry={!showPass}
+            />
+          </View>
+
+          <TouchableOpacity
+            onPress={() => router.replace("/org/(tabs)/one")}
+            style={styles.buttonStyle}
+          >
+            <Text style={styles.buttonText}>Discover</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
