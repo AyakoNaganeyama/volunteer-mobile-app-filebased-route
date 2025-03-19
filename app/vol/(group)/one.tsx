@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "expo-router";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 export interface Opportunity {
   id: string;
@@ -129,9 +130,14 @@ const one = () => {
             <Text style={{ fontSize: 16, fontWeight: "bold", marginTop: 8 }}>
               {opportunity.title}
             </Text>
-            <Text style={{ fontSize: 14, color: "grey" }}>
-              {opportunity.commitmentPeriod}
-            </Text>
+            <View
+              style={{ flexDirection: "row", gap: 5, alignItems: "center" }}
+            >
+              <AntDesign name="calendar" size={24} color="#0d528f" />
+              <Text style={{ fontSize: 14, color: "grey" }}>
+                {opportunity.commitmentPeriod}
+              </Text>
+            </View>
             {/* </View> */}
           </View>
         ))}
