@@ -115,27 +115,27 @@ const one = () => {
     useState<Opportunity[]>(mockOpportunities);
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <ScrollView>
-          {opportunities.map((opportunity) => (
-            <View
-              key={opportunity.id}
-              style={{ marginVertical: 10, alignItems: "center" }}
-            >
-              <Image
-                source={opportunity.imageURL}
-                style={{ width: 100, height: 40, resizeMode: "contain" }}
-              />
-              <Text style={{ fontSize: 16, fontWeight: "bold", marginTop: 8 }}>
-                {opportunity.title}
-              </Text>
-              <Text style={{ fontSize: 14, color: "grey" }}>
-                {opportunity.commitmentPeriod}
-              </Text>
-            </View>
-          ))}
-        </ScrollView>
-      </View>
+      <ScrollView style={{ flex: 1, marginVertical: 20 }}>
+        {opportunities.map((opportunity) => (
+          <View
+            key={opportunity.id}
+            style={{ width: "90%", alignSelf: "center", marginVertical: 10 }}
+          >
+            <Image
+              source={opportunity.imageURL}
+              style={{ width: "100%", height: 200 }}
+            />
+            {/* <View style={{ alignSelf: "center" }}> */}
+            <Text style={{ fontSize: 16, fontWeight: "bold", marginTop: 8 }}>
+              {opportunity.title}
+            </Text>
+            <Text style={{ fontSize: 14, color: "grey" }}>
+              {opportunity.commitmentPeriod}
+            </Text>
+            {/* </View> */}
+          </View>
+        ))}
+      </ScrollView>
     </SafeAreaView>
   );
 };
