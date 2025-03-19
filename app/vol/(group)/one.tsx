@@ -1,6 +1,8 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import React from "react";
 import { Link } from "expo-router";
+import { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export interface Opportunity {
   id: string;
@@ -12,6 +14,7 @@ export interface Opportunity {
   category: string;
   commitmentPeriod: string;
   registrationFormUrl: string;
+  imageURL: any;
 }
 
 export const mockOpportunities: Opportunity[] = [
@@ -25,6 +28,7 @@ export const mockOpportunities: Opportunity[] = [
     category: "Environmental",
     commitmentPeriod: "Weekend",
     registrationFormUrl: "https://example.com/register/cleanup",
+    imageURL: require("../../../assets/images/exampleImage.jpg"),
   },
   {
     id: "2",
@@ -37,6 +41,7 @@ export const mockOpportunities: Opportunity[] = [
     category: "Humanitarian",
     commitmentPeriod: "Flexible",
     registrationFormUrl: "https://example.com/register/foodbank",
+    imageURL: require("../../../assets/images/exampleImage.jpg"),
   },
   {
     id: "3",
@@ -49,6 +54,7 @@ export const mockOpportunities: Opportunity[] = [
     category: "Education",
     commitmentPeriod: "6 months",
     registrationFormUrl: "https://example.com/register/youthmentor",
+    imageURL: require("../../../assets/images/exampleImage.jpg"),
   },
   {
     id: "4",
@@ -61,6 +67,7 @@ export const mockOpportunities: Opportunity[] = [
     category: "Animal Welfare",
     commitmentPeriod: "Weekly",
     registrationFormUrl: "https://example.com/register/animalshelter",
+    imageURL: require("../../../assets/images/exampleImage.jpg"),
   },
   {
     id: "5",
@@ -73,6 +80,7 @@ export const mockOpportunities: Opportunity[] = [
     category: "Event Planning",
     commitmentPeriod: "Project-based",
     registrationFormUrl: "https://example.com/register/eventcoordinator",
+    imageURL: require("../../../assets/images/exampleImage.jpg"),
   },
   {
     id: "6",
@@ -85,6 +93,7 @@ export const mockOpportunities: Opportunity[] = [
     category: "Technology",
     commitmentPeriod: "3 months",
     registrationFormUrl: "https://example.com/register/techsupport",
+    imageURL: require("../../../assets/images/exampleImage.jpg"),
   },
   {
     id: "7",
@@ -97,16 +106,37 @@ export const mockOpportunities: Opportunity[] = [
     category: "Sports & Recreation",
     commitmentPeriod: "Seasonal",
     registrationFormUrl: "https://example.com/register/sportscoach",
+    imageURL: require("../../../assets/images/exampleImage.jpg"),
   },
 ];
 
 const one = () => {
+  const [opportunities, setOpportunities] =
+    useState<Opportunity[]>(mockOpportunities);
   return (
-    <View>
-      <Link href="/vol/detail">
-        <Text>Open Detail</Text>
-      </Link>
-    </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <ScrollView>
+          {opportunities.map((opportunity) => (
+            <View
+              key={opportunity.id}
+              style={{ marginVertical: 10, alignItems: "center" }}
+            >
+              <Image
+                source={opportunity.imageURL}
+                style={{ width: 100, height: 40, resizeMode: "contain" }}
+              />
+              <Text style={{ fontSize: 16, fontWeight: "bold", marginTop: 8 }}>
+                {opportunity.title}
+              </Text>
+              <Text style={{ fontSize: 14, color: "grey" }}>
+                {opportunity.commitmentPeriod}
+              </Text>
+            </View>
+          ))}
+        </ScrollView>
+      </View>
+    </SafeAreaView>
   );
 };
 
