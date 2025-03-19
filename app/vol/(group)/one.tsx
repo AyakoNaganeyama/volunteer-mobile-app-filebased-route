@@ -11,6 +11,7 @@ export interface Opportunity {
   location: string;
   category: string;
   commitmentPeriod: string;
+  registrationFormUrl: string;
 }
 
 export const mockOpportunities: Opportunity[] = [
@@ -23,6 +24,7 @@ export const mockOpportunities: Opportunity[] = [
     location: "Auckland, NZ",
     category: "Environmental",
     commitmentPeriod: "Weekend",
+    registrationFormUrl: "https://example.com/register/cleanup",
   },
   {
     id: "2",
@@ -34,6 +36,7 @@ export const mockOpportunities: Opportunity[] = [
     location: "Wellington, NZ",
     category: "Humanitarian",
     commitmentPeriod: "Flexible",
+    registrationFormUrl: "https://example.com/register/foodbank",
   },
   {
     id: "3",
@@ -45,6 +48,7 @@ export const mockOpportunities: Opportunity[] = [
     location: "Christchurch, NZ",
     category: "Education",
     commitmentPeriod: "6 months",
+    registrationFormUrl: "https://example.com/register/youthmentor",
   },
   {
     id: "4",
@@ -56,6 +60,7 @@ export const mockOpportunities: Opportunity[] = [
     location: "Dunedin, NZ",
     category: "Animal Welfare",
     commitmentPeriod: "Weekly",
+    registrationFormUrl: "https://example.com/register/animalshelter",
   },
   {
     id: "5",
@@ -67,6 +72,7 @@ export const mockOpportunities: Opportunity[] = [
     location: "Auckland, NZ",
     category: "Event Planning",
     commitmentPeriod: "Project-based",
+    registrationFormUrl: "https://example.com/register/eventcoordinator",
   },
   {
     id: "6",
@@ -78,6 +84,7 @@ export const mockOpportunities: Opportunity[] = [
     location: "Hamilton, NZ",
     category: "Technology",
     commitmentPeriod: "3 months",
+    registrationFormUrl: "https://example.com/register/techsupport",
   },
   {
     id: "7",
@@ -89,6 +96,7 @@ export const mockOpportunities: Opportunity[] = [
     location: "Tauranga, NZ",
     category: "Sports & Recreation",
     commitmentPeriod: "Seasonal",
+    registrationFormUrl: "https://example.com/register/sportscoach",
   },
 ];
 
