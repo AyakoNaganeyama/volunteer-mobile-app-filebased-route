@@ -4,7 +4,8 @@ import { Link } from "expo-router";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AntDesign from "@expo/vector-icons/AntDesign";
-
+import Entypo from "@expo/vector-icons/Entypo";
+import EvilIcons from "@expo/vector-icons/EvilIcons";
 export interface Opportunity {
   id: string;
   title: string;
@@ -120,7 +121,7 @@ const one = () => {
         {opportunities.map((opportunity) => (
           <View
             key={opportunity.id}
-            style={{ width: "90%", alignSelf: "center", marginVertical: 10 }}
+            style={{ width: "90%", alignSelf: "center", marginVertical: 15 }}
           >
             <Image
               source={opportunity.imageURL}
@@ -130,13 +131,23 @@ const one = () => {
             <Text style={{ fontSize: 16, fontWeight: "bold", marginTop: 8 }}>
               {opportunity.title}
             </Text>
-            <View
-              style={{ flexDirection: "row", gap: 5, alignItems: "center" }}
-            >
-              <AntDesign name="calendar" size={24} color="#0d528f" />
-              <Text style={{ fontSize: 14, color: "grey" }}>
-                {opportunity.commitmentPeriod}
-              </Text>
+
+            <View style={{ flexDirection: "row", gap: 10 }}>
+              <View
+                style={{ flexDirection: "row", alignItems: "center", gap: 3 }}
+              >
+                <AntDesign name="calendar" size={24} color="#0d528f" />
+                <Text style={{ fontSize: 14, color: "grey" }}>
+                  {opportunity.commitmentPeriod}
+                </Text>
+              </View>
+
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <EvilIcons name="location" size={24} color="#0d528f" />
+                <Text style={{ fontSize: 14, color: "grey" }}>
+                  {opportunity.location}
+                </Text>
+              </View>
             </View>
             {/* </View> */}
           </View>
