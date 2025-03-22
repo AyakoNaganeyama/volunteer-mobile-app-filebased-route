@@ -27,11 +27,43 @@ const Page = () => {
           fontSize: 18,
           textAlign: "center",
           fontWeight: "bold",
-          marginVertical: 20,
+          marginTop: 20,
+          marginBottom: 5,
         }}
       >
         {opportunity.title}
       </Text>
+      <Text style={{ fontSize: 14, color: "grey", textAlign: "center" }}>
+        {opportunity.companyName}
+      </Text>
+
+      <View
+        style={{
+          alignSelf: "center",
+          width: "90%",
+          paddingHorizontal: 30,
+          gap: 5,
+          marginBottom: 20,
+          marginTop: 30,
+        }}
+      >
+        <Text style={{ fontSize: 14, color: "grey", fontWeight: "bold" }}>
+          Description
+        </Text>
+        <Text style={{ fontSize: 16 }}>{opportunity.description}</Text>
+      </View>
+
+      <View
+        style={{
+          alignSelf: "center",
+          width: "90%",
+          paddingHorizontal: 30,
+          gap: 5,
+        }}
+      >
+        <Text style={{ fontSize: 14, color: "grey" }}>Description</Text>
+        <Text>{opportunity.description}</Text>
+      </View>
     </>
   );
 };
