@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import React from "react";
 import { Link } from "expo-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -114,8 +114,15 @@ export const mockOpportunities: Opportunity[] = [
 ];
 
 const one = () => {
-  const [opportunities, setOpportunities] =
-    useState<Opportunity[]>(mockOpportunities);
+  useEffect(() => {
+    const fetchOpportunities = async () => {
+      setOpportunities(mockOpportunities);
+    };
+
+    fetchOpportunities();
+  }, []);
+
+  const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1, marginVertical: 20 }}>
