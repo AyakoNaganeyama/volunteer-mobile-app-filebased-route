@@ -6,6 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
+
 export interface Opportunity {
   id: string;
   title: string;
@@ -123,10 +124,12 @@ const one = () => {
             key={opportunity.id}
             style={{ width: "90%", alignSelf: "center", marginVertical: 15 }}
           >
-            <Image
-              source={opportunity.imageURL}
-              style={{ width: "100%", height: 200 }}
-            />
+            <Link href={`../more/${opportunity.id}`}>
+              <Image
+                source={opportunity.imageURL}
+                style={{ width: "100%", height: 200 }}
+              />
+            </Link>
             {/* <View style={{ alignSelf: "center" }}> */}
             <Text style={{ fontSize: 16, fontWeight: "bold", marginTop: 8 }}>
               {opportunity.title}
