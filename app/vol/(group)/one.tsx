@@ -10,12 +10,52 @@ import EvilIcons from "@expo/vector-icons/EvilIcons";
 import { Opportunity } from "@/constants/mockListing";
 import { mockOpportunities } from "@/constants/mockListing";
 import useListing from "@/hooks/vol/useListing";
+import { useGlobalSearchParams } from "expo-router";
 
 const one = () => {
-  const { opportunities, fetchList } = useListing();
+  // Helper to convert parameter to a string (if it's an array, take the first element)
+  const getStringParam = (
+    param: string | string[] | undefined
+  ): string | undefined => {
+    if (!param) return undefined;
+    return Array.isArray(param) ? param[0] : param;
+  };
+
+  const params = useGlobalSearchParams();
+  const { opportunities, fetchList, setOpportunities } = useListing();
   useEffect(() => {
     fetchList();
   }, []);
+
+  useEffect(() => {
+    const categoryParam = getStringParam(params.category);
+    const commitmentParam = getStringParam(params.commitment);
+    const locationParam = getStringParam(params.location);
+
+    const filtered = mockOpportunities.filter((opp) => {
+      // Check if the parameter exists and if so, do a case-insensitive "includes" check
+      if (
+        categoryParam &&
+        !opp.category.toLowerCase().includes(categoryParam.toLowerCase())
+      )
+        return false;
+      if (
+        commitmentParam &&
+        !opp.commitmentPeriod
+          .toLowerCase()
+          .includes(commitmentParam.toLowerCase())
+      )
+        return false;
+      if (
+        locationParam &&
+        !opp.location.toLowerCase().includes(locationParam.toLowerCase())
+      )
+        return false;
+      return true;
+    });
+
+    setOpportunities(filtered);
+  }, [params]);
 
   // const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   return (

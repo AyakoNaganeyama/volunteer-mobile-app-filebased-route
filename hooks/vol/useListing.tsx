@@ -4,6 +4,7 @@ import { Opportunity } from "@/constants/mockListing";
 
 import { mockOpportunities } from "@/constants/mockListing";
 import { useState } from "react";
+import { Filter } from "@/constants/types";
 
 const useListing = () => {
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
@@ -12,7 +13,7 @@ const useListing = () => {
     setOpportunities(mockOpportunities);
   };
 
-  return { opportunities, fetchList };
+  return { opportunities, fetchList, setOpportunities };
 };
 
 export default useListing;

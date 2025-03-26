@@ -14,6 +14,7 @@ import { useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Fontisto from "@expo/vector-icons/Fontisto";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import useListing from "@/hooks/vol/useListing";
 
 export interface Filter {
   category: string;
@@ -192,7 +193,17 @@ const FilterScreen = () => {
           )}
 
           <TouchableOpacity
-            onPress={() => console.log(inputs)}
+            onPress={() => {
+              // Pass the filter values as query parameters in the URL
+              router.push({
+                pathname: "./(group)/one",
+                params: {
+                  category: inputs.category,
+                  commitment: inputs.commitment,
+                  location: inputs.location,
+                },
+              });
+            }}
             style={styles.buttonStyle}
           >
             <Text style={styles.buttonText}>Discover</Text>
