@@ -9,17 +9,15 @@ import EvilIcons from "@expo/vector-icons/EvilIcons";
 
 import { Opportunity } from "@/constants/mockListing";
 import { mockOpportunities } from "@/constants/mockListing";
+import useListing from "@/hooks/vol/useListing";
 
 const one = () => {
+  const { opportunities, fetchList } = useListing();
   useEffect(() => {
-    const fetchOpportunities = async () => {
-      setOpportunities(mockOpportunities);
-    };
-
-    fetchOpportunities();
+    fetchList();
   }, []);
 
-  const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
+  // const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1, marginVertical: 20 }}>
