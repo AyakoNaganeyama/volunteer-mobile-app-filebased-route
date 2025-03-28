@@ -9,6 +9,7 @@ export interface Opportunity {
   commitmentPeriod: string;
   registrationFormUrl: string;
   imageURL: any;
+  datePosted: string; // Added datePosted property
 }
 
 export const mockOpportunities: Opportunity[] = [
@@ -23,6 +24,7 @@ export const mockOpportunities: Opportunity[] = [
     commitmentPeriod: "One off - an event",
     registrationFormUrl: "https://example.com/register/cleanup",
     imageURL: require("../assets/images/exampleImage.jpg"),
+    datePosted: "2023-03-01", // Example date
   },
   {
     id: "2",
@@ -36,6 +38,7 @@ export const mockOpportunities: Opportunity[] = [
     commitmentPeriod: "One off - a few hours",
     registrationFormUrl: "https://example.com/register/foodbank",
     imageURL: require("../assets/images/exampleImage.jpg"),
+    datePosted: "2023-03-02",
   },
   {
     id: "3",
@@ -49,6 +52,7 @@ export const mockOpportunities: Opportunity[] = [
     commitmentPeriod: "Regular - less than 6 months",
     registrationFormUrl: "https://example.com/register/youthmentor",
     imageURL: require("../assets/images/exampleImage.jpg"),
+    datePosted: "2023-03-03",
   },
   {
     id: "4",
@@ -62,6 +66,7 @@ export const mockOpportunities: Opportunity[] = [
     commitmentPeriod: "Regular - more than 6 months",
     registrationFormUrl: "https://example.com/register/animalshelter",
     imageURL: require("../assets/images/exampleImage.jpg"),
+    datePosted: "2023-03-04",
   },
   {
     id: "5",
@@ -75,6 +80,7 @@ export const mockOpportunities: Opportunity[] = [
     commitmentPeriod: "One off - an event",
     registrationFormUrl: "https://example.com/register/eventcoordinator",
     imageURL: require("../assets/images/exampleImage.jpg"),
+    datePosted: "2023-03-05",
   },
   {
     id: "6",
@@ -88,6 +94,7 @@ export const mockOpportunities: Opportunity[] = [
     commitmentPeriod: "Regular - less than 6 months",
     registrationFormUrl: "https://example.com/register/techsupport",
     imageURL: require("../assets/images/exampleImage.jpg"),
+    datePosted: "2023-03-06",
   },
   {
     id: "7",
@@ -101,5 +108,6 @@ export const mockOpportunities: Opportunity[] = [
     commitmentPeriod: "Regular - more than 6 months",
     registrationFormUrl: "https://example.com/register/sportscoach",
     imageURL: require("../assets/images/exampleImage.jpg"),
+    datePosted: "2023-03-07",
   },
 ];

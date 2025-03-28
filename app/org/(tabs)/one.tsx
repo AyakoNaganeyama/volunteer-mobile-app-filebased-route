@@ -1,16 +1,219 @@
-import { View, Text } from "react-native";
+import {
+  Button,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import React from "react";
 import { Opportunity } from "@/constants/mockListing";
 import useListing from "@/hooks/vol/useListing";
 import useOpportunities from "@/hooks/org/useOpportunities";
-
+import { Entypo } from "@expo/vector-icons";
+import { StyleSheet } from "react-native";
+import { useState } from "react";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { useEffect } from "react";
+import { useRouter } from "expo-router";
+import index from "@/app";
 const one = () => {
   const { opps, setOpps, fetchListings } = useOpportunities();
+  const router = useRouter();
+
+  useEffect(() => {
+    fetchListings();
+  }, []);
+
   return (
-    <View>
-      <Text>one</Text>
-    </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SafeAreaView style={styles.container}>
+        {/* <LinearGradient
+        colors={['#e0f7fa', '#ffffff']}
+        style={styles.background}
+      > */}
+        <View style={styles.header}>
+          <Text style={styles.headerText}>Posted Opportunities</Text>
+        </View>
+
+        <View style={{ flex: 1, justifyContent: "space-between" }}>
+          {/* Input Section */}
+          <View style={styles.todos}>
+            <View style={styles.inputHead}>
+              <View style={styles.inputContainer}>
+                <Ionicons
+                  name="add-circle-outline"
+                  size={30}
+                  color="#8e8e93"
+                  style={styles.icon}
+                  onPress={() => router.push("/auth/choose")}
+                />
+                <Text style={{ color: "#8e8e93", fontSize: 18 }}>Add New</Text>
+                {/* <TextInput
+                  placeholder="Add new todo"
+                  value={""}
+                  placeholderTextColor="#8e8e93"
+                  style={styles.input}
+                /> */}
+              </View>
+
+              <TouchableOpacity
+
+              // disabled={todo === ""}
+              // style={[styles.AddButton, todo === "" && styles.buttonDisabled]}
+              >
+                <Text style={styles.buttonText}>+ Add</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Todo List */}
+            <ScrollView style={{ flex: 1 }}>
+              {opps.length > 0 && (
+                <View>
+                  {opps.map((item) => (
+                    <View key={item.id} style={styles.todoItem}>
+                      <TouchableOpacity
+                        // onPress={() => toggleDone(item.id)}
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          gap: 10,
+                        }}
+                      >
+                        {/* {item.done ? (
+                          <Ionicons
+                            name="checkmark-circle"
+                            size={24}
+                            color="#007aff"
+                          />
+                        ) : (
+                          <Entypo name="circle" size={24} color="#007aff" />
+                        )} */}
+                        <TouchableOpacity>
+                          <Text style={styles.todoText}>{item.title}</Text>
+                        </TouchableOpacity>
+                      </TouchableOpacity>
+
+                      <Text>{item.datePosted}</Text>
+                    </View>
+                  ))}
+                </View>
+              )}
+            </ScrollView>
+          </View>
+        </View>
+
+        {/* {selectedTodo && (
+          <Details
+            visible={modalVisible}
+            onClose={handleCloseModal}
+            todo={selectedTodo}
+          />
+        )}
+      </LinearGradient> */}
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
 export default one;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  background: {
+    flex: 1,
+  },
+  header: {
+    marginTop: 20,
+    paddingVertical: 30,
+    paddingHorizontal: 30,
+  },
+  headerText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#0d528f",
+    textAlign: "center",
+  },
+  todos: {
+    padding: 20,
+    flex: 1,
+  },
+  inputHead: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    flex: 1,
+    marginRight: 10,
+  },
+  icon: {
+    marginRight: 10,
+  },
+  input: {
+    flex: 1,
+    paddingVertical: 10,
+    fontSize: 16,
+    color: "#333",
+  },
+  AddButton: {
+    backgroundColor: "#007aff",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 10,
+    justifyContent: "center",
+  },
+  buttonDisabled: {
+    backgroundColor: "#c7c7c7",
+  },
+  buttonText: {
+    color: "#ffffff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  todoItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#ffffff",
+    padding: 20,
+    borderRadius: 10,
+    marginBottom: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    borderColor: "#0d528f",
+    borderWidth: 1,
+  },
+  todoText: {
+    fontSize: 16,
+    color: "#333",
+  },
+  logoutButtonContainer: {
+    padding: 10,
+  },
+  buttonStyle: {
+    backgroundColor: "#0d528f",
+    paddingVertical: 20,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 30,
+    width: "100%",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+  },
+});
