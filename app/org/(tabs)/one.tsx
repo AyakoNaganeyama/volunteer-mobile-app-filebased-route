@@ -20,6 +20,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useEffect } from "react";
 import { useRouter } from "expo-router";
 import index from "@/app";
+import EvilIcons from "@expo/vector-icons/EvilIcons";
+import AntDesign from "@expo/vector-icons/AntDesign";
 const one = () => {
   const { opps, setOpps, fetchListings } = useOpportunities();
   const router = useRouter();
@@ -59,31 +61,36 @@ const one = () => {
                   style={styles.input}
                 /> */}
               </View>
-
-              <TouchableOpacity
-
-              // disabled={todo === ""}
-              // style={[styles.AddButton, todo === "" && styles.buttonDisabled]}
-              >
-                <Text style={styles.buttonText}>+ Add</Text>
-              </TouchableOpacity>
             </View>
 
-            {/* Todo List */}
+            {/* Opportunity List */}
             <ScrollView style={{ flex: 1 }}>
               {opps.length > 0 && (
                 <View>
                   {opps.map((item) => (
-                    <View key={item.id} style={styles.todoItem}>
-                      <TouchableOpacity
+                    <View
+                      key={item.id}
+                      style={{
+                        flexDirection: "column",
+
+                        backgroundColor: "#ffffff",
+                        padding: 20,
+                        borderRadius: 10,
+                        marginBottom: 10,
+                        shadowColor: "#000",
+                        shadowOffset: { width: 0, height: 2 },
+                        shadowOpacity: 0.1,
+                        shadowRadius: 5,
+                        borderColor: "#0d528f",
+                        borderWidth: 1,
+                        gap: 10,
+                      }}
+                    >
+                      <View style={styles.todoItem}>
+                        <TouchableOpacity
                         // onPress={() => toggleDone(item.id)}
-                        style={{
-                          flexDirection: "row",
-                          alignItems: "center",
-                          gap: 10,
-                        }}
-                      >
-                        {/* {item.done ? (
+                        >
+                          {/* {item.done ? (
                           <Ionicons
                             name="checkmark-circle"
                             size={24}
@@ -92,12 +99,22 @@ const one = () => {
                         ) : (
                           <Entypo name="circle" size={24} color="#007aff" />
                         )} */}
-                        <TouchableOpacity>
-                          <Text style={styles.todoText}>{item.title}</Text>
+                          <TouchableOpacity>
+                            <Text style={styles.todoText}>{item.title}</Text>
+                          </TouchableOpacity>
                         </TouchableOpacity>
-                      </TouchableOpacity>
 
-                      <Text>{item.datePosted}</Text>
+                        <Text>{item.datePosted}</Text>
+                      </View>
+                      <View style={styles.todoItem}>
+                        <View style={{ flexDirection: "row", gap: 5 }}>
+                          <EvilIcons name="pencil" size={24} color="#8e8e93" />
+                          <Text>|</Text>
+                          <AntDesign name="delete" size={20} color="#8e8e93" />
+                        </View>
+
+                        <Text style={{ color: "#8e8e93" }}>Status:Open</Text>
+                      </View>
                     </View>
                   ))}
                 </View>
@@ -184,17 +201,6 @@ const styles = StyleSheet.create({
   todoItem: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#ffffff",
-    padding: 20,
-    borderRadius: 10,
-    marginBottom: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    borderColor: "#0d528f",
-    borderWidth: 1,
   },
   todoText: {
     fontSize: 16,
