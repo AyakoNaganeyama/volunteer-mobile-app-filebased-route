@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import React from "react";
 import { Opportunity } from "@/constants/mockListing";
+import { useState } from "react";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 interface DetailsProps {
   visible: boolean;
@@ -17,6 +19,8 @@ interface DetailsProps {
 
 const Detail = ({ visible, onClose, opp }: DetailsProps) => {
   //import update function here later
+
+  const [edit, setEdit] = useState<Opportunity | null>(opp || null);
   return (
     <Modal
       animationType="slide"
@@ -26,18 +30,17 @@ const Detail = ({ visible, onClose, opp }: DetailsProps) => {
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text style={styles.modalTitle}>Edit Opportunity</Text>
+          <View>
+            <AntDesign name="close" size={24} color="black" onPress={onClose} />
+            <Text style={styles.modalTitle}>Edit Opportunity</Text>
+          </View>
 
-          <TextInput style={styles.input} />
+          <Text style={{ textAlign: "left" }}>Title</Text>
+          <TextInput style={styles.input} value={edit?.title} />
 
           {/* Save Button */}
           <TouchableOpacity style={styles.saveButton} onPress={() => {}}>
             <Text style={styles.buttonText}>Save</Text>
-          </TouchableOpacity>
-
-          {/* Close Button */}
-          <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-            <Text style={styles.buttonText}>Close</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -58,7 +61,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 20,
     padding: 20,
-    alignItems: "center",
+    alignSelf: "center",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
@@ -68,7 +71,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#007aff",
+    color: "#0d528f",
     marginBottom: 20,
     textAlign: "center",
   },
@@ -80,12 +83,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 12,
     paddingHorizontal: 15,
-    fontSize: 16,
-    color: "#333",
+    fontSize: 14,
+    color: "gray",
     marginBottom: 20,
   },
   saveButton: {
-    backgroundColor: "#007aff",
+    backgroundColor: "#0d528f",
     borderRadius: 12,
     paddingVertical: 12,
     paddingHorizontal: 25,
