@@ -22,13 +22,26 @@ import { useRouter } from "expo-router";
 import index from "@/app";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import Detail from "@/components/orgpost/Detail";
 const one = () => {
   const { opps, setOpps, fetchListings } = useOpportunities();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedOpp, setSelectedOpp] = useState<Opportunity | null>(null);
   const router = useRouter();
 
   useEffect(() => {
     fetchListings();
   }, []);
+
+  function handleOpenModal(opp: Opportunity) {
+    setSelectedOpp(opp);
+    setModalVisible(true);
+  }
+
+  function handleCloseModal() {
+    setModalVisible(false);
+    setSelectedOpp(null);
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -108,7 +121,12 @@ const one = () => {
                       </View>
                       <View style={styles.todoItem}>
                         <View style={{ flexDirection: "row", gap: 5 }}>
-                          <EvilIcons name="pencil" size={24} color="#8e8e93" />
+                          <EvilIcons
+                            name="pencil"
+                            size={24}
+                            color="#8e8e93"
+                            onPress={() => handleOpenModal(item)}
+                          />
                           <Text>|</Text>
                           <AntDesign name="delete" size={20} color="#8e8e93" />
                         </View>
@@ -123,14 +141,13 @@ const one = () => {
           </View>
         </View>
 
-        {/* {selectedTodo && (
-          <Details
+        {selectedOpp && (
+          <Detail
             visible={modalVisible}
             onClose={handleCloseModal}
-            todo={selectedTodo}
+            opp={selectedOpp}
           />
         )}
-      </LinearGradient> */}
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
