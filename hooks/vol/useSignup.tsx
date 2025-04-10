@@ -13,16 +13,23 @@ import {
 import { Volunteer } from "@/constants/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useVolunteerStore } from "@/userStore/volSore";
+import { useEffect } from "react";
 
 const useSignup = () => {
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(authentication);
-  const { setVolunteer } = useVolunteerStore();
+  const { setVolunteer, volunteer } = useVolunteerStore();
   interface SignupInputs {
     fullName: string;
     email: string;
     pass: string;
   }
+
+  useEffect(() => {
+    if (volunteer) {
+      console.log("Volunteer state updated:", volunteer.fullName);
+    }
+  }, [volunteer]);
 
   const signup = async (inputs: SignupInputs) => {
     if (!inputs.email || !inputs.pass || !inputs.fullName) {
@@ -63,6 +70,14 @@ const useSignup = () => {
         await setDoc(doc(firestore, "volunteer", newUser.user.uid), userDoc);
         await AsyncStorage.setItem("user-info", JSON.stringify(userDoc));
         setVolunteer(userDoc);
+
+        const storedUserString = await AsyncStorage.getItem("user-info");
+        if (storedUserString !== null) {
+          const storedUser = JSON.parse(storedUserString);
+          console.log("Stored User Full Name:", storedUser.fullName);
+        } else {
+          console.log("No user info found in AsyncStorage.");
+        }
       }
     } catch (error) {
       console.log(error);
