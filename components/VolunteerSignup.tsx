@@ -1,17 +1,17 @@
+// VolunteerSignup.tsx
 import {
   View,
   Text,
-  TouchableWithoutFeedback,
   SafeAreaView,
   TextInput,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
-
 import Fontisto from "@expo/vector-icons/Fontisto";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useRouter } from "expo-router";
+import useSignup from "@/hooks/vol/useSignup";
 
 interface InputFields {
   fullName: string;
@@ -27,8 +27,20 @@ const VolunteerSignup = () => {
     pass: "",
   });
   const [errors, setErrors] = useState({ email: "", pass: "" });
-
   const [showPass, setShowPass] = useState(false);
+
+  // Destructure the signup function (and optionally other properties) from useSignup
+  const { signup } = useSignup();
+
+  const handleSignup = () => {
+    // You can perform additional validation here if needed
+    // Then call the signup function from the hook.
+    signup({
+      fullName: inputs.fullName,
+      email: inputs.email,
+      pass: inputs.pass,
+    });
+  };
 
   return (
     <SafeAreaView>
@@ -92,35 +104,9 @@ const VolunteerSignup = () => {
           />
         </View>
 
-        {/* Confirm Pass */}
-        {/* <View style={styles.inputContainer}>
-          <AntDesign
-            name="lock"
-            size={20}
-            color="#8e8e93"
-            style={styles.icon}
-          />
-
-          <AntDesign
-            name="eyeo"
-            size={20}
-            color="#8e8e93"
-            style={styles.icon}
-          />
-          <TextInput
-            placeholder="Confirm Password"
-            value={inputs.pass}
-            onChangeText={(text) => setInputs({ ...inputs, pass: text })}
-            style={styles.input}
-            placeholderTextColor={"#8e8e93"}
-            secureTextEntry={!showPass}
-          />
-        </View> */}
-        <TouchableOpacity
-          onPress={() => router.replace("/vol/(group)/one")}
-          style={styles.buttonStyle}
-        >
-          <Text style={styles.buttonText}>Join now! </Text>
+        {/* Signup Button */}
+        <TouchableOpacity onPress={handleSignup} style={styles.buttonStyle}>
+          <Text style={styles.buttonText}>Join now!</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -130,19 +116,8 @@ const VolunteerSignup = () => {
 export default VolunteerSignup;
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   container: {
     alignItems: "center",
-  },
-  heading: {
-    fontSize: 32,
-    color: "#007aff",
-    fontWeight: "bold",
-    marginBottom: 30,
   },
   inputContainer: {
     flexDirection: "row",
@@ -164,33 +139,6 @@ const styles = StyleSheet.create({
     color: "#333333",
     fontSize: 16,
   },
-  Button: {
-    backgroundColor: "#007aff",
-    paddingVertical: 16,
-    borderRadius: 12,
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 10,
-    width: "100%",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-  },
-  buttonDisabled: {
-    backgroundColor: "#c7c7c7",
-  },
-  buttonText: {
-    color: "#ffffff",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  errorText: {
-    color: "#ff5252",
-    fontSize: 13,
-    marginBottom: 10,
-  },
-
   buttonStyle: {
     backgroundColor: "#0d528f",
     paddingVertical: 16,
@@ -203,5 +151,10 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
+  },
+  buttonText: {
+    color: "#ffffff",
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
