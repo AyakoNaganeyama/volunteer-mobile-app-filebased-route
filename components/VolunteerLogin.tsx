@@ -37,7 +37,7 @@ const VolunteerLogin = () => {
       // Call your custom login function with inputs.
       await login(inputs);
       // If login is successful, navigate to the desired screen.
-      router.replace("/vol/(group)/one");
+      // router.replace("/vol/(group)/one");
     } catch (e) {
       console.log("Login error:", e);
     }

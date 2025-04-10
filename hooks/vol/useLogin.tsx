@@ -5,13 +5,15 @@ import { authentication, firestore } from "@/firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 import { useVolunteerStore } from "@/userStore/volSore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Volunteer } from "@/constants/types"; // Make sure this path is correct
+import { Volunteer } from "@/constants/types";
 import { useEffect } from "react";
+import { useRouter } from "expo-router";
 
 const useLogin = () => {
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(authentication);
   const { setVolunteer, volunteer } = useVolunteerStore();
+  const rounter = useRouter();
 
   useEffect(() => {
     if (volunteer) {
@@ -60,6 +62,10 @@ const useLogin = () => {
         setVolunteer(volunteerData);
 
         console.log("Volunteer logged in:", volunteerData.fullName);
+
+        if (userCred) {
+          rounter.replace("/vol/(group)/one");
+        }
       }
     } catch (error) {
       console.log("Login error:", error);
