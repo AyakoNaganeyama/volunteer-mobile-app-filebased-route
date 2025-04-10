@@ -14,6 +14,7 @@ import { Volunteer } from "@/constants/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useVolunteerStore } from "@/userStore/volSore";
 import { useEffect } from "react";
+import { useRouter } from "expo-router";
 
 const useSignup = () => {
   const [createUserWithEmailAndPassword, user, loading, error] =
@@ -24,6 +25,8 @@ const useSignup = () => {
     email: string;
     pass: string;
   }
+
+  const router = useRouter();
 
   useEffect(() => {
     if (volunteer) {
@@ -77,6 +80,10 @@ const useSignup = () => {
           console.log("Stored User Full Name:", storedUser.fullName);
         } else {
           console.log("No user info found in AsyncStorage.");
+        }
+
+        if (newUser) {
+          router.replace("/vol/(group)/one");
         }
       }
     } catch (error) {
