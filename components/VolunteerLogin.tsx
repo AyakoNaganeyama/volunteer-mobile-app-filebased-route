@@ -1,17 +1,18 @@
 import {
   View,
   Text,
-  TouchableWithoutFeedback,
   SafeAreaView,
   TextInput,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
-
 import Fontisto from "@expo/vector-icons/Fontisto";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useRouter } from "expo-router";
+
+// Import your custom login hook
+import useLogin from "@/hooks/vol/useLogin";
 
 interface InputFields {
   email: string;
@@ -25,8 +26,23 @@ const VolunteerLogin = () => {
     pass: "",
   });
   const [errors, setErrors] = useState({ email: "", pass: "" });
-
   const [showPass, setShowPass] = useState(false);
+
+  // Extract the login function (and optionally loading and error)
+  const { login, loading, error } = useLogin();
+
+  // Handle login when button is pressed.
+  const handleLogin = async () => {
+    try {
+      // Call your custom login function with inputs.
+      await login(inputs);
+      // If login is successful, navigate to the desired screen.
+      router.replace("/vol/(group)/one");
+    } catch (e) {
+      console.log("Login error:", e);
+    }
+  };
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -70,12 +86,15 @@ const VolunteerLogin = () => {
           />
         </View>
 
-        <TouchableOpacity
-          onPress={() => router.replace("/vol/(group)/one")}
-          style={styles.buttonStyle}
-        >
-          <Text style={styles.buttonText}>Login </Text>
+        {/* Login Button */}
+        <TouchableOpacity onPress={handleLogin} style={styles.buttonStyle}>
+          <Text style={styles.buttonText}>
+            {loading ? "Logging in..." : "Login"}
+          </Text>
         </TouchableOpacity>
+
+        {/* You can also display an error message if login fails */}
+        {error && <Text style={styles.errorText}>{error.message}</Text>}
       </View>
     </SafeAreaView>
   );
@@ -84,19 +103,8 @@ const VolunteerLogin = () => {
 export default VolunteerLogin;
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   container: {
     alignItems: "center",
-  },
-  heading: {
-    fontSize: 32,
-    color: "#007aff",
-    fontWeight: "bold",
-    marginBottom: 30,
   },
   inputContainer: {
     flexDirection: "row",
@@ -118,33 +126,6 @@ const styles = StyleSheet.create({
     color: "#333333",
     fontSize: 16,
   },
-  Button: {
-    backgroundColor: "#007aff",
-    paddingVertical: 16,
-    borderRadius: 12,
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 10,
-    width: "100%",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-  },
-  buttonDisabled: {
-    backgroundColor: "#c7c7c7",
-  },
-  buttonText: {
-    color: "#ffffff",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  errorText: {
-    color: "#ff5252",
-    fontSize: 13,
-    marginBottom: 10,
-  },
-
   buttonStyle: {
     backgroundColor: "#0d528f",
     paddingVertical: 16,
@@ -157,5 +138,15 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
+  },
+  buttonText: {
+    color: "#ffffff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  errorText: {
+    color: "#ff5252",
+    fontSize: 13,
+    marginBottom: 10,
   },
 });
