@@ -15,8 +15,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useVolunteerStore } from "@/userStore/volSore";
 import { useEffect } from "react";
 import { useRouter } from "expo-router";
+import { useToast } from "../useToast";
 
 const useSignup = () => {
+  const { showSuccessToast, showErrorToast } = useToast();
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(authentication);
   const { setVolunteer, volunteer } = useVolunteerStore();
@@ -37,6 +39,7 @@ const useSignup = () => {
   const signup = async (inputs: SignupInputs) => {
     if (!inputs.email || !inputs.pass || !inputs.fullName) {
       console.log("Error", "please fill all the fields", "error");
+      showErrorToast("Error", "please fill all the fields");
       return;
     }
 

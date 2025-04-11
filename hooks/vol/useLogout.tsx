@@ -2,10 +2,12 @@ import { useSignOut } from "react-firebase-hooks/auth";
 import { authentication } from "@/firebaseConfig";
 import { useVolunteerStore } from "@/userStore/volSore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useToast } from "../useToast";
 
 const useLogout = () => {
   const { clearVolunteer, volunteer } = useVolunteerStore();
   const [signOut, loading, error] = useSignOut(authentication);
+  const { showSuccessToast, showErrorToast } = useToast();
 
   const handleLogout = async () => {
     try {
@@ -15,7 +17,7 @@ const useLogout = () => {
       console.log("User logged out");
       console.log(volunteer);
     } catch (err) {
-      console.log("Logout error:", error);
+      showErrorToast("Logout error:", "error");
     }
   };
 
