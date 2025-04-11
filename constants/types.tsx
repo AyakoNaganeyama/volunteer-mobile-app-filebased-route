@@ -9,3 +9,10 @@ export type Volunteer = {
   fullName: string;
   email: string;
 };
+
+export type Organisation = {
+  id: string;
+  fullName: string;
+  organisationName: string;
+  email: string;
+};
