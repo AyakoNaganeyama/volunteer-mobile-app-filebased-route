@@ -11,8 +11,10 @@ import { Opportunity } from "@/constants/mockListing";
 import { mockOpportunities } from "@/constants/mockListing";
 import useListing from "@/hooks/vol/useListing";
 import { useGlobalSearchParams } from "expo-router";
+import { useVolunteerStore } from "@/userStore/volSore";
 
 const one = () => {
+  const { volunteer } = useVolunteerStore();
   // Helper to convert parameter to a string (if it's an array, take the first element)
   const getStringParam = (
     param: string | string[] | undefined
@@ -23,6 +25,7 @@ const one = () => {
 
   const params = useGlobalSearchParams();
   const { opportunities, fetchList, setOpportunities } = useListing();
+
   useEffect(() => {
     fetchList();
   }, []);
@@ -60,6 +63,7 @@ const one = () => {
   // const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <Text>Hello {volunteer?.fullName}</Text>
       <ScrollView style={{ flex: 1, marginVertical: 20 }}>
         {opportunities.map((opportunity) => (
           <View
