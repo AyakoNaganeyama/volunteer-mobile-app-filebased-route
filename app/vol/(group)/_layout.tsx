@@ -46,10 +46,17 @@ const _layout = () => {
       <Tabs.Screen
         name="two"
         options={{
-          tabBarLabel: "Profile",
+          tabBarLabel: "Opportunities",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-circle-outline" size={24} color={color} />
+            <Ionicons name="sparkles-outline" size={24} color={color} />
           ),
+          headerTitle: () => (
+            <Image
+              source={require("../../../assets/images/logo.png")}
+              style={{ width: 100, height: 40, resizeMode: "contain" }}
+            />
+          ),
+          headerTitleAlign: "center",
         }}
       />
     </Tabs>
