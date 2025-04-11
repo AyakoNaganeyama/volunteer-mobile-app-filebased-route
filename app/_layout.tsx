@@ -7,15 +7,17 @@ import Toast from "react-native-toast-message";
 
 const _layout = () => {
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen
-        name="filter"
-        options={{
-          presentation: "modal",
-        }}
-      />
+    <>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen
+          name="filter"
+          options={{
+            presentation: "modal",
+          }}
+        />
+      </Stack>
       <Toast config={toastConfig} />
-    </Stack>
+    </>
   );
 };
 

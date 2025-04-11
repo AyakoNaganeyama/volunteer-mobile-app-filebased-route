@@ -26,7 +26,8 @@ const useLogin = () => {
   const login = async (inputs: { email: string; pass: string }) => {
     if (!inputs.email || !inputs.pass) {
       console.log("Error: please fill all the fields");
-      showErrorToast("Error: please fill all the fields", "error");
+      showErrorToast("Error", "please fill all the fields");
+
       return;
     }
 
@@ -41,6 +42,7 @@ const useLogin = () => {
 
         if (!docSnap.exists()) {
           console.log("Volunteer document does not exist");
+
           return;
         }
 
@@ -68,6 +70,7 @@ const useLogin = () => {
 
         if (userCred) {
           rounter.replace("/vol/(group)/one");
+          showSuccessToast("Hello", "Hello");
         }
       }
     } catch (error) {
