@@ -14,12 +14,13 @@ import { useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Fontisto from "@expo/vector-icons/Fontisto";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import useListing from "@/hooks/vol/useListing";
+import DateTimePicker from "@react-native-community/datetimepicker"; // Import the date picker
 
 export interface Filter {
   category: string;
   commitment: string;
   location: string;
+  date: Date; // new date field in the filter
 }
 
 export const categories: string[] = [
@@ -73,14 +74,26 @@ const FilterScreen = () => {
     category: "",
     commitment: "",
     location: "",
+    date: new Date(), // initialize with the current date
   });
   // State to track which input is focused
   const [focusedInput, setFocusedInput] = useState<string | null>(null);
+
+  // State for date picker visibility
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   // Dismiss keyboard and suggestions when tapping on the header area
   const handleDismiss = () => {
     Keyboard.dismiss();
     setFocusedInput(null);
+  };
+
+  // Date picker change handler
+  const onChangeDate = (_event: any, selectedDate?: Date) => {
+    setShowDatePicker(false);
+    if (selectedDate) {
+      setInputs((prev) => ({ ...prev, date: selectedDate }));
+    }
   };
 
   return (
@@ -192,15 +205,37 @@ const FilterScreen = () => {
             </ScrollView>
           )}
 
+          {/* Date Picker Field */}
+          <Text style={styles.label}>When</Text>
+          <TouchableOpacity
+            style={styles.inputContainer}
+            onPress={() => setShowDatePicker(true)}
+          >
+            <Text style={[styles.input, { paddingVertical: 12 }]}>
+              {inputs.date.toDateString()}
+            </Text>
+          </TouchableOpacity>
+          {showDatePicker && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={inputs.date}
+              mode="date"
+              display="default"
+              onChange={onChangeDate}
+            />
+          )}
+
           <TouchableOpacity
             onPress={() => {
-              // Pass the filter values as query parameters in the URL
+              // Pass the filter values (including date) as query parameters in the URL
               router.push({
                 pathname: "./(group)/one",
                 params: {
                   category: inputs.category,
                   commitment: inputs.commitment,
                   location: inputs.location,
+                  // You can format the date if needed, e.g., toISOString or a custom format:
+                  date: inputs.date.toISOString(),
                 },
               });
             }}
@@ -244,7 +279,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1.5,
     paddingHorizontal: 10,
-    paddingVertical: 12,
     marginBottom: 5,
     width: "100%",
   },

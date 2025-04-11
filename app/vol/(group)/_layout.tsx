@@ -46,9 +46,9 @@ const _layout = () => {
       <Tabs.Screen
         name="two"
         options={{
-          tabBarLabel: "Opportunities",
+          tabBarLabel: "Profile",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="sparkles-outline" size={24} color={color} />
+            <Ionicons name="person-circle-outline" size={24} color={color} />
           ),
           headerTitle: () => (
             <Image
