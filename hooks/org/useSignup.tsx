@@ -10,9 +10,9 @@ import {
   setDoc,
   where,
 } from "firebase/firestore";
-import { Volunteer } from "@/constants/types";
+import { Organisation } from "@/constants/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useVolunteerStore } from "@/userStore/volSore";
+import { useOrgStore } from "@/userStore/orgStore";
 import { useEffect } from "react";
 import { useRouter } from "expo-router";
 import { useToast } from "../useToast";
@@ -20,9 +20,10 @@ const useSignup = () => {
   const { showSuccessToast, showErrorToast } = useToast();
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(authentication);
-  const { setVolunteer, volunteer } = useVolunteerStore();
+  const { setOrg, org } = useOrgStore();
   interface SignupInputs {
     fullName: string;
+    orgName: string;
     email: string;
     pass: string;
   }
@@ -30,31 +31,17 @@ const useSignup = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (volunteer) {
-      console.log("Volunteer state updated:", volunteer.fullName);
+    if (org) {
+      console.log("Org state updated in store:", org.organisationName);
     }
-  }, [volunteer]);
+  }, [org]);
 
   const signup = async (inputs: SignupInputs) => {
-    if (!inputs.email || !inputs.pass || !inputs.fullName) {
+    if (!inputs.email || !inputs.pass || !inputs.orgName) {
       console.log("Error", "please fill all the fields", "error");
-      showErrorToast("Error", "please fill all the fields");
+      showErrorToast("Error", "please fill all the (full name is optional)");
       return;
     }
-
-    // checking if user has the same use name
-
-    //     const usersRef = collection(firestore, "users");
-
-    // const q = query(usersRef, where("userName", "==", inputs.userName));
-    // const querySnapshot = await getDocs(q);
-
-    // if(!querySnapshot.empty){
-
-    // ShowToast("Error", "Username already exists", "error");
-    // return;
-
-    // }
 
     try {
       // this only checks if use name and pass exist
@@ -64,28 +51,30 @@ const useSignup = () => {
       );
       if (!newUser && error) {
         console.log("Error", error.message, "error");
+        showErrorToast("Error", error.message);
         return;
       }
       if (newUser) {
-        const userDoc: Volunteer = {
+        const userDoc: Organisation = {
           id: newUser.user.uid,
           fullName: inputs.fullName,
+          organisationName: inputs.orgName,
           email: inputs.email,
         };
-        await setDoc(doc(firestore, "volunteer", newUser.user.uid), userDoc);
-        await AsyncStorage.setItem("user-info", JSON.stringify(userDoc));
-        setVolunteer(userDoc);
+        await setDoc(doc(firestore, "organisation", newUser.user.uid), userDoc);
+        await AsyncStorage.setItem("org-info", JSON.stringify(userDoc));
+        setOrg(userDoc);
 
-        const storedUserString = await AsyncStorage.getItem("user-info");
+        const storedUserString = await AsyncStorage.getItem("org-info");
         if (storedUserString !== null) {
           const storedUser = JSON.parse(storedUserString);
-          console.log("Stored User Full Name:", storedUser.fullName);
+          console.log("AsyncStored org Name:", storedUser.organisationName);
         } else {
           console.log("No user info found in AsyncStorage.");
         }
 
         if (newUser) {
-          router.replace("/vol/(group)/one");
+          router.replace("/org/(tabs)/one");
         }
       }
     } catch (error) {

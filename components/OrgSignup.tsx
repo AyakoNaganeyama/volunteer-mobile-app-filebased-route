@@ -13,17 +13,17 @@ import Fontisto from "@expo/vector-icons/Fontisto";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useRouter } from "expo-router";
 import Octicons from "@expo/vector-icons/Octicons";
-
-interface InputFields {
+interface SignupInputs {
   fullName: string;
   orgName: string;
   email: string;
   pass: string;
 }
+import useSignup from "@/hooks/org/useSignup";
 
 const OrgSignup = () => {
   const router = useRouter();
-  const [inputs, setInputs] = useState<InputFields>({
+  const [inputs, setInputs] = useState<SignupInputs>({
     fullName: "",
     orgName: "",
     email: "",
@@ -32,6 +32,20 @@ const OrgSignup = () => {
   const [errors, setErrors] = useState({ email: "", pass: "" });
 
   const [showPass, setShowPass] = useState(false);
+
+  const { signup } = useSignup();
+
+  const handleSignup = () => {
+    // You can perform additional validation here if needed
+    // Then call the signup function from the hook.
+    signup({
+      fullName: inputs.fullName,
+      orgName: inputs.orgName,
+      email: inputs.email,
+      pass: inputs.pass,
+    });
+  };
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -64,7 +78,7 @@ const OrgSignup = () => {
           />
           <TextInput
             placeholder="Enter Organisation Name"
-            value={inputs.fullName}
+            value={inputs.orgName}
             onChangeText={(text) =>
               setInputs((prev) => ({ ...prev, orgName: text }))
             }
@@ -113,34 +127,7 @@ const OrgSignup = () => {
           />
         </View>
 
-        {/* Confirm Pass */}
-        {/* <View style={styles.inputContainer}>
-            <AntDesign
-              name="lock"
-              size={20}
-              color="#8e8e93"
-              style={styles.icon}
-            />
-
-            <AntDesign
-              name="eyeo"
-              size={20}
-              color="#8e8e93"
-              style={styles.icon}
-            />
-            <TextInput
-              placeholder="Confirm Password"
-              value={inputs.pass}
-              onChangeText={(text) => setInputs({ ...inputs, pass: text })}
-              style={styles.input}
-              placeholderTextColor={"#8e8e93"}
-              secureTextEntry={!showPass}
-            />
-          </View> */}
-        <TouchableOpacity
-          onPress={() => router.replace("/org/(tabs)/one")}
-          style={styles.buttonStyle}
-        >
+        <TouchableOpacity onPress={handleSignup} style={styles.buttonStyle}>
           <Text style={styles.buttonText}>Join now! </Text>
         </TouchableOpacity>
       </View>

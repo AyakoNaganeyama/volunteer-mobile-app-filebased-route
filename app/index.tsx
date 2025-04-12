@@ -3,40 +3,56 @@ import React, { useEffect, useState } from "react";
 import { useRouter, Redirect } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useVolunteerStore } from "@/userStore/volSore";
+import { useOrgStore } from "@/userStore/orgStore";
 
 const Index = () => {
   const router = useRouter();
   const { setVolunteer, volunteer } = useVolunteerStore();
-  const [loadingVolunteer, setLoadingVolunteer] = useState(true);
+  const { setOrg, org } = useOrgStore();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadVolunteer = async () => {
+    const loadInfo = async () => {
       try {
-        const storedUserString = await AsyncStorage.getItem("user-info");
-        if (storedUserString !== null) {
-          const storedUser = JSON.parse(storedUserString);
-          setVolunteer(storedUser);
+        // Check if volunteer info is logged in
+        const storedVolString = await AsyncStorage.getItem("user-info");
+        if (storedVolString !== null) {
+          const storedVolunteer = JSON.parse(storedVolString);
+          setVolunteer(storedVolunteer);
           console.log(
             "Volunteer loaded from AsyncStorage:",
-            storedUser.fullName
+            storedVolunteer.fullName
           );
-          console.log("store", volunteer);
         } else {
           console.log("No volunteer info found in AsyncStorage.");
-          console.log("store", volunteer);
+        }
+
+        // Check if organisation info is logged in (independent check)
+        const storedOrgString = await AsyncStorage.getItem("org-info");
+        if (storedOrgString !== null) {
+          console.log("Raw org-info string:", storedOrgString);
+          const storedOrg = JSON.parse(storedOrgString);
+          setOrg(storedOrg);
+          console.log("Stored Org object:", storedOrg);
+          console.log(
+            "Org loaded from AsyncStorage:",
+            storedOrg.organisationName
+          );
+        } else {
+          console.log("No organisation info found in AsyncStorage.");
         }
       } catch (error) {
-        console.error("Error loading volunteer info:", error);
+        console.error("Error loading info:", error);
       } finally {
-        setLoadingVolunteer(false);
+        setLoading(false);
       }
     };
 
-    loadVolunteer();
-  }, []);
+    loadInfo();
+  }, []); // Run once on mount
 
-  // While we're loading, do not redirect yet.
-  if (loadingVolunteer) {
+  // While we're loading, do not redirect.
+  if (loading) {
     return (
       <View>
         <Text>Loading...</Text>
@@ -44,13 +60,18 @@ const Index = () => {
     );
   }
 
-  // Now, if volunteer is loaded, redirect to the tab view.
+  // Now, redirect based on what's loaded:
   if (volunteer) {
-    // return <Redirect href="/org/(tabs)/one" />;
+    // If volunteer info is found, redirect to volunteer screen.
     return <Redirect href="/vol/(group)/one" />;
   }
 
-  // If volunteer is not found, redirect to auth/choose.
+  if (org) {
+    // If org info is found (and volunteer info is not), redirect to org screen.
+    return <Redirect href="/org/(tabs)/one" />;
+  }
+
+  // If neither is found, redirect to auth/choose.
   return <Redirect href="/auth/choose" />;
 };
 
