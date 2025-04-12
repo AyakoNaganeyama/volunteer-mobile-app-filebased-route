@@ -1,17 +1,16 @@
 import {
   View,
   Text,
-  TouchableWithoutFeedback,
   SafeAreaView,
   TextInput,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
-
 import Fontisto from "@expo/vector-icons/Fontisto";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useRouter } from "expo-router";
+import useLogin from "@/hooks/org/useLogin";
 
 interface InputFields {
   email: string;
@@ -25,8 +24,19 @@ const OrgLogin = () => {
     pass: "",
   });
   const [errors, setErrors] = useState({ email: "", pass: "" });
-
   const [showPass, setShowPass] = useState(false);
+  const { login, loading, error } = useLogin();
+
+  // Handle login when button is pressed.
+  const handleLogin = async () => {
+    try {
+      await login(inputs);
+      // You can uncomment the router.replace in useLogin if you prefer redirect there
+    } catch (e) {
+      console.log("Login error:", e);
+    }
+  };
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -45,7 +55,7 @@ const OrgLogin = () => {
               setInputs((prev) => ({ ...prev, email: text }))
             }
             style={styles.input}
-            placeholderTextColor={"#8e8e93"}
+            placeholderTextColor="#8e8e93"
             keyboardType="email-address"
           />
         </View>
@@ -65,17 +75,20 @@ const OrgLogin = () => {
               setInputs((prev) => ({ ...prev, pass: text }))
             }
             style={styles.input}
-            placeholderTextColor={"#8e8e93"}
+            placeholderTextColor="#8e8e93"
             secureTextEntry={!showPass}
           />
         </View>
 
-        <TouchableOpacity
-          onPress={() => router.replace("/org/(tabs)/one")}
-          style={styles.buttonStyle}
-        >
-          <Text style={styles.buttonText}>Login </Text>
+        {/* Login Button */}
+        <TouchableOpacity onPress={handleLogin} style={styles.buttonStyle}>
+          <Text style={styles.buttonText}>
+            {loading ? "Logging in..." : "Login"}
+          </Text>
         </TouchableOpacity>
+
+        {/* Optionally display an error message if login fails */}
+        {error && <Text style={styles.errorText}>{error.message}</Text>}
       </View>
     </SafeAreaView>
   );
@@ -84,19 +97,8 @@ const OrgLogin = () => {
 export default OrgLogin;
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   container: {
     alignItems: "center",
-  },
-  heading: {
-    fontSize: 32,
-    color: "#007aff",
-    fontWeight: "bold",
-    marginBottom: 30,
   },
   inputContainer: {
     flexDirection: "row",
@@ -118,33 +120,6 @@ const styles = StyleSheet.create({
     color: "#333333",
     fontSize: 16,
   },
-  Button: {
-    backgroundColor: "#007aff",
-    paddingVertical: 16,
-    borderRadius: 12,
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 10,
-    width: "100%",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-  },
-  buttonDisabled: {
-    backgroundColor: "#c7c7c7",
-  },
-  buttonText: {
-    color: "#ffffff",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  errorText: {
-    color: "#ff5252",
-    fontSize: 13,
-    marginBottom: 10,
-  },
-
   buttonStyle: {
     backgroundColor: "#0d528f",
     paddingVertical: 16,
@@ -157,5 +132,15 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
+  },
+  buttonText: {
+    color: "#ffffff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  errorText: {
+    color: "#ff5252",
+    fontSize: 13,
+    marginBottom: 10,
   },
 });
