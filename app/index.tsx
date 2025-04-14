@@ -4,6 +4,7 @@ import { useRouter, Redirect } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useVolunteerStore } from "@/userStore/volSore";
 import { useOrgStore } from "@/userStore/orgStore";
+import Loader from "@/components/Loader";
 
 const Index = () => {
   const router = useRouter();
@@ -53,11 +54,7 @@ const Index = () => {
 
   // While we're loading, do not redirect.
   if (loading) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
+    return <Loader />;
   }
 
   // Now, redirect based on what's loaded:

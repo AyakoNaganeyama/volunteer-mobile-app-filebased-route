@@ -51,7 +51,7 @@ const one = () => {
         style={styles.background}
       > */}
         <View style={styles.header}>
-          <Text style={styles.headerText}>Posted Opportunities</Text>
+          <Text style={styles.headerText}>Manage Opportunities</Text>
         </View>
 
         <View style={{ flex: 1, justifyContent: "space-between" }}>
