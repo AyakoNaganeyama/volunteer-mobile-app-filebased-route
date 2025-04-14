@@ -11,12 +11,19 @@ import {
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Opportunity } from "@/constants/types";
+import { useOrgStore } from "@/userStore/orgStore";
+import uuid from "react-native-uuid";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import Entypo from "@expo/vector-icons/Entypo";
+import { useRouter } from "expo-router";
 
 const CreateOpp = () => {
+  const router = useRouter();
+  const { org } = useOrgStore();
   const [opportunity, setOpportunity] = useState<Opportunity>({
-    id: "",
+    id: uuid.v4() as string,
     title: "",
-    companyName: "",
+    companyName: org?.organisationName ?? "",
     description: "",
     isApproved: false,
     location: "",
@@ -25,7 +32,7 @@ const CreateOpp = () => {
     registrationFormUrl: "",
     imageURL: "",
     date: null,
-    companyId: "",
+    companyId: org?.id ?? "",
   });
 
   // State to control DateTimePicker visibility
@@ -56,6 +63,14 @@ const CreateOpp = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.container}>
+        <Entypo
+          name="cross"
+          size={24}
+          color="black"
+          onPress={() => {
+            router.back();
+          }}
+        />
         {/* Title */}
         <Text style={styles.label}>Title</Text>
         <TextInput
@@ -72,6 +87,7 @@ const CreateOpp = () => {
           value={opportunity.companyName}
           onChangeText={(text) => handleChange("companyName", text)}
           placeholder="Enter company name"
+          editable={false}
         />
 
         {/* Description */}
@@ -85,11 +101,11 @@ const CreateOpp = () => {
         />
 
         {/* Is Approved */}
-        <Text style={styles.label}>Is Approved</Text>
+        {/* <Text style={styles.label}>Is Approved</Text>
         <Switch
           value={opportunity.isApproved}
           onValueChange={(value) => handleChange("isApproved", value)}
-        />
+        /> */}
 
         {/* Location */}
         <Text style={styles.label}>Location</Text>
@@ -142,10 +158,10 @@ const CreateOpp = () => {
           style={[styles.input, styles.dateInput]}
           onPress={() => setShowDatePicker(true)}
         >
-          <Text>
+          <Text style={{ color: "gray" }}>
             {opportunity.date
               ? opportunity.date.toDateString()
-              : "Select a date"}
+              : "Select a date (optional)"}
           </Text>
         </TouchableOpacity>
         {showDatePicker && (
@@ -158,13 +174,13 @@ const CreateOpp = () => {
         )}
 
         {/* Company ID */}
-        <Text style={styles.label}>Company ID</Text>
+        {/* <Text style={styles.label}>Company ID</Text>
         <TextInput
           style={styles.input}
           value={opportunity.companyId}
           onChangeText={(text) => handleChange("companyId", text)}
           placeholder="Enter company ID"
-        />
+        /> */}
 
         {/* Submit Button */}
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
