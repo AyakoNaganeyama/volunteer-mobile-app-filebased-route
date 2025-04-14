@@ -23,6 +23,7 @@ import index from "@/app";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Detail from "@/components/orgpost/Detail";
+import createOpp from "../createOpp";
 const one = () => {
   const { opps, setOpps, fetchListings } = useOpportunities();
   const [modalVisible, setModalVisible] = useState(false);
@@ -64,7 +65,7 @@ const one = () => {
                   size={30}
                   color="#8e8e93"
                   style={styles.icon}
-                  onPress={() => router.push("/auth/choose")}
+                  onPress={() => router.push("../createOpp")}
                 />
                 <Text style={{ color: "#8e8e93", fontSize: 18 }}>Add New</Text>
                 {/* <TextInput
