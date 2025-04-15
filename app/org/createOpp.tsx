@@ -101,7 +101,8 @@ const CreateOpp = () => {
   const onDateChange = (event: any, selectedDate?: Date) => {
     setShowDatePicker(false);
     if (selectedDate) {
-      handleChange("date", selectedDate);
+      const dateOnlyString = selectedDate.toISOString().split("T")[0]; // YYYY-MM-DD
+      handleChange("date", dateOnlyString);
     }
   };
 
@@ -228,9 +229,9 @@ const CreateOpp = () => {
         >
           <Text style={{ color: "gray" }}>
             {opportunity.date
-              ? opportunity.date instanceof Date
-                ? opportunity.date.toDateString()
-                : opportunity.date
+              ? typeof opportunity.date === "string"
+                ? new Date(opportunity.date).toDateString()
+                : opportunity.date.toDateString()
               : "Select a date (optional)"}
           </Text>
         </TouchableOpacity>
