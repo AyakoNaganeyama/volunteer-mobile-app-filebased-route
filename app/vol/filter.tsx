@@ -9,12 +9,13 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Fontisto from "@expo/vector-icons/Fontisto";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import DateTimePicker from "@react-native-community/datetimepicker"; // Import the date picker
+import { Picker } from "@react-native-picker/picker";
 
 export interface Filter {
   category: string;
@@ -76,6 +77,9 @@ const FilterScreen = () => {
     location: "",
     date: new Date(), // initialize with the current date
   });
+  useEffect(() => {
+    console.log("Current inputs:", inputs);
+  }, [inputs]);
   // State to track which input is focused
   const [focusedInput, setFocusedInput] = useState<string | null>(null);
 
@@ -115,95 +119,56 @@ const FilterScreen = () => {
         </TouchableWithoutFeedback>
 
         <View style={styles.centerContainer}>
-          {/* Category Field */}
+          {/* Category Picker */}
           <Text style={styles.label}>What</Text>
-          <View style={styles.inputContainer}>
-            <TextInput
-              placeholder="What are you interested in?"
-              value={inputs.category}
-              onFocus={() => setFocusedInput("category")}
-              onChangeText={(text) =>
-                setInputs((prev) => ({ ...prev, category: text }))
+          <View style={styles.pickerContainer}>
+            <Picker
+              selectedValue={inputs.category}
+              onValueChange={(itemValue) =>
+                setInputs((prev) => ({ ...prev, category: itemValue }))
               }
-              style={styles.input}
-              placeholderTextColor="#8e8e93"
-            />
-          </View>
-          {focusedInput === "category" && (
-            <ScrollView style={styles.suggestionContainer}>
+              style={styles.picker}
+            >
+              <Picker.Item label="Select a category" value="" />
               {categories.map((item, index) => (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => {
-                    setInputs((prev) => ({ ...prev, category: item }));
-                    setFocusedInput(null);
-                  }}
-                >
-                  <Text style={styles.suggestionText}>{item}</Text>
-                </TouchableOpacity>
+                <Picker.Item key={index} label={item} value={item} />
               ))}
-            </ScrollView>
-          )}
+            </Picker>
+          </View>
 
-          {/* Commitment Field */}
+          {/* Commitment Picker */}
           <Text style={styles.label}>Commitment</Text>
-          <View style={styles.inputContainer}>
-            <TextInput
-              placeholder="Any Commitment"
-              value={inputs.commitment}
-              onFocus={() => setFocusedInput("commitment")}
-              onChangeText={(text) =>
-                setInputs((prev) => ({ ...prev, commitment: text }))
+          <View style={styles.pickerContainer}>
+            <Picker
+              selectedValue={inputs.commitment}
+              onValueChange={(itemValue) =>
+                setInputs((prev) => ({ ...prev, commitment: itemValue }))
               }
-              style={styles.input}
-              placeholderTextColor="#8e8e93"
-            />
-          </View>
-          {focusedInput === "commitment" && (
-            <ScrollView style={styles.suggestionContainer}>
+              style={styles.picker}
+            >
+              <Picker.Item label="Select commitment" value="" />
               {commitments.map((item, index) => (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => {
-                    setInputs((prev) => ({ ...prev, commitment: item }));
-                    setFocusedInput(null);
-                  }}
-                >
-                  <Text style={styles.suggestionText}>{item}</Text>
-                </TouchableOpacity>
+                <Picker.Item key={index} label={item} value={item} />
               ))}
-            </ScrollView>
-          )}
-
-          {/* Location Field */}
-          <Text style={styles.label}>Where</Text>
-          <View style={styles.inputContainer}>
-            <TextInput
-              placeholder="Enter town or city"
-              value={inputs.location}
-              onFocus={() => setFocusedInput("location")}
-              onChangeText={(text) =>
-                setInputs((prev) => ({ ...prev, location: text }))
-              }
-              style={styles.input}
-              placeholderTextColor="#8e8e93"
-            />
+            </Picker>
           </View>
-          {focusedInput === "location" && (
-            <ScrollView style={styles.suggestionContainer}>
+
+          {/* Location Picker */}
+          <Text style={styles.label}>Where</Text>
+          <View style={styles.pickerContainer}>
+            <Picker
+              selectedValue={inputs.location}
+              onValueChange={(itemValue) =>
+                setInputs((prev) => ({ ...prev, location: itemValue }))
+              }
+              style={styles.picker}
+            >
+              <Picker.Item label="Select a location" value="" />
               {locations.map((item, index) => (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => {
-                    setInputs((prev) => ({ ...prev, location: item }));
-                    setFocusedInput(null);
-                  }}
-                >
-                  <Text style={styles.suggestionText}>{item}</Text>
-                </TouchableOpacity>
+                <Picker.Item key={index} label={item} value={item} />
               ))}
-            </ScrollView>
-          )}
+            </Picker>
+          </View>
 
           {/* Date Picker Field */}
           <Text style={styles.label}>When</Text>
@@ -318,5 +283,16 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  pickerContainer: {
+    width: "100%",
+    borderWidth: 1.5,
+    borderColor: "#007aff",
+    borderRadius: 12,
+    marginBottom: 5,
+  },
+  picker: {
+    height: 50,
+    width: "100%",
   },
 });

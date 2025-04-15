@@ -30,4 +30,5 @@ export interface Opportunity {
   imageURL?: string;
   date?: Date | null | string;
   companyId: string;
+  isOpen: boolean;
 }

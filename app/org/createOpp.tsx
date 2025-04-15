@@ -7,20 +7,69 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
-  Switch,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { Picker } from "@react-native-picker/picker";
 import { Opportunity } from "@/constants/types";
 import { useOrgStore } from "@/userStore/orgStore";
 import uuid from "react-native-uuid";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useRouter } from "expo-router";
 import useManageOpportunities from "@/hooks/org/uesManageOpportunities";
+
+// Option arrays for dropdowns
+const categoriesArray = [
+  "Animal Welfare",
+  "Arts & Culture",
+  "Climate Strategy",
+  "Community Services",
+  "Covid-19",
+  "Disability Services",
+  "Disaster Relief",
+  "Drug & Alcohol Services",
+  "Education & Training",
+  "Emergency Response",
+  "Environment & Conservation",
+  "Family Services",
+  "Health",
+  "Homeless",
+  "Human Rights",
+  "LGBTIQA+",
+  "Mental Health",
+  "Mentoring & Advocacy",
+  "Museums & Heritage",
+  "Recreation",
+  "Refugee and Migrant Support",
+  "Seniors & Aged Care",
+  "Sport",
+  "Tangata Whenua",
+  "Veteran Services",
+  "Young People",
+];
+
+const commitmentsArray = [
+  "One off - a few hours",
+  "One off - an event",
+  "Regular - less than 6 months",
+  "Regular - more than 6 months",
+];
+
+const locationsArray = [
+  "Auckland CBD",
+  "North Shore",
+  "West Auckland",
+  "South Auckland",
+  "East Auckland",
+  "Online or Remote",
+];
+
 const CreateOpp = () => {
   const router = useRouter();
   const { org } = useOrgStore();
-  const { createOpportunity, opportunities } = useManageOpportunities();
+  const { createOpportunity } = useManageOpportunities();
+
   const [opportunity, setOpportunity] = useState<Opportunity>({
     id: uuid.v4() as string,
     title: "",
@@ -34,14 +83,11 @@ const CreateOpp = () => {
     imageURL: "",
     date: null,
     companyId: org?.id ?? "",
+    isOpen: true,
   });
 
   // State to control DateTimePicker visibility
   const [showDatePicker, setShowDatePicker] = useState(false);
-
-  useEffect(() => {
-    console.log("inpagelist", opportunities);
-  }, []);
 
   // Handle changes to fields
   const handleChange = (
@@ -63,7 +109,6 @@ const CreateOpp = () => {
     try {
       await createOpportunity(opportunity); // passing the entire object
       console.log("Opportunity Submitted:", opportunity);
-      // Navigate to another screen (adjust route as needed)
       router.replace("/org/(tabs)/one");
     } catch (error) {
       console.error("Error submitting opportunity:", error);
@@ -110,39 +155,52 @@ const CreateOpp = () => {
           multiline
         />
 
-        {/* Is Approved */}
-        {/* <Text style={styles.label}>Is Approved</Text>
-        <Switch
-          value={opportunity.isApproved}
-          onValueChange={(value) => handleChange("isApproved", value)}
-        /> */}
-
         {/* Location */}
         <Text style={styles.label}>Location</Text>
-        <TextInput
-          style={styles.input}
-          value={opportunity.location}
-          onChangeText={(text) => handleChange("location", text)}
-          placeholder="Enter location"
-        />
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={opportunity.location}
+            onValueChange={(itemValue) => handleChange("location", itemValue)}
+            style={styles.picker}
+          >
+            <Picker.Item label="Select location" value="" />
+            {locationsArray.map((item, index) => (
+              <Picker.Item key={index} label={item} value={item} />
+            ))}
+          </Picker>
+        </View>
 
         {/* Category */}
         <Text style={styles.label}>Category</Text>
-        <TextInput
-          style={styles.input}
-          value={opportunity.category}
-          onChangeText={(text) => handleChange("category", text)}
-          placeholder="Enter category"
-        />
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={opportunity.category}
+            onValueChange={(itemValue) => handleChange("category", itemValue)}
+            style={styles.picker}
+          >
+            <Picker.Item label="Select category" value="" />
+            {categoriesArray.map((item, index) => (
+              <Picker.Item key={index} label={item} value={item} />
+            ))}
+          </Picker>
+        </View>
 
         {/* Commitment Period */}
         <Text style={styles.label}>Commitment Period</Text>
-        <TextInput
-          style={styles.input}
-          value={opportunity.commitmentPeriod}
-          onChangeText={(text) => handleChange("commitmentPeriod", text)}
-          placeholder="Enter commitment period"
-        />
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={opportunity.commitmentPeriod}
+            onValueChange={(itemValue) =>
+              handleChange("commitmentPeriod", itemValue)
+            }
+            style={styles.picker}
+          >
+            <Picker.Item label="Select commitment" value="" />
+            {commitmentsArray.map((item, index) => (
+              <Picker.Item key={index} label={item} value={item} />
+            ))}
+          </Picker>
+        </View>
 
         {/* Registration Form URL */}
         <Text style={styles.label}>Registration Form URL</Text>
@@ -170,27 +228,22 @@ const CreateOpp = () => {
         >
           <Text style={{ color: "gray" }}>
             {opportunity.date
-              ? opportunity.date.toDateString()
+              ? opportunity.date instanceof Date
+                ? opportunity.date.toDateString()
+                : opportunity.date
               : "Select a date (optional)"}
           </Text>
         </TouchableOpacity>
         {showDatePicker && (
           <DateTimePicker
-            value={opportunity.date || new Date()}
+            value={
+              opportunity.date instanceof Date ? opportunity.date : new Date()
+            }
             mode="date"
             display="default"
             onChange={onDateChange}
           />
         )}
-
-        {/* Company ID */}
-        {/* <Text style={styles.label}>Company ID</Text>
-        <TextInput
-          style={styles.input}
-          value={opportunity.companyId}
-          onChangeText={(text) => handleChange("companyId", text)}
-          placeholder="Enter company ID"
-        /> */}
 
         {/* Submit Button */}
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
@@ -240,5 +293,15 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  pickerContainer: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 6,
+    marginBottom: 8,
+  },
+  picker: {
+    height: 50,
+    width: "100%",
   },
 });

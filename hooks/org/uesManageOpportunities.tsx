@@ -10,7 +10,7 @@ const useManageOpportunities = () => {
   const { addOpportunity, opportunities } = useOpportunitiesStore();
 
   useEffect(() => {
-    console.log("list", opportunities);
+    console.log("hooks list", opportunities);
   }, [opportunities]);
   // This function adds the opportunity to Firestore using a custom document ID,
   // then updates local state.
@@ -30,7 +30,7 @@ const useManageOpportunities = () => {
     }
   };
 
-  return { createOpportunity, opportunities };
+  return { createOpportunity };
 };
 
 export default useManageOpportunities;

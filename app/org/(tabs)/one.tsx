@@ -26,7 +26,7 @@ import Detail from "@/components/orgpost/Detail";
 import createOpp from "../createOpp";
 import useManageOpportunities from "@/hooks/org/uesManageOpportunities";
 const one = () => {
-  const { createOpportunity, opportunities } = useManageOpportunities();
+  const { createOpportunity } = useManageOpportunities();
   const { opps, setOpps, fetchListings } = useOpportunities();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedOpp, setSelectedOpp] = useState<Opportunity | null>(null);
