@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -16,10 +16,11 @@ import uuid from "react-native-uuid";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useRouter } from "expo-router";
-
+import useManageOpportunities from "@/hooks/org/uesManageOpportunities";
 const CreateOpp = () => {
   const router = useRouter();
   const { org } = useOrgStore();
+  const { createOpportunity, opportunities } = useManageOpportunities();
   const [opportunity, setOpportunity] = useState<Opportunity>({
     id: uuid.v4() as string,
     title: "",
@@ -38,6 +39,10 @@ const CreateOpp = () => {
   // State to control DateTimePicker visibility
   const [showDatePicker, setShowDatePicker] = useState(false);
 
+  useEffect(() => {
+    console.log("inpagelist", opportunities);
+  }, []);
+
   // Handle changes to fields
   const handleChange = (
     field: keyof Opportunity,
@@ -54,10 +59,15 @@ const CreateOpp = () => {
     }
   };
 
-  const handleSubmit = () => {
-    // For now, we log the opportunity data.
-    console.log("Opportunity Submitted:", opportunity);
-    // Later, you could send this data to an API or perform further actions.
+  const handleSubmit = async () => {
+    try {
+      await createOpportunity(opportunity); // passing the entire object
+      console.log("Opportunity Submitted:", opportunity);
+      // Navigate to another screen (adjust route as needed)
+      router.replace("/org/(tabs)/one");
+    } catch (error) {
+      console.error("Error submitting opportunity:", error);
+    }
   };
 
   return (

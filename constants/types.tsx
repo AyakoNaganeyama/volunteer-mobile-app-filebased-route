@@ -28,6 +28,6 @@ export interface Opportunity {
   commitmentPeriod: string;
   registrationFormUrl: string;
   imageURL?: string;
-  date?: Date | null;
+  date?: Date | null | string;
   companyId: string;
 }

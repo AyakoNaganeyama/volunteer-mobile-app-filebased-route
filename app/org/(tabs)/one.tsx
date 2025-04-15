@@ -24,7 +24,9 @@ import EvilIcons from "@expo/vector-icons/EvilIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Detail from "@/components/orgpost/Detail";
 import createOpp from "../createOpp";
+import useManageOpportunities from "@/hooks/org/uesManageOpportunities";
 const one = () => {
+  const { createOpportunity, opportunities } = useManageOpportunities();
   const { opps, setOpps, fetchListings } = useOpportunities();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedOpp, setSelectedOpp] = useState<Opportunity | null>(null);
