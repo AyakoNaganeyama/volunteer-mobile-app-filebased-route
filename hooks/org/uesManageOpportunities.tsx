@@ -3,10 +3,11 @@ import { useState, useEffect } from "react";
 import { useToast } from "../useToast";
 import { Opportunity } from "@/constants/types";
 import { firestore } from "@/firebaseConfig";
+import { useOpportunitiesStore } from "@/userStore/orgOpportunityStore";
 
 const useManageOpportunities = () => {
-  const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   const { showSuccessToast, showErrorToast } = useToast();
+  const { addOpportunity, opportunities } = useOpportunitiesStore();
 
   useEffect(() => {
     console.log("list", opportunities);
@@ -20,7 +21,7 @@ const useManageOpportunities = () => {
       console.log("Opportunity added with custom ID:", opp);
 
       // Update local state to keep an array of opportunities
-      setOpportunities((prev) => [...prev, opp]);
+      addOpportunity(opp);
       showSuccessToast("Success", "Opportunity added successfully");
     } catch (error) {
       console.error("Error adding opportunity:", error);
