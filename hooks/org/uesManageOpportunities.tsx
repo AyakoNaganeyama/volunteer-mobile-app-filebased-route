@@ -1,4 +1,4 @@
-import { collection, doc, setDoc } from "firebase/firestore";
+import { collection, doc, setDoc, addDoc } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { useToast } from "../useToast";
 import { Opportunity } from "@/constants/types";
@@ -17,8 +17,8 @@ const useManageOpportunities = () => {
   const createOpportunity = async (opp: Opportunity): Promise<void> => {
     try {
       // Use setDoc with a custom document id (opp.id)
-      //   await setDoc(doc(firestore, "opportunities", opp.id), opp);
-      console.log("Opportunity added with custom ID:", opp);
+      const docRef = await addDoc(collection(firestore, "opportunities"), opp);
+      console.log("Opportunity added with ID:", docRef.id);
 
       // Update local state to keep an array of opportunities
       addOpportunity(opp);
@@ -26,7 +26,6 @@ const useManageOpportunities = () => {
     } catch (error) {
       console.error("Error adding opportunity:", error);
       showErrorToast("Error", "Could not add opportunity");
-      throw error;
     }
   };
 
