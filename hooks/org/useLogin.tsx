@@ -69,7 +69,10 @@ const useLogin = () => {
 
         if (userCred) {
           rounter.replace("/org/(tabs)/one");
-          showSuccessToast("Hello", "Hello");
+          showSuccessToast(
+            `Welcome back, ${orgData.organisationName}!`,
+            orgData.email
+          );
         }
       }
     } catch (error) {
