@@ -10,8 +10,9 @@ import {
   Keyboard,
 } from "react-native";
 import React from "react";
-import { Opportunity } from "@/constants/mockListing";
+
 import useListing from "@/hooks/vol/useListing";
+import { Opportunity } from "@/constants/types";
 import useOpportunities from "@/hooks/org/useOpportunities";
 import { Entypo } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
@@ -25,16 +26,26 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import Detail from "@/components/orgpost/Detail";
 import createOpp from "../createOpp";
 import useManageOpportunities from "@/hooks/org/uesManageOpportunities";
+import { useFetchOpportunities } from "@/hooks/org/useFetchOpportunities";
+import { useOpportunitiesStore } from "@/userStore/orgOpportunityStore";
 const one = () => {
   const { createOpportunity } = useManageOpportunities();
-  const { opps, setOpps, fetchListings } = useOpportunities();
+  const [opps, setOpps] = useState<Opportunity[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedOpp, setSelectedOpp] = useState<Opportunity | null>(null);
   const router = useRouter();
+  const { fetchOpportunities } = useFetchOpportunities();
+  const { clearOpportunities, addOpportunity, opportunities } =
+    useOpportunitiesStore();
 
   useEffect(() => {
-    fetchListings();
+    fetchOpportunities();
+    console.log("listfetched");
   }, []);
+
+  useEffect(() => {
+    setOpps(opportunities);
+  }, [opportunities]);
 
   function handleOpenModal(opp: Opportunity) {
     setSelectedOpp(opp);
@@ -120,7 +131,7 @@ const one = () => {
                           </TouchableOpacity>
                         </TouchableOpacity>
 
-                        <Text>{item.datePosted}</Text>
+                        <Text>{item.isOpen}</Text>
                       </View>
                       <View style={styles.todoItem}>
                         <View style={{ flexDirection: "row", gap: 5 }}>
@@ -128,7 +139,7 @@ const one = () => {
                             name="pencil"
                             size={24}
                             color="#8e8e93"
-                            onPress={() => handleOpenModal(item)}
+                            // onPress={() => handleOpenModal(item)}
                           />
                           <Text>|</Text>
                           <AntDesign name="delete" size={20} color="#8e8e93" />
