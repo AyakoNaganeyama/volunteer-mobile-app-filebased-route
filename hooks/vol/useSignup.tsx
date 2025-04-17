@@ -87,6 +87,7 @@ const useSignup = () => {
 
         if (newUser) {
           router.replace("/vol/(group)/one");
+          showSuccessToast(`Welcome ${userDoc.fullName}`, userDoc.email);
         }
       }
     } catch (error) {

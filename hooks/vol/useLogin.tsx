@@ -70,7 +70,10 @@ const useLogin = () => {
 
         if (userCred) {
           rounter.replace("/vol/(group)/one");
-          showSuccessToast("Hello", "Hello");
+          showSuccessToast(
+            `Welcome back, ${volunteerData.fullName}!`,
+            volunteerData.email
+          );
         }
       }
     } catch (error) {
