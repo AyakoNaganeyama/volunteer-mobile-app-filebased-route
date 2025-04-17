@@ -134,7 +134,9 @@ const one = () => {
                           <AntDesign name="delete" size={20} color="#8e8e93" />
                         </View>
 
-                        <Text style={{ color: "#8e8e93" }}>Status:Open</Text>
+                        <Text style={{ color: "#8e8e93" }}>
+                          Status:Approved
+                        </Text>
                       </View>
                     </View>
                   ))}
