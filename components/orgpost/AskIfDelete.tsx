@@ -10,6 +10,7 @@ import React from "react";
 import { Opportunity } from "@/constants/types";
 import { useState } from "react";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { useOpportunitiesStore } from "@/userStore/orgOpportunityStore";
 
 interface DetailsProps {
   visible: boolean;
