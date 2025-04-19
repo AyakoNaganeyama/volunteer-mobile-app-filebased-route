@@ -11,6 +11,7 @@ import { Opportunity } from "@/constants/types";
 import { useState } from "react";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useOpportunitiesStore } from "@/userStore/orgOpportunityStore";
+import useRemoveOpportunity from "@/hooks/org/useRemoveOpportunity";
 
 interface DetailsProps {
   visible: boolean;
@@ -19,6 +20,12 @@ interface DetailsProps {
 }
 
 const AskIfDelete = ({ visible, onClose, opp }: DetailsProps) => {
+  const { deleteOpportunity } = useRemoveOpportunity();
+
+  const handleDelete = () => {
+    deleteOpportunity(opp);
+    onClose();
+  };
   return (
     <Modal
       animationType="slide"
@@ -34,11 +41,11 @@ const AskIfDelete = ({ visible, onClose, opp }: DetailsProps) => {
           </View>
 
           <Text style={{ textAlign: "left", marginBottom: 10 }}>
-            Would you like delete an opportunity: {opp?.title}
+            Would you like delete an opportunity: {opp?.id}
           </Text>
 
           {/* Delete Button */}
-          <TouchableOpacity style={styles.saveButton} onPress={() => {}}>
+          <TouchableOpacity style={styles.saveButton} onPress={handleDelete}>
             <Text style={styles.buttonText}>Delete</Text>
           </TouchableOpacity>
         </View>
