@@ -126,7 +126,9 @@ const one = () => {
                         ) : (
                           <Entypo name="circle" size={24} color="#007aff" />
                         )} */}
-                          <TouchableOpacity>
+                          <TouchableOpacity
+                            onPress={() => handleOpenModal(item)}
+                          >
                             <Text style={styles.todoText}>{item.title}</Text>
                           </TouchableOpacity>
                         </TouchableOpacity>
