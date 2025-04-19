@@ -28,10 +28,12 @@ import createOpp from "../createOpp";
 import useManageOpportunities from "@/hooks/org/uesManageOpportunities";
 import { useFetchOpportunities } from "@/hooks/org/useFetchOpportunities";
 import { useOpportunitiesStore } from "@/userStore/orgOpportunityStore";
+import AskIfDelete from "@/components/orgpost/AskIfDelete";
 const one = () => {
   const { createOpportunity } = useManageOpportunities();
   const [opps, setOpps] = useState<Opportunity[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   const [selectedOpp, setSelectedOpp] = useState<Opportunity | null>(null);
   const router = useRouter();
   const { fetchOpportunities } = useFetchOpportunities();
@@ -52,8 +54,18 @@ const one = () => {
     setModalVisible(true);
   }
 
+  function handleDleteModal(opp: Opportunity) {
+    setSelectedOpp(opp);
+    setDeleteModal(true);
+  }
+
   function handleCloseModal() {
     setModalVisible(false);
+    setSelectedOpp(null);
+  }
+
+  function handleCloseDeleteModal() {
+    setDeleteModal(false);
     setSelectedOpp(null);
   }
 
@@ -126,9 +138,7 @@ const one = () => {
                         ) : (
                           <Entypo name="circle" size={24} color="#007aff" />
                         )} */}
-                          <TouchableOpacity
-                            onPress={() => handleOpenModal(item)}
-                          >
+                          <TouchableOpacity>
                             <Text style={styles.todoText}>{item.title}</Text>
                           </TouchableOpacity>
                         </TouchableOpacity>
@@ -141,10 +151,15 @@ const one = () => {
                             name="pencil"
                             size={24}
                             color="#8e8e93"
-                            // onPress={() => handleOpenModal(item)}
+                            onPress={() => handleOpenModal(item)}
                           />
                           <Text>|</Text>
-                          <AntDesign name="delete" size={20} color="#8e8e93" />
+                          <AntDesign
+                            name="delete"
+                            size={20}
+                            color="#8e8e93"
+                            onPress={() => handleDleteModal(item)}
+                          />
                         </View>
 
                         <Text style={{ color: "#8e8e93" }}>
@@ -159,10 +174,18 @@ const one = () => {
           </View>
         </View>
 
-        {selectedOpp && (
+        {selectedOpp && modalVisible && (
           <Detail
             visible={modalVisible}
             onClose={handleCloseModal}
+            opp={selectedOpp}
+          />
+        )}
+
+        {selectedOpp && deleteModal && (
+          <AskIfDelete
+            visible={deleteModal}
+            onClose={handleCloseDeleteModal}
             opp={selectedOpp}
           />
         )}

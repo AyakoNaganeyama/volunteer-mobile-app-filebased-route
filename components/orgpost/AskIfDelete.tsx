@@ -17,10 +17,7 @@ interface DetailsProps {
   opp: Opportunity | null;
 }
 
-const Detail = ({ visible, onClose, opp }: DetailsProps) => {
-  //import update function here later
-
-  const [edit, setEdit] = useState<Opportunity | null>(opp || null);
+const AskIfDelete = ({ visible, onClose, opp }: DetailsProps) => {
   return (
     <Modal
       animationType="slide"
@@ -32,15 +29,16 @@ const Detail = ({ visible, onClose, opp }: DetailsProps) => {
         <View style={styles.modalView}>
           <View>
             <AntDesign name="close" size={24} color="black" onPress={onClose} />
-            <Text style={styles.modalTitle}>Edit Opportunity</Text>
+            <Text style={styles.modalTitle}>Delete Opportunity</Text>
           </View>
 
-          <Text style={{ textAlign: "left" }}>Title</Text>
-          <TextInput style={styles.input} value={edit?.id} />
+          <Text style={{ textAlign: "left", marginBottom: 10 }}>
+            Would you like delete an opportunity: {opp?.title}
+          </Text>
 
-          {/* Save Button */}
+          {/* Delete Button */}
           <TouchableOpacity style={styles.saveButton} onPress={() => {}}>
-            <Text style={styles.buttonText}>Save</Text>
+            <Text style={styles.buttonText}>Delete</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -48,7 +46,8 @@ const Detail = ({ visible, onClose, opp }: DetailsProps) => {
   );
 };
 
-export default Detail;
+export default AskIfDelete;
+
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
@@ -88,7 +87,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   saveButton: {
-    backgroundColor: "#0d528f",
+    backgroundColor: "#ff5252",
     borderRadius: 12,
     paddingVertical: 12,
     paddingHorizontal: 25,
