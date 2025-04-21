@@ -1,26 +1,27 @@
-// useRemoveOpportunity.ts
 import { Opportunity } from "@/constants/types";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, deleteDoc } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
+import { useOpportunitiesStore } from "@/userStore/orgOpportunityStore";
+import { useToast } from "../useToast";
 
 const useRemoveOpportunity = () => {
+  const removeFromStore = useOpportunitiesStore((s) => s.removeOpportunity);
+  const { showSuccessToast, showErrorToast } = useToast();
+
   const deleteOpportunity = async (opp: Opportunity | null) => {
     if (!opp?.id) return;
     console.log("Deleting opportunity with id:", opp.id);
 
-    // Get a DocumentReference and snapshot
-    const docRef = doc(firestore, "opportunities", opp.id);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      // .data() returns the document fields as an object
-      console.log("Document data:", docSnap.data());
-      // …now you can delete or otherwise process…
-    } else {
-      console.log("No such document!");
+    try {
+      // Delete from Firestore
+      await deleteDoc(doc(firestore, "opportunities", opp.id));
+      // Remove from Zustand store
+      removeFromStore(opp.id);
+      // console.log("Deleted successfully");
+      showSuccessToast("Deleted successfully", opp.title);
+    } catch (err) {
+      showErrorToast("Error deleting opportunity:", "error");
     }
-
-    // (Later, call deleteDoc(docRef) and remove from your store)
   };
 
   return { deleteOpportunity };
