@@ -7,14 +7,20 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 
-import { Opportunity } from "@/constants/mockListing";
 import { mockOpportunities } from "@/constants/mockListing";
 import useListing from "@/hooks/vol/useListing";
 import { useGlobalSearchParams } from "expo-router";
 import { useVolunteerStore } from "@/userStore/volSore";
+import { Opportunity } from "@/constants/types";
+import { useListingStore } from "@/userStore/volListingStore";
+import useFetchListings from "@/hooks/vol/useFetchListings";
 
 const one = () => {
   const { volunteer } = useVolunteerStore();
+  const { opportunities } = useListingStore();
+  const { fetchListings } = useFetchListings();
+
+  const [opps, setOpps] = useState<Opportunity[]>([]);
   // Helper to convert parameter to a string (if it's an array, take the first element)
   const getStringParam = (
     param: string | string[] | undefined
@@ -24,57 +30,62 @@ const one = () => {
   };
 
   const params = useGlobalSearchParams();
-  const { opportunities, fetchList, setOpportunities } = useListing();
 
   useEffect(() => {
-    fetchList();
+    fetchListings();
+    console.log("listfetched");
   }, []);
 
   useEffect(() => {
-    const categoryParam = getStringParam(params.category);
-    const commitmentParam = getStringParam(params.commitment);
-    const locationParam = getStringParam(params.location);
+    setOpps(opportunities);
+  }, [opportunities]);
 
-    const filtered = mockOpportunities.filter((opp) => {
-      // Check if the parameter exists and if so, do a case-insensitive "includes" check
-      if (
-        categoryParam &&
-        !opp.category.toLowerCase().includes(categoryParam.toLowerCase())
-      )
-        return false;
-      if (
-        commitmentParam &&
-        !opp.commitmentPeriod
-          .toLowerCase()
-          .includes(commitmentParam.toLowerCase())
-      )
-        return false;
-      if (
-        locationParam &&
-        !opp.location.toLowerCase().includes(locationParam.toLowerCase())
-      )
-        return false;
-      return true;
-    });
+  // useEffect(() => {
+  //   const categoryParam = getStringParam(params.category);
+  //   const commitmentParam = getStringParam(params.commitment);
+  //   const locationParam = getStringParam(params.location);
 
-    setOpportunities(filtered);
-  }, [params]);
+  //   const filtered = mockOpportunities.filter((opp) => {
+  //     // Check if the parameter exists and if so, do a case-insensitive "includes" check
+  //     if (
+  //       categoryParam &&
+  //       !opp.category.toLowerCase().includes(categoryParam.toLowerCase())
+  //     )
+  //       return false;
+  //     if (
+  //       commitmentParam &&
+  //       !opp.commitmentPeriod
+  //         .toLowerCase()
+  //         .includes(commitmentParam.toLowerCase())
+  //     )
+  //       return false;
+  //     if (
+  //       locationParam &&
+  //       !opp.location.toLowerCase().includes(locationParam.toLowerCase())
+  //     )
+  //       return false;
+  //     return true;
+  //   });
+
+  //   setOpps(filtered);
+  // }, [params]);
 
   // const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Text>Hello {volunteer?.fullName}</Text>
       <ScrollView style={{ flex: 1, marginVertical: 20 }}>
-        {opportunities.map((opportunity) => (
+        {opps.map((opportunity) => (
           <View
             key={opportunity.id}
             style={{ width: "90%", alignSelf: "center", marginVertical: 15 }}
           >
             <Link href={`../more/${opportunity.id}`}>
-              <Image
+              {/* <Image
                 source={opportunity.imageURL}
                 style={{ width: "100%", height: 200 }}
-              />
+              /> */}
+              <Text>Image</Text>
             </Link>
             {/* <View style={{ alignSelf: "center" }}> */}
             <Text style={{ fontSize: 16, fontWeight: "bold", marginTop: 8 }}>

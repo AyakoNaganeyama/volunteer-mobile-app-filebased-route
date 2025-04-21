@@ -2,15 +2,17 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
 import { useLocalSearchParams } from "expo-router";
 import { mockOpportunities } from "@/constants/mockListing";
-import { Opportunity } from "@/constants/mockListing";
+import { Opportunity } from "@/constants/types";
 import { useEffect, useState } from "react";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useRouter } from "expo-router";
 import * as MailComposer from "expo-mail-composer";
 import * as Linking from "expo-linking";
+import { useListingStore } from "@/userStore/volListingStore";
 
 const Page = () => {
+  const { opportunities } = useListingStore();
   const handleRedirect = async () => {
     const url = "https://www.everynationauckland.city/";
     // Optionally, you can check if the URL can be opened
@@ -41,7 +43,7 @@ const Page = () => {
   const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
 
   useEffect(() => {
-    const foundOpportunity = mockOpportunities.find((opp) => opp.id === id);
+    const foundOpportunity = opportunities.find((opp) => opp.id === id);
     setOpportunity(foundOpportunity || null);
   }, [id]);
   if (!opportunity) {
@@ -49,10 +51,12 @@ const Page = () => {
   }
   return (
     <>
-      <Image
+      {/* <Image
         source={opportunity!.imageURL}
         style={{ width: "100%", height: 200 }}
-      />
+      /> */}
+
+      <Text>Image</Text>
       <View
         style={{ alignSelf: "center", marginHorizontal: 20, marginBottom: 30 }}
       >
