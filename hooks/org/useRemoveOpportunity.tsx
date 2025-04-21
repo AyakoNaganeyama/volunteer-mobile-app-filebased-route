@@ -24,7 +24,7 @@ const useRemoveOpportunity = () => {
     }
   };
 
-  return { deleteOpportunity };
+  return { deleteOpportunity }; //test
 };
 
 export default useRemoveOpportunity;
