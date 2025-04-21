@@ -17,8 +17,12 @@ const useManageOpportunities = () => {
   const createOpportunity = async (opp: Opportunity): Promise<void> => {
     try {
       // Use setDoc with a custom document id (opp.id)
-      const docRef = await addDoc(collection(firestore, "opportunities"), opp);
-      console.log("Opportunity added with ID:", docRef.id);
+      // const docRef = await addDoc(collection(firestore, "opportunities"), opp);
+      // console.log("Opportunity added with ID:", docRef.id);
+
+      const docRef = doc(firestore, "opportunities", opp.id);
+      await setDoc(docRef, opp);
+      console.log("Opportunity added with custom ID:", opp.id);
 
       // Update local state to keep an array of opportunities
       addOpportunity(opp);
