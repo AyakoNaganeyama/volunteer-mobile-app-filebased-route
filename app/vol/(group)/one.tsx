@@ -75,7 +75,6 @@ const one = () => {
   // const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Text>Hello {volunteer?.fullName}</Text>
       <ScrollView style={{ flex: 1, marginVertical: 20 }}>
         {opps.map((opportunity) => (
           <View
@@ -87,7 +86,6 @@ const one = () => {
                 source={getImage(opportunity.category)}
                 style={{ width: "100%", height: 200 }}
               />
-              <Text>Image</Text>
             </Link>
             {/* <View style={{ alignSelf: "center" }}> */}
             <Text style={{ fontSize: 16, fontWeight: "bold", marginTop: 8 }}>

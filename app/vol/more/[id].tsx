@@ -10,9 +10,11 @@ import { useRouter } from "expo-router";
 import * as MailComposer from "expo-mail-composer";
 import * as Linking from "expo-linking";
 import { useListingStore } from "@/userStore/volListingStore";
+import usegetImage from "@/hooks/vol/usegetImage";
 
 const Page = () => {
   const { opportunities } = useListingStore();
+  const { getImage } = usegetImage();
   const handleRedirect = async () => {
     const url = "https://www.everynationauckland.city/";
     // Optionally, you can check if the URL can be opened
@@ -51,12 +53,11 @@ const Page = () => {
   }
   return (
     <>
-      {/* <Image
-        source={opportunity!.imageURL}
+      <Image
+        source={getImage(opportunity.category)}
         style={{ width: "100%", height: 200 }}
-      /> */}
+      />
 
-      <Text>Image</Text>
       <View
         style={{ alignSelf: "center", marginHorizontal: 20, marginBottom: 30 }}
       >
@@ -125,7 +126,7 @@ const Page = () => {
           <Text style={{ fontSize: 16 }}>{opportunity.commitmentPeriod}</Text>
         </View>
 
-        <View
+        {/* <View
           style={{
             width: "90%",
             paddingHorizontal: 30,
@@ -138,7 +139,7 @@ const Page = () => {
             At least 2 hrs monthly 3.30pm-5.30pm, usually last Thursday of the
             month plus some events through the year
           </Text>
-        </View>
+        </View> */}
 
         <View
           style={{
