@@ -16,6 +16,7 @@ import Fontisto from "@expo/vector-icons/Fontisto";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import DateTimePicker from "@react-native-community/datetimepicker"; // Import the date picker
 import { Picker } from "@react-native-picker/picker";
+import useFilter from "@/hooks/vol/useFilter";
 
 export interface Filter {
   category: string;
@@ -71,6 +72,7 @@ export const locations: string[] = [
 
 const FilterScreen = () => {
   const router = useRouter();
+  const { applyFilter } = useFilter();
   const [inputs, setInputs] = useState<Filter>({
     category: "",
     commitment: "",
@@ -98,6 +100,15 @@ const FilterScreen = () => {
     if (selectedDate) {
       setInputs((prev) => ({ ...prev, date: selectedDate }));
     }
+  };
+
+  const handleFilter = (
+    category: string,
+    commitment: string,
+    location: string
+  ) => {
+    applyFilter(category, commitment, location);
+    router.back();
   };
 
   return (
@@ -191,19 +202,9 @@ const FilterScreen = () => {
           )}
 
           <TouchableOpacity
-            onPress={() => {
-              // Pass the filter values (including date) as query parameters in the URL
-              router.push({
-                pathname: "./(group)/one",
-                params: {
-                  category: inputs.category,
-                  commitment: inputs.commitment,
-                  location: inputs.location,
-                  // You can format the date if needed, e.g., toISOString or a custom format:
-                  date: inputs.date.toISOString(),
-                },
-              });
-            }}
+            onPress={() =>
+              handleFilter(inputs.category, inputs.commitment, inputs.location)
+            }
             style={styles.buttonStyle}
           >
             <Text style={styles.buttonText}>Discover</Text>
