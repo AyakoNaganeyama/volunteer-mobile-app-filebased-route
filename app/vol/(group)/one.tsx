@@ -6,6 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
+import usegetImage from "@/hooks/vol/usegetImage";
 
 import { mockOpportunities } from "@/constants/mockListing";
 import useListing from "@/hooks/vol/useListing";
@@ -19,6 +20,7 @@ const one = () => {
   const { volunteer } = useVolunteerStore();
   const { opportunities } = useListingStore();
   const { fetchListings } = useFetchListings();
+  const { getImage } = usegetImage();
 
   const [opps, setOpps] = useState<Opportunity[]>([]);
   // Helper to convert parameter to a string (if it's an array, take the first element)
@@ -81,10 +83,10 @@ const one = () => {
             style={{ width: "90%", alignSelf: "center", marginVertical: 15 }}
           >
             <Link href={`../more/${opportunity.id}`}>
-              {/* <Image
-                source={opportunity.imageURL}
+              <Image
+                source={getImage(opportunity.category)}
                 style={{ width: "100%", height: 200 }}
-              /> */}
+              />
               <Text>Image</Text>
             </Link>
             {/* <View style={{ alignSelf: "center" }}> */}
