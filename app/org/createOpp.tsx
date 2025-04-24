@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Keyboard,
   TouchableWithoutFeedback,
+  Platform,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
@@ -163,6 +164,7 @@ const CreateOpp = () => {
             selectedValue={opportunity.location}
             onValueChange={(itemValue) => handleChange("location", itemValue)}
             style={styles.picker}
+            itemStyle={styles.pickerItem}
           >
             <Picker.Item label="Select location" value="" />
             {locationsArray.map((item, index) => (
@@ -178,6 +180,7 @@ const CreateOpp = () => {
             selectedValue={opportunity.category}
             onValueChange={(itemValue) => handleChange("category", itemValue)}
             style={styles.picker}
+            itemStyle={styles.pickerItem}
           >
             <Picker.Item label="Select category" value="" />
             {categoriesArray.map((item, index) => (
@@ -195,6 +198,7 @@ const CreateOpp = () => {
               handleChange("commitmentPeriod", itemValue)
             }
             style={styles.picker}
+            itemStyle={styles.pickerItem}
           >
             <Picker.Item label="Select commitment" value="" />
             {commitmentsArray.map((item, index) => (
@@ -296,13 +300,22 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   pickerContainer: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 6,
-    marginBottom: 8,
+    width: "100%",
+    borderWidth: 1.5,
+    borderColor: "#007aff",
+    borderRadius: 12,
+    marginBottom: 5,
+    overflow: "hidden",
   },
   picker: {
-    height: 50,
+    height: Platform.OS === "ios" ? 150 : 50,
     width: "100%",
+    color: "#333", // Explicit color
+  },
+
+  pickerItem: {
+    fontSize: 16,
+    height: 150,
+    color: "#333", // explicit color to avoid transparency
   },
 });
