@@ -3,19 +3,29 @@ import { create } from "zustand";
 import { Opportunity } from "@/constants/types";
 
 interface OpportunitiesState {
-  opportunities: Opportunity[];
+  opportunities: Opportunity[]; // original copy
+  filteredOpportunities: Opportunity[];
   addOpportunity: (opp: Opportunity) => void;
+  setFilteredOpportunity: (opp: Opportunity) => void;
 
   clearOpportunities: () => void;
+  clearFiltered: () => void;
 }
 
 export const useListingStore = create<OpportunitiesState>((set) => ({
   opportunities: [],
+  filteredOpportunities: [],
 
   addOpportunity: (opp) =>
     set((state) => ({
       opportunities: [...state.opportunities, opp],
     })),
 
+  setFilteredOpportunity: (opp) =>
+    set((state) => ({
+      filteredOpportunities: [...state.filteredOpportunities, opp],
+    })),
+
   clearOpportunities: () => set({ opportunities: [] }),
+  clearFiltered: () => set({ filteredOpportunities: [] }),
 }));

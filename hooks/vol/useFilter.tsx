@@ -4,15 +4,21 @@ import { useListingStore } from "@/userStore/volListingStore";
 import { Opportunity } from "@/constants/types";
 
 const useFilter = () => {
-  const { opportunities, clearOpportunities, addOpportunity } =
-    useListingStore();
+  const {
+    opportunities,
+    clearOpportunities,
+    addOpportunity,
+    filteredOpportunities,
+    setFilteredOpportunity,
+    clearFiltered,
+  } = useListingStore();
   const applyFilter = (
     category: string,
     commitment: string,
     location: string
   ) => {
     // clear the store
-    clearOpportunities();
+    clearFiltered();
 
     // run filter on the full list
     const filtered = opportunities.filter(
@@ -23,7 +29,7 @@ const useFilter = () => {
     );
 
     // re-populate store with only the matches
-    filtered.forEach((o) => addOpportunity(o));
+    filtered.forEach((o) => setFilteredOpportunity(o));
   };
 
   return { applyFilter };

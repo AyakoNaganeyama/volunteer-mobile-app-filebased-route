@@ -18,7 +18,7 @@ import useFetchListings from "@/hooks/vol/useFetchListings";
 
 const one = () => {
   const { volunteer } = useVolunteerStore();
-  const { opportunities } = useListingStore();
+  const { opportunities, filteredOpportunities } = useListingStore();
   const { fetchListings } = useFetchListings();
   const { getImage } = usegetImage();
 
@@ -41,6 +41,10 @@ const one = () => {
   useEffect(() => {
     setOpps(opportunities);
   }, [opportunities]);
+
+  useEffect(() => {
+    setOpps(filteredOpportunities);
+  }, [filteredOpportunities]);
 
   // useEffect(() => {
   //   const categoryParam = getStringParam(params.category);
