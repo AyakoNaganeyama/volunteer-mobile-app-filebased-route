@@ -1,3 +1,5 @@
+// components/EditOpportunityModal.tsx
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   StyleSheet,
@@ -5,108 +7,281 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
 } from "react-native";
-import React from "react";
-import { Opportunity } from "@/constants/types";
-import { useState } from "react";
+import { Picker } from "@react-native-picker/picker";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { Opportunity } from "@/constants/types";
+import useUpdateOpportunity from "@/hooks/org/useUpdateOpportunity";
+// You can move these arrays into a shared constants file if you like
+const locationsArray = [
+  "Auckland CBD",
+  "North Shore",
+  "West Auckland",
+  "South Auckland",
+  "East Auckland",
+  "Online or Remote",
+];
 
-interface DetailsProps {
+const categoriesArray = [
+  "Animal Welfare",
+  "Arts & Culture",
+  "Climate Strategy",
+  "Community Services",
+  "Covid-19",
+  "Disability Services",
+  "Disaster Relief",
+  "Drug & Alcohol Services",
+  "Education & Training",
+  "Emergency Response",
+  "Environment & Conservation",
+  "Family Services",
+  "Health",
+  "Homeless",
+  "Human Rights",
+  "LGBTIQA+",
+  "Mental Health",
+  "Mentoring & Advocacy",
+  "Museums & Heritage",
+  "Recreation",
+  "Refugee and Migrant Support",
+  "Seniors & Aged Care",
+  "Sport",
+  "Tangata Whenua",
+  "Veteran Services",
+  "Young People",
+];
+
+const commitmentsArray = [
+  "One off - a few hours",
+  "One off - an event",
+  "Regular - less than 6 months",
+  "Regular - more than 6 months",
+];
+
+interface EditOpportunityModalProps {
   visible: boolean;
+  opp: Opportunity;
   onClose: () => void;
-  opp: Opportunity | null;
 }
 
-const Detail = ({ visible, onClose, opp }: DetailsProps) => {
-  //import update function here later
+export default function EditOpportunityModal({
+  visible,
+  opp,
+  onClose,
+}: EditOpportunityModalProps) {
+  const [form, setForm] = useState<Opportunity>(opp);
+  const { updateOpportunity } = useUpdateOpportunity();
 
-  const [edit, setEdit] = useState<Opportunity | null>(opp || null);
+  useEffect(() => {
+    setForm(opp);
+  }, [opp]);
+
+  const handleChange = (field: keyof Opportunity, value: string) =>
+    setForm((f) => ({ ...f, [field]: value }));
+
+  const onSave = (from: Opportunity) => {
+    console.log(
+      form.id,
+      form.title,
+      form.companyName,
+      form.description,
+      form.isApproved,
+      form.location,
+      form.category,
+      form.commitmentPeriod,
+      form.registrationFormUrl,
+      form.companyId,
+      form.isOpen
+    );
+    updateOpportunity(from);
+    onClose();
+  };
+
+  // const handleDelete = () => {
+  //   deleteOpportunity(opp);
+  //   onClose();
+  // };
+
   return (
     <Modal
       animationType="slide"
-      transparent={true}
+      transparent
       visible={visible}
       onRequestClose={onClose}
     >
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          <View>
-            <AntDesign name="close" size={24} color="black" onPress={onClose} />
-            <Text style={styles.modalTitle}>Edit Opportunity</Text>
-          </View>
+      <View style={styles.backdrop}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.container}
+        >
+          <ScrollView
+            contentContainerStyle={styles.modal}
+            keyboardShouldPersistTaps="handled"
+          >
+            <AntDesign
+              name="close"
+              size={24}
+              color="black"
+              onPress={onClose}
+              style={styles.closeIcon}
+            />
+            <Text style={styles.title}>Edit Opportunity</Text>
 
-          <Text style={{ textAlign: "left" }}>Title</Text>
-          <TextInput style={styles.input} value={edit?.id} />
+            {/* Title */}
+            <Text style={styles.label}>Title</Text>
+            <TextInput
+              style={styles.input}
+              value={form.title}
+              onChangeText={(t) => handleChange("title", t)}
+            />
 
-          {/* Save Button */}
-          <TouchableOpacity style={styles.saveButton} onPress={() => {}}>
-            <Text style={styles.buttonText}>Save</Text>
-          </TouchableOpacity>
-        </View>
+            {/* Description */}
+            <Text style={styles.label}>Description</Text>
+            <TextInput
+              style={[styles.input, styles.multiline]}
+              value={form.description}
+              onChangeText={(t) => handleChange("description", t)}
+              multiline
+            />
+
+            {/* Location Picker */}
+            <Text style={styles.label}>Location</Text>
+            <View style={styles.pickerContainer}>
+              <Picker
+                selectedValue={form.location}
+                onValueChange={(v) => handleChange("location", v)}
+                style={styles.picker}
+                itemStyle={styles.pickerItem}
+              >
+                <Picker.Item label="Select location" value="" />
+                {locationsArray.map((loc) => (
+                  <Picker.Item key={loc} label={loc} value={loc} />
+                ))}
+              </Picker>
+            </View>
+
+            {/* Category Picker */}
+            <Text style={styles.label}>Category</Text>
+            <View style={styles.pickerContainer}>
+              <Picker
+                selectedValue={form.category}
+                onValueChange={(v) => handleChange("category", v)}
+                style={styles.picker}
+                itemStyle={styles.pickerItem}
+              >
+                <Picker.Item label="Select category" value="" />
+                {categoriesArray.map((cat) => (
+                  <Picker.Item key={cat} label={cat} value={cat} />
+                ))}
+              </Picker>
+            </View>
+
+            {/* Commitment Period Picker */}
+            <Text style={styles.label}>Commitment Period</Text>
+            <View style={styles.pickerContainer}>
+              <Picker
+                selectedValue={form.commitmentPeriod}
+                onValueChange={(v) => handleChange("commitmentPeriod", v)}
+                style={styles.picker}
+                itemStyle={styles.pickerItem}
+              >
+                <Picker.Item label="Select commitment" value="" />
+                {commitmentsArray.map((com) => (
+                  <Picker.Item key={com} label={com} value={com} />
+                ))}
+              </Picker>
+            </View>
+
+            {/* Registration Form URL */}
+            <Text style={styles.label}>Registration Form URL</Text>
+            <TextInput
+              style={styles.input}
+              value={form.registrationFormUrl}
+              onChangeText={(t) => handleChange("registrationFormUrl", t)}
+            />
+
+            {/* Save */}
+            <TouchableOpacity
+              style={styles.saveButton}
+              onPress={() => onSave(form)}
+            >
+              <Text style={styles.saveText}>Save Changes</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </View>
     </Modal>
   );
-};
+}
 
-export default Detail;
 const styles = StyleSheet.create({
-  centeredView: {
+  backdrop: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: "rgba(0,0,0,0.5)",
   },
-  modalView: {
-    width: "80%",
-    backgroundColor: "#ffffff",
-    borderRadius: 20,
-    padding: 20,
-    alignSelf: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5,
+  container: {
+    flex: 1,
+    justifyContent: "center",
   },
-  modalTitle: {
-    fontSize: 24,
+  modal: {
+    backgroundColor: "#fff",
+    margin: 20,
+    borderRadius: 12,
+    padding: 20,
+  },
+  closeIcon: {
+    alignSelf: "flex-end",
+  },
+  title: {
+    fontSize: 20,
     fontWeight: "bold",
-    color: "#0d528f",
-    marginBottom: 20,
+    marginBottom: 16,
     textAlign: "center",
   },
+  label: {
+    marginTop: 12,
+    fontWeight: "600",
+  },
   input: {
-    width: "100%",
-    height: 50,
-    backgroundColor: "#f5f5f5",
-    borderColor: "#007aff",
     borderWidth: 1,
-    borderRadius: 12,
-    paddingHorizontal: 15,
-    fontSize: 14,
-    color: "gray",
-    marginBottom: 20,
+    borderColor: "#ccc",
+    borderRadius: 6,
+    padding: 8,
+    marginTop: 4,
+  },
+  multiline: {
+    height: 80,
+    textAlignVertical: "top",
+  },
+  pickerContainer: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 6,
+    marginTop: 4,
+    overflow: "hidden",
+  },
+  picker: {
+    height: Platform.OS === "ios" ? 150 : 50,
+    width: "100%",
+    color: "#333",
+  },
+  pickerItem: {
+    fontSize: 16,
+    height: 150,
+    color: "#333",
   },
   saveButton: {
     backgroundColor: "#0d528f",
-    borderRadius: 12,
+    borderRadius: 6,
     paddingVertical: 12,
-    paddingHorizontal: 25,
-    marginBottom: 15,
-    width: "100%",
+    marginTop: 24,
     alignItems: "center",
   },
-  closeButton: {
-    backgroundColor: "#ff5252",
-    borderRadius: 12,
-    paddingVertical: 12,
-    paddingHorizontal: 25,
-    width: "100%",
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#ffffff",
-    fontSize: 16,
-    fontWeight: "bold",
+  saveText: {
+    color: "#fff",
+    fontWeight: "600",
   },
 });
