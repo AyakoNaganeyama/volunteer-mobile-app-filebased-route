@@ -17,6 +17,12 @@ export type Organisation = {
   email: string;
 };
 
+export type Enac = {
+  email: string;
+  fullName: string;
+  id: string;
+};
+
 export interface Opportunity {
   id: string;
   title: string;
@@ -32,3 +38,7 @@ export interface Opportunity {
   companyId: string;
   isOpen: boolean;
 }
+
+//enacadmin@gmail.com
+//UZ69X8wKIWhcPVvu0U442KLKdsl1
+//fullName
