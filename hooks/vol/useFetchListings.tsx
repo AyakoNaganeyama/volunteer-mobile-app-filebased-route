@@ -4,13 +4,16 @@ import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
 import { Opportunity } from "@/constants/types";
 import { useListingStore } from "@/userStore/volListingStore";
+import { useSearchStore } from "@/userStore/searchStore";
 
 const useFetchListings = () => {
   const { clearOpportunities, addOpportunity } = useListingStore();
+  const { clearSearchClicked } = useSearchStore();
 
   const fetchListings = async () => {
     // 1) clear any stale data
     clearOpportunities();
+    clearSearchClicked();
 
     // 2) grab every doc in "opportunities"
     const snap = await getDocs(collection(firestore, "opportunities"));

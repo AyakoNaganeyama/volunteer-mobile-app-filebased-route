@@ -16,6 +16,7 @@ import { Opportunity } from "@/constants/types";
 import { useListingStore } from "@/userStore/volListingStore";
 import useFetchListings from "@/hooks/vol/useFetchListings";
 import { useSearchStore } from "@/userStore/searchStore";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 const one = () => {
   const { volunteer } = useVolunteerStore();
@@ -90,6 +91,11 @@ const one = () => {
             flexDirection: "row",
           }}
         >
+          <MaterialCommunityIcons
+            name="text-search"
+            size={24}
+            color="#0d528f"
+          />
           <Text style={{ color: "#0d528f", fontSize: 16 }}>Search Result:</Text>
           <Text style={{ fontWeight: "bold", fontSize: 16, color: "#0d528f" }}>
             {filteredOpportunities.length}
