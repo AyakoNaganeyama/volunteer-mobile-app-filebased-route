@@ -5,7 +5,7 @@ import { Opportunity } from "@/constants/types";
 import { useSearchStore } from "@/userStore/searchStore";
 
 const useFilter = () => {
-  const { setSearchClicked } = useSearchStore();
+  const { setSearchClicked, clearSearchClicked } = useSearchStore();
   const {
     opportunities,
     clearOpportunities,
@@ -32,7 +32,12 @@ const useFilter = () => {
 
     // re-populate store with only the matches
     filtered.forEach((o) => setFilteredOpportunity(o));
-    setSearchClicked();
+
+    if (commitment == "" && category == "" && location == "") {
+      clearSearchClicked();
+    } else {
+      setSearchClicked();
+    }
   };
 
   return { applyFilter };
