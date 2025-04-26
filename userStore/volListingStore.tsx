@@ -10,6 +10,7 @@ interface OpportunitiesState {
 
   clearOpportunities: () => void;
   clearFiltered: () => void;
+  setFilteredAll: () => void;
 }
 
 export const useListingStore = create<OpportunitiesState>((set) => ({
@@ -28,4 +29,9 @@ export const useListingStore = create<OpportunitiesState>((set) => ({
 
   clearOpportunities: () => set({ opportunities: [] }),
   clearFiltered: () => set({ filteredOpportunities: [] }),
+
+  setFilteredAll: () =>
+    set((state) => ({
+      filteredOpportunities: [...state.opportunities],
+    })),
 }));

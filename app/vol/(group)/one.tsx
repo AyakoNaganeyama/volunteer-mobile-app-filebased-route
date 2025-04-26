@@ -1,7 +1,14 @@
-import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  RefreshControl,
+} from "react-native";
 import React from "react";
 import { Link } from "expo-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -20,10 +27,12 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 const one = () => {
   const { volunteer } = useVolunteerStore();
-  const { opportunities, filteredOpportunities } = useListingStore();
+  const { opportunities, filteredOpportunities, setFilteredAll } =
+    useListingStore();
   const { fetchListings } = useFetchListings();
   const { getImage } = usegetImage();
-  const { searchClicked } = useSearchStore();
+  const { searchClicked, clearSearchClicked } = useSearchStore();
+  const [refreshing, setRefreshing] = useState(false);
 
   const [opps, setOpps] = useState<Opportunity[]>([]);
   // Helper to convert parameter to a string (if it's an array, take the first element)
@@ -48,6 +57,20 @@ const one = () => {
   useEffect(() => {
     setOpps(filteredOpportunities);
   }, [filteredOpportunities]);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+
+    // 1) clear your “search clicked” flag
+    clearSearchClicked();
+
+    // 2) copy the full list into filteredOpportunities
+    setFilteredAll();
+
+    // 3) update the local view
+
+    setRefreshing(false);
+  }, [clearSearchClicked, setFilteredAll]);
 
   // useEffect(() => {
   //   const categoryParam = getStringParam(params.category);
@@ -102,7 +125,17 @@ const one = () => {
           </Text>
         </View>
       )}
-      <ScrollView style={{ flex: 1, marginVertical: 20 }}>
+      <ScrollView
+        style={{ flex: 1, marginVertical: 20 }}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor="#0d528f" // iOS
+            colors={["#0d528f"]} // Android
+          />
+        }
+      >
         {opps.map((opportunity) => (
           <View
             key={opportunity.id}

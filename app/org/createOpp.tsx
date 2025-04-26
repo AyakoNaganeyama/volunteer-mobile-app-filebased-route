@@ -217,13 +217,13 @@ const CreateOpp = () => {
         />
 
         {/* Image URL */}
-        <Text style={styles.label}>Image URL</Text>
+        {/* <Text style={styles.label}>Image URL</Text>
         <TextInput
           style={styles.input}
           value={opportunity.imageURL}
           onChangeText={(text) => handleChange("imageURL", text)}
           placeholder="Enter image URL (optional)"
-        />
+        /> */}
 
         {/* Date Picker */}
         <Text style={styles.label}>Date</Text>
