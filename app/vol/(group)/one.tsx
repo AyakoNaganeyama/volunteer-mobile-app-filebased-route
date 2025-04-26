@@ -15,12 +15,14 @@ import { useVolunteerStore } from "@/userStore/volSore";
 import { Opportunity } from "@/constants/types";
 import { useListingStore } from "@/userStore/volListingStore";
 import useFetchListings from "@/hooks/vol/useFetchListings";
+import { useSearchStore } from "@/userStore/searchStore";
 
 const one = () => {
   const { volunteer } = useVolunteerStore();
   const { opportunities, filteredOpportunities } = useListingStore();
   const { fetchListings } = useFetchListings();
   const { getImage } = usegetImage();
+  const { searchClicked } = useSearchStore();
 
   const [opps, setOpps] = useState<Opportunity[]>([]);
   // Helper to convert parameter to a string (if it's an array, take the first element)
@@ -79,6 +81,21 @@ const one = () => {
   // const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      {searchClicked && (
+        <View
+          style={{
+            width: "90%",
+            alignSelf: "center",
+            marginTop: 10,
+            flexDirection: "row",
+          }}
+        >
+          <Text style={{ color: "#0d528f", fontSize: 16 }}>Search Result:</Text>
+          <Text style={{ fontWeight: "bold", fontSize: 16, color: "#0d528f" }}>
+            {filteredOpportunities.length}
+          </Text>
+        </View>
+      )}
       <ScrollView style={{ flex: 1, marginVertical: 20 }}>
         {opps.map((opportunity) => (
           <View
