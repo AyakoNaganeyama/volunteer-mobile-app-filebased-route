@@ -3,9 +3,12 @@ import React from "react";
 import { useListingStore } from "@/userStore/volListingStore";
 import { Opportunity } from "@/constants/types";
 import { useSearchStore } from "@/userStore/searchStore";
+import { useFilterStore } from "@/userStore/useFilterStore";
 
 const useFilter = () => {
   const { setSearchClicked, clearSearchClicked } = useSearchStore();
+  const { setCategory, setCommitment, setLocation, clearFilters } =
+    useFilterStore();
   const {
     opportunities,
     clearOpportunities,
@@ -21,6 +24,9 @@ const useFilter = () => {
   ) => {
     // clear the store
     clearFiltered();
+    setCategory(category);
+    setCommitment(commitment);
+    setLocation(location);
 
     // run filter on the full list
     const filtered = opportunities.filter(

@@ -14,6 +14,8 @@ import { useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Picker } from "@react-native-picker/picker";
 import useFilter from "@/hooks/vol/useFilter";
+import { useFilterStore } from "@/userStore/useFilterStore";
+import { useSearchStore } from "@/userStore/searchStore";
 
 export interface Filter {
   category: string;
@@ -70,10 +72,23 @@ export const locations: string[] = [
 const FilterScreen = () => {
   const router = useRouter();
   const { applyFilter } = useFilter();
+  const { category, commitment, location } = useFilterStore();
+
+  const { searchClicked } = useSearchStore();
+  // useEffect(() => {
+  //   if (searchClicked) {
+  //     setInputs({
+  //       category: category,
+  //       commitment: commitment,
+  //       location: location,
+  //       date: new Date(),
+  //     });
+  //   }
+  // }, []);
   const [inputs, setInputs] = useState<Filter>({
-    category: "",
-    commitment: "",
-    location: "",
+    category: category,
+    commitment: commitment,
+    location: location,
     date: new Date(),
   });
 
