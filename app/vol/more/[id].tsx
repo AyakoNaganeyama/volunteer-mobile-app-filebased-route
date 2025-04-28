@@ -16,7 +16,8 @@ const Page = () => {
   const { opportunities } = useListingStore();
   const { getImage } = usegetImage();
   const handleRedirect = async () => {
-    const url = "https://www.everynationauckland.city/";
+    const url =
+      "https://docs.google.com/forms/d/e/1FAIpQLSdnsCDfoeXkUAPvae6l_WdtZZgwSp-21Vdc9IQOf_s2Gj1Y6w/viewform?fbclid=IwY2xjawJ7ymdleHRuA2FlbQIxMABicmlkETFJVkJ0bEwydVV4dGlrelJXAR7FIHWwgHrTksdr7kgtDN1bDaF1a0a2AwM_SNF0Q9Itsdo0AOpwbOrtyVcPSg_aem_PFOaPigFDQRO5sV8gdlZmw";
     // Optionally, you can check if the URL can be opened
     const supported = await Linking.canOpenURL(url);
     if (supported) {

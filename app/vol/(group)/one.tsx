@@ -58,6 +58,11 @@ const one = () => {
     setOpps(filteredOpportunities);
   }, [filteredOpportunities]);
 
+  const backtoOriginalList = () => {
+    clearSearchClicked();
+    setFilteredAll();
+  };
+
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
 
@@ -112,17 +117,34 @@ const one = () => {
             alignSelf: "center",
             marginTop: 10,
             flexDirection: "row",
+            justifyContent: "space-between",
           }}
         >
-          <MaterialCommunityIcons
-            name="text-search"
+          <AntDesign
+            name="arrowleft"
             size={24}
-            color="#0d528f"
+            color="black"
+            onPress={backtoOriginalList}
           />
-          <Text style={{ color: "#0d528f", fontSize: 16 }}>Search Result:</Text>
-          <Text style={{ fontWeight: "bold", fontSize: 16, color: "#0d528f" }}>
-            {filteredOpportunities.length}
-          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+            }}
+          >
+            <MaterialCommunityIcons
+              name="text-search"
+              size={24}
+              color="#0d528f"
+            />
+            <Text style={{ color: "#0d528f", fontSize: 16 }}>
+              Search Result:
+            </Text>
+            <Text
+              style={{ fontWeight: "bold", fontSize: 16, color: "#0d528f" }}
+            >
+              {filteredOpportunities.length}
+            </Text>
+          </View>
         </View>
       )}
       <ScrollView
