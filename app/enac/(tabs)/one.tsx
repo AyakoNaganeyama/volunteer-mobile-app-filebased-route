@@ -15,6 +15,7 @@ import useFetchVol from "@/hooks/enac/useFetchVol";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import Octicons from "@expo/vector-icons/Octicons";
 
 const screenWidth = Dimensions.get("window").width - 40; // account for container padding
 const chartHeight = 200;
@@ -89,8 +90,8 @@ const MonthlyVolunteerChart = () => {
           borderBottomColor: "gray",
           height: 100,
           shadowColor: "#000",
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.2,
+          shadowOffset: { width: 0, height: -2 },
+          shadowOpacity: 0.1,
           shadowRadius: 2,
 
           // Android shadow
@@ -147,8 +148,7 @@ const MonthlyVolunteerChart = () => {
           backgroundColor: "#fff",
           paddingHorizontal: 10,
           paddingVertical: 4,
-          borderBottomWidth: 1,
-          borderBottomColor: "gray",
+
           height: 100,
           shadowColor: "#000",
           shadowOffset: { width: 0, height: 2 },
@@ -212,7 +212,6 @@ const MonthlyVolunteerChart = () => {
       </TouchableOpacity>
 
       {/* *******************cards******************************* */}
-
       <View
         style={{
           marginVertical: 20,
@@ -222,19 +221,17 @@ const MonthlyVolunteerChart = () => {
           justifyContent: "space-between",
         }}
       >
+        {/* First card wrapper */}
         <View
           style={{
-            width: "48%",
-            // iOS shadow
+            width: "45%",
             shadowColor: "#000",
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.3,
             shadowRadius: 4,
-            // Android elevation
             elevation: 6,
-
             overflow: "visible",
-            borderRadius: 15,
+            borderRadius: 12,
             backgroundColor: "transparent",
           }}
         >
@@ -242,44 +239,41 @@ const MonthlyVolunteerChart = () => {
             activeOpacity={0.8}
             style={{
               backgroundColor: "white",
-              padding: 10,
-              borderRadius: 15,
-              height: 200,
+              padding: 8,
+              borderRadius: 12,
+              height: 150,
+              borderWidth: 1,
+              borderColor: "gray",
             }}
             onPress={() => {
               /* ... */
             }}
           >
             {/*  card content  */}
-            <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
-              <View
-                style={{
-                  height: "30%",
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <Text>UV index</Text>
-              </View>
-            </View>
-            <View style={{ height: "50%" }}>
-              <Text>Text here</Text>
-              <Text>Text here</Text>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <AntDesign name="user" size={40} color="black" />
+              <Text>Volunteers</Text>
             </View>
           </TouchableOpacity>
         </View>
 
-        {/* Second card */}
+        {/* Second card wrapper */}
         <View
           style={{
-            width: "48%",
+            width: "45%",
             shadowColor: "#000",
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.3,
             shadowRadius: 4,
             elevation: 6,
             overflow: "visible",
-            borderRadius: 15,
+            borderRadius: 12,
             backgroundColor: "transparent",
           }}
         >
@@ -287,28 +281,25 @@ const MonthlyVolunteerChart = () => {
             activeOpacity={0.8}
             style={{
               backgroundColor: "white",
-              padding: 10,
-              borderRadius: 15,
-              height: 200,
+              padding: 8,
+              borderRadius: 12,
+              height: 150,
+              borderWidth: 1,
+              borderColor: "gray",
             }}
             onPress={() => {
               /* ... */
             }}
           >
-            <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
-              <View
-                style={{
-                  height: "30%",
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <Text>Humidity</Text>
-              </View>
-            </View>
-            <View style={{ height: "50%" }}>
-              <Text style={{ fontSize: 40 }}>Text here</Text>
-              <Text>Text here</Text>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Octicons name="organization" size={40} color="black" />
+              <Text>Organisations</Text>
             </View>
           </TouchableOpacity>
         </View>
