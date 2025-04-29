@@ -16,6 +16,9 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Octicons from "@expo/vector-icons/Octicons";
+import useFetchOrg from "@/hooks/enac/useFetchOrg";
+import { useVolunteerListStore } from "@/userStore/volusersArrayStore";
+import { useOrganisationStore } from "@/userStore/orgArrayStore";
 
 const screenWidth = Dimensions.get("window").width - 40; // account for container padding
 const chartHeight = 200;
@@ -23,10 +26,20 @@ const chartHeight = 200;
 const MonthlyVolunteerChart = () => {
   const { enac } = useEnactore();
   const { getVolList } = useFetchVol();
+  const { getOrgList } = useFetchOrg();
+  const { volunteerList } = useVolunteerListStore();
+  const { orgList } = useOrganisationStore();
   // useEffect(() => {
   //   console.log("Volunteer datas");
   //   getVolList();
+  //   console.log("Volunteer datas");
+  //   getOrgList();
   // }, []);
+
+  useEffect(() => {
+    console.log("sotre vol:", volunteerList);
+    console.log("sotre org:", orgList);
+  }, [volunteerList, orgList]);
 
   // replace these with your real monthly data (or default to 0)
   const values = [
