@@ -2,12 +2,19 @@ import React from "react";
 import { View, Text, StyleSheet, Dimensions, Alert } from "react-native";
 import { LineChart } from "react-native-gifted-charts";
 import { useEnactore } from "@/userStore/enacStore";
+import { useEffect } from "react";
+import useFetchVol from "@/hooks/enac/useFetchVol";
 
 const screenWidth = Dimensions.get("window").width - 40; // account for container padding
 const chartHeight = 200;
 
 const MonthlyVolunteerChart = () => {
   const { enac } = useEnactore();
+  const { getVolList } = useFetchVol();
+  useEffect(() => {
+    console.log("Volunteer datas");
+    getVolList();
+  }, []);
 
   // replace these with your real monthly data (or default to 0)
   const values = [
