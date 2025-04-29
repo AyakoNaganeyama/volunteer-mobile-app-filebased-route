@@ -1,9 +1,19 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Alert,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { LineChart } from "react-native-gifted-charts";
 import { useEnactore } from "@/userStore/enacStore";
 import { useEffect } from "react";
 import useFetchVol from "@/hooks/enac/useFetchVol";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 const screenWidth = Dimensions.get("window").width - 40; // account for container padding
 const chartHeight = 200;
@@ -11,10 +21,10 @@ const chartHeight = 200;
 const MonthlyVolunteerChart = () => {
   const { enac } = useEnactore();
   const { getVolList } = useFetchVol();
-  useEffect(() => {
-    console.log("Volunteer datas");
-    getVolList();
-  }, []);
+  // useEffect(() => {
+  //   console.log("Volunteer datas");
+  //   getVolList();
+  // }, []);
 
   // replace these with your real monthly data (or default to 0)
   const values = [
@@ -53,64 +63,298 @@ const MonthlyVolunteerChart = () => {
   }));
 
   return (
-    <View style={{ flex: 1, width: "90%", alignSelf: "center" }}>
-      <Text
+    <ScrollView>
+      <View style={{ flex: 1, width: "90%", alignSelf: "center" }}>
+        <Text
+          style={{
+            fontSize: 24,
+            fontWeight: "bold",
+            color: "#0d528f",
+            marginTop: 20,
+          }}
+        >
+          Welcome, {enac?.fullName}
+        </Text>
+      </View>
+
+      {/* ***************************Approve******************************************* */}
+
+      <TouchableOpacity
         style={{
-          fontSize: 24,
-          fontWeight: "bold",
-          color: "#0d528f",
-          marginTop: 20,
+          backgroundColor: "#fff",
+          paddingHorizontal: 10,
+          paddingVertical: 4,
+          borderBottomWidth: 1,
+          borderBottomColor: "gray",
+          height: 100,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.2,
+          shadowRadius: 2,
+
+          // Android shadow
+          elevation: 3,
+          marginTop: 30,
+          justifyContent: "space-between",
+          flexDirection: "row",
+          alignItems: "center",
         }}
       >
-        Welcome, {enac?.fullName}
-      </Text>
-      <View style={styles.container}>
-        <Text style={styles.header}>Registered Volunteers (Monthly)</Text>
-        <LineChart
-          data={lineData}
-          width={screenWidth}
-          height={chartHeight}
-          initialSpacing={20}
-          spacing={(screenWidth - 40) / (lineData.length - 1)}
-          hideDataPoints={false}
-          dataPointsColor="#0d528f"
-          dataPointsRadius={4}
-          thickness={3}
-          hideRules={false}
-          rulesColor="rgba(11, 165, 164, 0.3)"
-          rulesType="solid"
-          hideYAxisText={false}
-          yAxisTextStyle={{ color: "#555", fontSize: 12 }}
-          yAxisColor="#0BA5A4"
-          hideXAxisText={false}
-          xAxisLabelTextStyle={{ color: "#555", fontSize: 12, marginTop: 4 }}
-          showVerticalLines={true}
-          verticalLinesColor="rgba(14,164,164,0.2)"
-          xAxisColor="#0BA5A4"
-          color="#0BA5A4"
-          curved
-          backgroundColor="#f8fafa"
-          // tap handler
-          pressEnabled
-          onPress={(item) =>
-            Alert.alert(item.label, `${item.value} volunteers`)
-          }
-          // sliding tooltip
-          pointerConfig={{
-            showPointerStrip: true,
-            pointerStripColor: "rgba(11,165,164,0.3)",
-            pointerStripHeight: chartHeight,
-            pointerLabelWidth: 30,
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 5,
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: "#c8e8ff",
+                height: 50,
+                width: 50,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <MaterialIcons name="approval" size={24} color="#0474cc" />
+            </View>
+            <View
+              style={{
+                height: 50,
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
+              <Text style={{ fontWeight: "bold", fontSize: 18 }}>New</Text>
+              <Text>You have opportunities to approve</Text>
+            </View>
+          </View>
+        </View>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View
+            style={{
+              backgroundColor: "#FF3B30",
+              height: 30,
+              width: 50,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text style={{ color: "white" }}>3</Text>
+          </View>
+          <AntDesign name="right" size={24} color="black" />
+        </View>
+      </TouchableOpacity>
 
-            pointerLabelComponent: (items) => (
-              <View style={styles.tooltip}>
-                <Text style={styles.tooltipText}>{items[0].value}</Text>
+      {/* ***************************Volunteers******************************************* */}
+
+      <TouchableOpacity
+        style={{
+          backgroundColor: "#fff",
+          paddingHorizontal: 10,
+          paddingVertical: 4,
+          borderBottomWidth: 1,
+          borderBottomColor: "gray",
+          height: 100,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.2,
+          shadowRadius: 2,
+
+          // Android shadow
+          elevation: 3,
+
+          justifyContent: "space-between",
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 5,
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: "#c8e8ff",
+                height: 50,
+                width: 50,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <AntDesign name="user" size={24} color="black" />
+            </View>
+            <View
+              style={{
+                height: 50,
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
+              <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+                Volunteers
+              </Text>
+              <Text>Track list of volunteers</Text>
+            </View>
+          </View>
+        </View>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View
+            style={{
+              backgroundColor: "#FF3B30",
+              height: 30,
+              width: 50,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text style={{ color: "white" }}>3</Text>
+          </View>
+          <AntDesign name="right" size={24} color="black" />
+        </View>
+      </TouchableOpacity>
+
+      {/**************************row1**********************************************/}
+      {/* <View style={{ marginVertical: 20 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              height: 200,
+            }}
+          > */}
+      {/***********************Volunteer****************************************************/}
+      {/* <TouchableOpacity
+              style={{
+                backgroundColor: "rgba(0,0,0, 0.2)",
+
+                padding: 10,
+                borderRadius: 15,
+                width: "48%",
+                height: "100%",
+                flexDirection: "column",
+              }}
+            >
+              <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
+                <View
+                  style={{
+                    height: "30%",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text style={styles.text}>UV index</Text>
+                </View>
               </View>
-            ),
-          }}
-        />
+
+              <View style={{ height: "50%" }}>
+                <Text
+                  style={{
+                    color: "white",
+
+                    fontSize: 40,
+                  }}
+                >
+                  Text here
+                </Text>
+                <Text style={styles.threeDay}>Text here</Text>
+              </View>
+            </TouchableOpacity> */}
+      {/***********************Organisation****************************************************/}
+      {/* <TouchableOpacity
+              style={{
+                backgroundColor: "rgba(0,0,0, 0.2)",
+
+                padding: 10,
+                borderRadius: 15,
+                width: "48%",
+                height: "100%",
+                flexDirection: "column",
+              }}
+            >
+              <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
+                <View
+                  style={{
+                    height: "30%",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text style={styles.text}>Humidity</Text>
+                </View>
+              </View>
+              <View style={{ height: "50%" }}>
+                <Text
+                  style={{
+                    color: "white",
+
+                    fontSize: 40,
+                  }}
+                >
+                  Text here
+                </Text>
+                <Text style={styles.threeDay}>Text here</Text>
+              </View>
+            </TouchableOpacity> */}
+      {/* </View>
+        </View> */}
+
+      <View style={{ flex: 1, width: "90%", alignSelf: "center" }}>
+        <View style={styles.container}>
+          <Text style={styles.header}>Registered Volunteers (Monthly)</Text>
+          <LineChart
+            data={lineData}
+            width={screenWidth}
+            height={chartHeight}
+            initialSpacing={20}
+            spacing={(screenWidth - 40) / (lineData.length - 1)}
+            hideDataPoints={false}
+            dataPointsColor="#0d528f"
+            dataPointsRadius={4}
+            thickness={3}
+            hideRules={false}
+            rulesColor="rgba(11, 165, 164, 0.3)"
+            rulesType="solid"
+            hideYAxisText={false}
+            yAxisTextStyle={{ color: "#555", fontSize: 12 }}
+            yAxisColor="#0BA5A4"
+            hideXAxisText={false}
+            xAxisLabelTextStyle={{ color: "#555", fontSize: 12, marginTop: 4 }}
+            showVerticalLines={true}
+            verticalLinesColor="rgba(14,164,164,0.2)"
+            xAxisColor="#0BA5A4"
+            color="#0BA5A4"
+            curved
+            backgroundColor="#f8fafa"
+            // tap handler
+            pressEnabled
+            onPress={(item) =>
+              Alert.alert(item.label, `${item.value} volunteers`)
+            }
+            // sliding tooltip
+            pointerConfig={{
+              showPointerStrip: true,
+              pointerStripColor: "rgba(11,165,164,0.3)",
+              pointerStripHeight: chartHeight,
+              pointerLabelWidth: 30,
+
+              pointerLabelComponent: (items) => (
+                <View style={styles.tooltip}>
+                  <Text style={styles.tooltipText}>{items[0].value}</Text>
+                </View>
+              ),
+            }}
+          />
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -141,6 +385,12 @@ const styles = StyleSheet.create({
   tooltipText: {
     fontSize: 12,
     color: "#0d528f",
+  },
+
+  text: {
+    color: "rgba(255, 255, 255, 0.7)",
+    fontSize: 15,
+    paddingBottom: 20,
   },
 });
 
