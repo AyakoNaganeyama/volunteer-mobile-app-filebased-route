@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import useFetchVol from "@/hooks/enac/useFetchVol";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const screenWidth = Dimensions.get("window").width - 40; // account for container padding
 const chartHeight = 200;
@@ -77,7 +78,7 @@ const MonthlyVolunteerChart = () => {
         </Text>
       </View>
 
-      {/* ***************************Approve******************************************* */}
+      {/* ***************************Manage******************************************* */}
 
       <TouchableOpacity
         style={{
@@ -95,6 +96,68 @@ const MonthlyVolunteerChart = () => {
           // Android shadow
           elevation: 3,
           marginTop: 30,
+          justifyContent: "space-between",
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 5,
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: "#fad4cd",
+                height: 50,
+                width: 50,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Ionicons name="add-outline" size={24} color="#f07c74" />
+            </View>
+            <View
+              style={{
+                height: 50,
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
+              <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+                Manage Opportunities
+              </Text>
+              <Text>Post Opportunities</Text>
+            </View>
+          </View>
+        </View>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <AntDesign name="right" size={24} color="black" />
+        </View>
+      </TouchableOpacity>
+
+      {/* ***************************New******************************************* */}
+
+      <TouchableOpacity
+        style={{
+          backgroundColor: "#fff",
+          paddingHorizontal: 10,
+          paddingVertical: 4,
+          borderBottomWidth: 1,
+          borderBottomColor: "gray",
+          height: 100,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.2,
+          shadowRadius: 2,
+
+          // Android shadow
+          elevation: 3,
+
           justifyContent: "space-between",
           flexDirection: "row",
           alignItems: "center",
@@ -148,163 +211,108 @@ const MonthlyVolunteerChart = () => {
         </View>
       </TouchableOpacity>
 
-      {/* ***************************Volunteers******************************************* */}
+      {/* *******************cards******************************* */}
 
-      <TouchableOpacity
+      <View
         style={{
-          backgroundColor: "#fff",
-          paddingHorizontal: 10,
-          paddingVertical: 4,
-          borderBottomWidth: 1,
-          borderBottomColor: "gray",
-          height: 100,
-          shadowColor: "#000",
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.2,
-          shadowRadius: 2,
-
-          // Android shadow
-          elevation: 3,
-
-          justifyContent: "space-between",
+          marginVertical: 20,
+          width: "95%",
+          alignSelf: "center",
           flexDirection: "row",
-          alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 5,
-            }}
-          >
-            <View
-              style={{
-                backgroundColor: "#c8e8ff",
-                height: 50,
-                width: 50,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <AntDesign name="user" size={24} color="black" />
-            </View>
-            <View
-              style={{
-                height: 50,
-                flexDirection: "column",
-                justifyContent: "center",
-              }}
-            >
-              <Text style={{ fontWeight: "bold", fontSize: 18 }}>
-                Volunteers
-              </Text>
-              <Text>Track list of volunteers</Text>
-            </View>
-          </View>
-        </View>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <View
-            style={{
-              backgroundColor: "#FF3B30",
-              height: 30,
-              width: 50,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Text style={{ color: "white" }}>3</Text>
-          </View>
-          <AntDesign name="right" size={24} color="black" />
-        </View>
-      </TouchableOpacity>
+        <View
+          style={{
+            width: "48%",
+            // iOS shadow
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.3,
+            shadowRadius: 4,
+            // Android elevation
+            elevation: 6,
 
-      {/**************************row1**********************************************/}
-      {/* <View style={{ marginVertical: 20 }}>
-          <View
+            overflow: "visible",
+            borderRadius: 15,
+            backgroundColor: "transparent",
+          }}
+        >
+          <TouchableOpacity
+            activeOpacity={0.8}
             style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
+              backgroundColor: "white",
+              padding: 10,
+              borderRadius: 15,
               height: 200,
             }}
-          > */}
-      {/***********************Volunteer****************************************************/}
-      {/* <TouchableOpacity
-              style={{
-                backgroundColor: "rgba(0,0,0, 0.2)",
-
-                padding: 10,
-                borderRadius: 15,
-                width: "48%",
-                height: "100%",
-                flexDirection: "column",
-              }}
-            >
-              <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
-                <View
-                  style={{
-                    height: "30%",
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text style={styles.text}>UV index</Text>
-                </View>
+            onPress={() => {
+              /* ... */
+            }}
+          >
+            {/*  card content  */}
+            <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
+              <View
+                style={{
+                  height: "30%",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Text>UV index</Text>
               </View>
+            </View>
+            <View style={{ height: "50%" }}>
+              <Text>Text here</Text>
+              <Text>Text here</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
 
-              <View style={{ height: "50%" }}>
-                <Text
-                  style={{
-                    color: "white",
-
-                    fontSize: 40,
-                  }}
-                >
-                  Text here
-                </Text>
-                <Text style={styles.threeDay}>Text here</Text>
+        {/* Second card */}
+        <View
+          style={{
+            width: "48%",
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.3,
+            shadowRadius: 4,
+            elevation: 6,
+            overflow: "visible",
+            borderRadius: 15,
+            backgroundColor: "transparent",
+          }}
+        >
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={{
+              backgroundColor: "white",
+              padding: 10,
+              borderRadius: 15,
+              height: 200,
+            }}
+            onPress={() => {
+              /* ... */
+            }}
+          >
+            <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
+              <View
+                style={{
+                  height: "30%",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Text>Humidity</Text>
               </View>
-            </TouchableOpacity> */}
-      {/***********************Organisation****************************************************/}
-      {/* <TouchableOpacity
-              style={{
-                backgroundColor: "rgba(0,0,0, 0.2)",
-
-                padding: 10,
-                borderRadius: 15,
-                width: "48%",
-                height: "100%",
-                flexDirection: "column",
-              }}
-            >
-              <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
-                <View
-                  style={{
-                    height: "30%",
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text style={styles.text}>Humidity</Text>
-                </View>
-              </View>
-              <View style={{ height: "50%" }}>
-                <Text
-                  style={{
-                    color: "white",
-
-                    fontSize: 40,
-                  }}
-                >
-                  Text here
-                </Text>
-                <Text style={styles.threeDay}>Text here</Text>
-              </View>
-            </TouchableOpacity> */}
-      {/* </View>
-        </View> */}
+            </View>
+            <View style={{ height: "50%" }}>
+              <Text style={{ fontSize: 40 }}>Text here</Text>
+              <Text>Text here</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
 
       <View style={{ flex: 1, width: "90%", alignSelf: "center" }}>
         <View style={styles.container}>
