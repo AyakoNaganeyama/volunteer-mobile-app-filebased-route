@@ -4,6 +4,8 @@ import { Opportunity, Organisation } from "@/constants/types";
 import { useEffect, useState } from "react";
 import { useOppStore } from "@/userStore/oppArrayStore";
 import { useOrganisationStore } from "@/userStore/orgArrayStore";
+import { useRouter } from "expo-router";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 export interface OpportunitywithOrg {
   id: string;
@@ -24,6 +26,7 @@ const opportunityApproval = () => {
   const { opportunities } = useOppStore();
   const { orgList } = useOrganisationStore();
   const [oppwithOrg, setOppwithOrg] = useState<OpportunitywithOrg[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const merged = opportunities.map((opp) => {
@@ -43,15 +46,46 @@ const opportunityApproval = () => {
   }, [opportunities, orgList]);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {oppwithOrg.map((o) => (
-        <View key={o.id} style={styles.card}>
-          <Text style={styles.title}>{o.title}</Text>
-          <Text style={styles.orgName}>{o.organisation.organisationName}</Text>
-          <Text style={styles.subtitle}>{o.description}</Text>
-        </View>
-      ))}
-    </ScrollView>
+    <>
+      <View
+        style={{
+          flex: 1,
+          width: "90%",
+          alignSelf: "center",
+          marginTop: 30,
+        }}
+      >
+        <AntDesign
+          name="arrowleft"
+          size={24}
+          color="black"
+          onPress={() => {
+            router.back();
+          }}
+        />
+        <Text
+          style={{
+            fontSize: 24,
+            fontWeight: "bold",
+            color: "#0d528f",
+            marginTop: 20,
+          }}
+        >
+          Approval Waiting List
+        </Text>
+      </View>
+      <ScrollView contentContainerStyle={styles.container}>
+        {oppwithOrg.map((o) => (
+          <View key={o.id} style={styles.card}>
+            <Text style={styles.title}>{o.title}</Text>
+            <Text style={styles.orgName}>
+              {o.organisation.organisationName}
+            </Text>
+            <Text style={styles.subtitle}>{o.description}</Text>
+          </View>
+        ))}
+      </ScrollView>
+    </>
   );
 };
 
