@@ -47,7 +47,7 @@ const orgListPage = () => {
             marginTop: 20,
           }}
         >
-          Manage Opportunities
+          Choose an Organisation
         </Text>
       </View>
 

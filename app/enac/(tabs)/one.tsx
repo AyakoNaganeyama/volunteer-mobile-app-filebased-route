@@ -20,6 +20,8 @@ import useFetchOrg from "@/hooks/enac/useFetchOrg";
 import { useVolunteerListStore } from "@/userStore/volusersArrayStore";
 import { useOrganisationStore } from "@/userStore/orgArrayStore";
 import { useRouter } from "expo-router";
+import { useOppStore } from "@/userStore/oppArrayStore";
+import useFetcOpp from "@/hooks/enac/useFetcOpp";
 
 const screenWidth = Dimensions.get("window").width - 40; // account for container padding
 const chartHeight = 200;
@@ -30,17 +32,22 @@ const MonthlyVolunteerChart = () => {
   const { getOrgList } = useFetchOrg();
   const { volunteerList } = useVolunteerListStore();
   const { orgList } = useOrganisationStore();
+  const { opportunities } = useOppStore();
+  const { getOppList } = useFetcOpp();
   useEffect(() => {
     console.log("Volunteer datas");
     getVolList();
     console.log("Volunteer datas");
     getOrgList();
+    console.log("Opportunity datas");
+    getOppList();
   }, []);
 
   useEffect(() => {
     console.log("sotre vol:", volunteerList);
     console.log("sotre org:", orgList);
-  }, [volunteerList, orgList]);
+    console.log("sotre opportunity:", opportunities);
+  }, [volunteerList, orgList, opportunities]);
 
   const router = useRouter();
 
