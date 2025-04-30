@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   header: { padding: 10 },
   centerContainer: {
     flex: 1,
-    marginTop: 50,
+    marginTop: 10,
     alignItems: "center",
     marginHorizontal: 30,
   },
