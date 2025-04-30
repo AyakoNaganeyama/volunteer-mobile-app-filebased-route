@@ -47,44 +47,38 @@ const opportunityApproval = () => {
 
   return (
     <>
-      <View
-        style={{
-          flex: 1,
-          width: "90%",
-          alignSelf: "center",
-          marginTop: 30,
-        }}
-      >
-        <AntDesign
-          name="arrowleft"
-          size={24}
-          color="black"
-          onPress={() => {
-            router.back();
-          }}
-        />
-        <Text
-          style={{
-            fontSize: 24,
-            fontWeight: "bold",
-            color: "#0d528f",
-            marginTop: 20,
-          }}
+      <View style={{ flex: 1 }}>
+        {/* header */}
+        <View style={{ width: "90%", alignSelf: "center", marginTop: 30 }}>
+          <AntDesign name="arrowleft" size={24} onPress={() => router.back()} />
+          <Text
+            style={{
+              fontSize: 24,
+              fontWeight: "bold",
+              color: "#0d528f",
+              marginTop: 20,
+            }}
+          >
+            Approval Waiting List
+          </Text>
+        </View>
+
+        {/* scrollable list */}
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={styles.container}
         >
-          Approval Waiting List
-        </Text>
+          {oppwithOrg.map((o) => (
+            <View key={o.id} style={styles.card}>
+              <Text style={styles.title}>{o.title}</Text>
+              <Text style={styles.orgName}>
+                {o.organisation.organisationName}
+              </Text>
+              <Text style={styles.subtitle}>{o.description}</Text>
+            </View>
+          ))}
+        </ScrollView>
       </View>
-      <ScrollView contentContainerStyle={styles.container}>
-        {oppwithOrg.map((o) => (
-          <View key={o.id} style={styles.card}>
-            <Text style={styles.title}>{o.title}</Text>
-            <Text style={styles.orgName}>
-              {o.organisation.organisationName}
-            </Text>
-            <Text style={styles.subtitle}>{o.description}</Text>
-          </View>
-        ))}
-      </ScrollView>
     </>
   );
 };
