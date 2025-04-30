@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { LineChart } from "react-native-gifted-charts";
 import { useEnactore } from "@/userStore/enacStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useFetchVol from "@/hooks/enac/useFetchVol";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -34,6 +34,7 @@ const MonthlyVolunteerChart = () => {
   const { orgList } = useOrganisationStore();
   const { opportunities } = useOppStore();
   const { getOppList } = useFetcOpp();
+  const [pendingCount, setPendingCount] = useState<number>(0);
   useEffect(() => {
     console.log("Volunteer datas");
     getVolList();
@@ -47,6 +48,8 @@ const MonthlyVolunteerChart = () => {
     console.log("sotre vol:", volunteerList);
     console.log("sotre org:", orgList);
     console.log("sotre opportunity:", opportunities);
+    const pendingCount = opportunities.filter((o) => !o.isApproved).length;
+    setPendingCount(pendingCount);
   }, [volunteerList, orgList, opportunities]);
 
   const router = useRouter();
@@ -234,7 +237,7 @@ const MonthlyVolunteerChart = () => {
               justifyContent: "center",
             }}
           >
-            <Text style={{ color: "white" }}>3</Text>
+            <Text style={{ color: "white" }}>{pendingCount}</Text>
           </View>
           <AntDesign name="right" size={24} color="black" />
         </View>

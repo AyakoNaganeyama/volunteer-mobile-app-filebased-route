@@ -68,15 +68,17 @@ const opportunityApproval = () => {
           style={{ flex: 1 }}
           contentContainerStyle={styles.container}
         >
-          {oppwithOrg.map((o) => (
-            <View key={o.id} style={styles.card}>
-              <Text style={styles.title}>{o.title}</Text>
-              <Text style={styles.orgName}>
-                {o.organisation.organisationName}
-              </Text>
-              <Text style={styles.subtitle}>{o.description}</Text>
-            </View>
-          ))}
+          {oppwithOrg
+            .filter((o) => !o.isApproved)
+            .map((o) => (
+              <View key={o.id} style={styles.card}>
+                <Text style={styles.title}>{o.title}</Text>
+                <Text style={styles.orgName}>
+                  {o.organisation.organisationName}
+                </Text>
+                <Text style={styles.subtitle}>{o.description}</Text>
+              </View>
+            ))}
         </ScrollView>
       </View>
     </>
