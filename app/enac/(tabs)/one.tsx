@@ -188,6 +188,9 @@ const MonthlyVolunteerChart = () => {
           flexDirection: "row",
           alignItems: "center",
         }}
+        onPress={() => {
+          router.push("/enac/opportunityApproval");
+        }}
       >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <View
