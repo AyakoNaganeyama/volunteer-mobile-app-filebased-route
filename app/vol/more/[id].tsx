@@ -1,7 +1,7 @@
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
 import { useLocalSearchParams } from "expo-router";
-import { mockOpportunities } from "@/constants/mockListing";
+
 import { Opportunity } from "@/constants/types";
 import { useEffect, useState } from "react";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
@@ -15,15 +15,24 @@ import usegetImage from "@/hooks/vol/usegetImage";
 const Page = () => {
   const { opportunities } = useListingStore();
   const { getImage } = usegetImage();
-  const handleRedirect = async () => {
-    const url =
-      "https://docs.google.com/forms/d/e/1FAIpQLSdnsCDfoeXkUAPvae6l_WdtZZgwSp-21Vdc9IQOf_s2Gj1Y6w/viewform?fbclid=IwY2xjawJ7ymdleHRuA2FlbQIxMABicmlkETFJVkJ0bEwydVV4dGlrelJXAR7FIHWwgHrTksdr7kgtDN1bDaF1a0a2AwM_SNF0Q9Itsdo0AOpwbOrtyVcPSg_aem_PFOaPigFDQRO5sV8gdlZmw";
-    // Optionally, you can check if the URL can be opened
-    const supported = await Linking.canOpenURL(url);
-    if (supported) {
+
+  // const handleRedirect = async (Regurl:string) => {
+  //   const url =
+  //   Regurl
+  //   // Optionally, you can check if the URL can be opened
+  //   const supported = await Linking.canOpenURL(url);
+  //   if (supported) {
+  //     await Linking.openURL(url);
+  //   } else {
+  //     console.log("Don't know how to open URI: " + url);
+  //   }
+  // };
+
+  const handleRedirect = async (url: string) => {
+    if (await Linking.canOpenURL(url)) {
       await Linking.openURL(url);
     } else {
-      console.log("Don't know how to open URI: " + url);
+      console.warn("Can't open URL:", url);
     }
   };
 
@@ -152,7 +161,10 @@ const Page = () => {
           }}
         ></View>
         <View style={{ marginBottom: 100 }}>
-          <TouchableOpacity onPress={handleRedirect} style={styles.buttonStyle}>
+          <TouchableOpacity
+            onPress={() => handleRedirect(opportunity.registrationFormUrl)}
+            style={styles.buttonStyle}
+          >
             <Text style={styles.buttonText}>Apply</Text>
           </TouchableOpacity>
         </View>

@@ -114,12 +114,14 @@ export default function EditOpportunityModal({
     >
       <View style={styles.backdrop}>
         <KeyboardAvoidingView
+          style={{ flex: 1 }}
           behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={styles.container}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 50 : 0}
         >
           <ScrollView
-            contentContainerStyle={styles.modal}
+            contentContainerStyle={styles.modalScroll}
             keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="on-drag"
           >
             <AntDesign
               name="close"
@@ -218,6 +220,14 @@ export default function EditOpportunityModal({
 }
 
 const styles = StyleSheet.create({
+  modalScroll: {
+    flexGrow: 1, // let it expand to fill the view
+    justifyContent: "center", // or top-align as you prefer
+    backgroundColor: "#fff",
+    margin: 20,
+    borderRadius: 12,
+    padding: 20,
+  },
   backdrop: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.5)",

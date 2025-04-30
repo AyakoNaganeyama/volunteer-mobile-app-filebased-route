@@ -8,6 +8,7 @@ import {
   View,
   TouchableWithoutFeedback,
   Keyboard,
+  ActivityIndicator,
 } from "react-native";
 import React from "react";
 
@@ -39,9 +40,12 @@ const one = () => {
   const { fetchOpportunities } = useFetchOpportunities();
   const { clearOpportunities, addOpportunity, opportunities } =
     useOpportunitiesStore();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchOpportunities();
+    fetchOpportunities()
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
     console.log("listfetched");
   }, []);
 
@@ -67,6 +71,14 @@ const one = () => {
   function handleCloseDeleteModal() {
     setDeleteModal(false);
     setSelectedOpp(null);
+  }
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#0d528f" />
+        <Text>Loading…</Text>
+      </View>
+    );
   }
 
   return (
@@ -103,7 +115,12 @@ const one = () => {
             </View>
 
             {/* Opportunity List */}
-            <ScrollView style={{ flex: 1 }}>
+            <ScrollView
+              style={{ flex: 1 }}
+              contentContainerStyle={{ flexGrow: 1 }}
+              keyboardShouldPersistTaps="handled" // or "always"
+              keyboardDismissMode="on-drag"
+            >
               {opps.length > 0 && (
                 <View>
                   {opps.map((item) => (

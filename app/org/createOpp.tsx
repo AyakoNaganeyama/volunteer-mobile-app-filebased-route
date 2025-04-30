@@ -10,6 +10,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Platform,
+  KeyboardAvoidingView,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
@@ -111,7 +112,7 @@ const CreateOpp = () => {
     try {
       await createOpportunity(opportunity); // passing the entire object
       console.log("Opportunity Submitted:", opportunity);
-      router.replace("/org/(tabs)/one");
+      router.back();
     } catch (error) {
       console.error("Error submitting opportunity:", error);
     }
@@ -119,105 +120,119 @@ const CreateOpp = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Entypo
-          name="cross"
-          size={24}
-          color="black"
-          onPress={() => {
-            router.back();
-          }}
-        />
-        {/* Title */}
-        <Text style={styles.label}>Title</Text>
-        <TextInput
-          style={styles.input}
-          value={opportunity.title}
-          onChangeText={(text) => handleChange("title", text)}
-          placeholder="Enter title"
-        />
-
-        {/* Company Name */}
-        <Text style={styles.label}>Company Name</Text>
-        <TextInput
-          style={styles.input}
-          value={opportunity.companyName}
-          onChangeText={(text) => handleChange("companyName", text)}
-          placeholder="Enter company name"
-          editable={false}
-        />
-
-        {/* Description */}
-        <Text style={styles.label}>Description</Text>
-        <TextInput
-          style={[styles.input, styles.multiline]}
-          value={opportunity.description}
-          onChangeText={(text) => handleChange("description", text)}
-          placeholder="Enter description"
-          multiline
-        />
-
-        {/* Location */}
-        <Text style={styles.label}>Location</Text>
-        <View style={styles.pickerContainer}>
-          <Picker
-            selectedValue={opportunity.location}
-            onValueChange={(itemValue) => handleChange("location", itemValue)}
-            style={styles.picker}
-            itemStyle={styles.pickerItem}
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
+      >
+        {/* so taps outside inputs will dismiss the keyboard,
+          but won't block touches on the ScrollView */}
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ScrollView
+            contentContainerStyle={styles.container}
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="on-drag"
           >
-            <Picker.Item label="Select location" value="" />
-            {locationsArray.map((item, index) => (
-              <Picker.Item key={index} label={item} value={item} />
-            ))}
-          </Picker>
-        </View>
+            <Entypo
+              name="cross"
+              size={24}
+              color="black"
+              onPress={() => router.back()}
+            />
+            {/* Title */}
+            <Text style={styles.label}>Title</Text>
+            <TextInput
+              style={styles.input}
+              value={opportunity.title}
+              onChangeText={(text) => handleChange("title", text)}
+              placeholder="Enter title"
+            />
 
-        {/* Category */}
-        <Text style={styles.label}>Category</Text>
-        <View style={styles.pickerContainer}>
-          <Picker
-            selectedValue={opportunity.category}
-            onValueChange={(itemValue) => handleChange("category", itemValue)}
-            style={styles.picker}
-            itemStyle={styles.pickerItem}
-          >
-            <Picker.Item label="Select category" value="" />
-            {categoriesArray.map((item, index) => (
-              <Picker.Item key={index} label={item} value={item} />
-            ))}
-          </Picker>
-        </View>
+            {/* Company Name */}
+            <Text style={styles.label}>Company Name</Text>
+            <TextInput
+              style={styles.input}
+              value={opportunity.companyName}
+              onChangeText={(text) => handleChange("companyName", text)}
+              placeholder="Enter company name"
+              editable={false}
+            />
 
-        {/* Commitment Period */}
-        <Text style={styles.label}>Commitment Period</Text>
-        <View style={styles.pickerContainer}>
-          <Picker
-            selectedValue={opportunity.commitmentPeriod}
-            onValueChange={(itemValue) =>
-              handleChange("commitmentPeriod", itemValue)
-            }
-            style={styles.picker}
-            itemStyle={styles.pickerItem}
-          >
-            <Picker.Item label="Select commitment" value="" />
-            {commitmentsArray.map((item, index) => (
-              <Picker.Item key={index} label={item} value={item} />
-            ))}
-          </Picker>
-        </View>
+            {/* Description */}
+            <Text style={styles.label}>Description</Text>
+            <TextInput
+              style={[styles.input, styles.multiline]}
+              value={opportunity.description}
+              onChangeText={(text) => handleChange("description", text)}
+              placeholder="Enter description"
+              multiline
+            />
 
-        {/* Registration Form URL */}
-        <Text style={styles.label}>Registration Form URL</Text>
-        <TextInput
-          style={styles.input}
-          value={opportunity.registrationFormUrl}
-          onChangeText={(text) => handleChange("registrationFormUrl", text)}
-          placeholder="Enter registration form URL"
-        />
+            {/* Location */}
+            <Text style={styles.label}>Location</Text>
+            <View style={styles.pickerContainer}>
+              <Picker
+                selectedValue={opportunity.location}
+                onValueChange={(itemValue) =>
+                  handleChange("location", itemValue)
+                }
+                style={styles.picker}
+                itemStyle={styles.pickerItem}
+              >
+                <Picker.Item label="Select location" value="" />
+                {locationsArray.map((item, index) => (
+                  <Picker.Item key={index} label={item} value={item} />
+                ))}
+              </Picker>
+            </View>
 
-        {/* Image URL */}
-        {/* <Text style={styles.label}>Image URL</Text>
+            {/* Category */}
+            <Text style={styles.label}>Category</Text>
+            <View style={styles.pickerContainer}>
+              <Picker
+                selectedValue={opportunity.category}
+                onValueChange={(itemValue) =>
+                  handleChange("category", itemValue)
+                }
+                style={styles.picker}
+                itemStyle={styles.pickerItem}
+              >
+                <Picker.Item label="Select category" value="" />
+                {categoriesArray.map((item, index) => (
+                  <Picker.Item key={index} label={item} value={item} />
+                ))}
+              </Picker>
+            </View>
+
+            {/* Commitment Period */}
+            <Text style={styles.label}>Commitment Period</Text>
+            <View style={styles.pickerContainer}>
+              <Picker
+                selectedValue={opportunity.commitmentPeriod}
+                onValueChange={(itemValue) =>
+                  handleChange("commitmentPeriod", itemValue)
+                }
+                style={styles.picker}
+                itemStyle={styles.pickerItem}
+              >
+                <Picker.Item label="Select commitment" value="" />
+                {commitmentsArray.map((item, index) => (
+                  <Picker.Item key={index} label={item} value={item} />
+                ))}
+              </Picker>
+            </View>
+
+            {/* Registration Form URL */}
+            <Text style={styles.label}>Registration Form URL</Text>
+            <TextInput
+              style={styles.input}
+              value={opportunity.registrationFormUrl}
+              onChangeText={(text) => handleChange("registrationFormUrl", text)}
+              placeholder="Enter registration form URL"
+            />
+
+            {/* Image URL */}
+            {/* <Text style={styles.label}>Image URL</Text>
         <TextInput
           style={styles.input}
           value={opportunity.imageURL}
@@ -225,36 +240,40 @@ const CreateOpp = () => {
           placeholder="Enter image URL (optional)"
         /> */}
 
-        {/* Date Picker */}
-        <Text style={styles.label}>Date</Text>
-        <TouchableOpacity
-          style={[styles.input, styles.dateInput]}
-          onPress={() => setShowDatePicker(true)}
-        >
-          <Text style={{ color: "gray" }}>
-            {opportunity.date
-              ? typeof opportunity.date === "string"
-                ? new Date(opportunity.date).toDateString()
-                : opportunity.date.toDateString()
-              : "Select a date (optional)"}
-          </Text>
-        </TouchableOpacity>
-        {showDatePicker && (
-          <DateTimePicker
-            value={
-              opportunity.date instanceof Date ? opportunity.date : new Date()
-            }
-            mode="date"
-            display="default"
-            onChange={onDateChange}
-          />
-        )}
+            {/* Date Picker */}
+            <Text style={styles.label}>Date</Text>
+            <TouchableOpacity
+              style={[styles.input, styles.dateInput]}
+              onPress={() => setShowDatePicker(true)}
+            >
+              <Text style={{ color: "gray" }}>
+                {opportunity.date
+                  ? typeof opportunity.date === "string"
+                    ? new Date(opportunity.date).toDateString()
+                    : opportunity.date.toDateString()
+                  : "Select a date (optional)"}
+              </Text>
+            </TouchableOpacity>
+            {showDatePicker && (
+              <DateTimePicker
+                value={
+                  opportunity.date instanceof Date
+                    ? opportunity.date
+                    : new Date()
+                }
+                mode="date"
+                display="default"
+                onChange={onDateChange}
+              />
+            )}
 
-        {/* Submit Button */}
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>Submit Opportunity</Text>
-        </TouchableOpacity>
-      </ScrollView>
+            {/* Submit Button */}
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+              <Text style={styles.buttonText}>Submit Opportunity</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

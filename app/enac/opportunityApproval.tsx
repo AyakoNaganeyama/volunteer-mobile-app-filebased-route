@@ -4,7 +4,7 @@ import { Opportunity, Organisation } from "@/constants/types";
 import { useEffect, useState } from "react";
 import { useOppStore } from "@/userStore/oppArrayStore";
 import { useOrganisationStore } from "@/userStore/orgArrayStore";
-import { useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
 export interface OpportunitywithOrg {
@@ -72,10 +72,14 @@ const opportunityApproval = () => {
             .filter((o) => !o.isApproved)
             .map((o) => (
               <View key={o.id} style={styles.card}>
-                <Text style={styles.title}>{o.title}</Text>
-                <Text style={styles.orgName}>
-                  {o.organisation.organisationName}
-                </Text>
+                <Link href={`./editApprove/${o.id}`}>
+                  {" "}
+                  <Text style={styles.title}>{o.title}</Text>
+                  <Text style={styles.orgName}>
+                    {o.organisation.organisationName}
+                  </Text>
+                </Link>
+
                 <Text style={styles.subtitle}>{o.description}</Text>
               </View>
             ))}

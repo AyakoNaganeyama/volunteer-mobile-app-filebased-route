@@ -4,6 +4,7 @@ import { Tabs } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 const _layout = () => {
   const rounter = useRouter();
@@ -33,9 +34,9 @@ const _layout = () => {
           headerTitleAlign: "center",
           headerRight: () => (
             <View style={{ marginRight: 20 }}>
-              <AntDesign
-                name="search1"
-                size={24}
+              <MaterialIcons
+                name="manage-search"
+                size={35}
                 color="#0d528f"
                 onPress={() => handleFIlter()}
               />
