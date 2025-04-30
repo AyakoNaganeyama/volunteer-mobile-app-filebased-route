@@ -19,6 +19,7 @@ import Octicons from "@expo/vector-icons/Octicons";
 import useFetchOrg from "@/hooks/enac/useFetchOrg";
 import { useVolunteerListStore } from "@/userStore/volusersArrayStore";
 import { useOrganisationStore } from "@/userStore/orgArrayStore";
+import { useRouter } from "expo-router";
 
 const screenWidth = Dimensions.get("window").width - 40; // account for container padding
 const chartHeight = 200;
@@ -29,17 +30,19 @@ const MonthlyVolunteerChart = () => {
   const { getOrgList } = useFetchOrg();
   const { volunteerList } = useVolunteerListStore();
   const { orgList } = useOrganisationStore();
-  // useEffect(() => {
-  //   console.log("Volunteer datas");
-  //   getVolList();
-  //   console.log("Volunteer datas");
-  //   getOrgList();
-  // }, []);
+  useEffect(() => {
+    console.log("Volunteer datas");
+    getVolList();
+    console.log("Volunteer datas");
+    getOrgList();
+  }, []);
 
   useEffect(() => {
     console.log("sotre vol:", volunteerList);
     console.log("sotre org:", orgList);
   }, [volunteerList, orgList]);
+
+  const router = useRouter();
 
   // replace these with your real monthly data (or default to 0)
   const values = [
@@ -113,6 +116,9 @@ const MonthlyVolunteerChart = () => {
           justifyContent: "space-between",
           flexDirection: "row",
           alignItems: "center",
+        }}
+        onPress={() => {
+          router.push("/enac/orgListPage");
         }}
       >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
