@@ -1,4 +1,4 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Switch } from "react-native";
 import React from "react";
 import { useLocalSearchParams } from "expo-router";
 import { useRouter } from "expo-router";
@@ -15,6 +15,15 @@ const approvePage = () => {
   const { opportunities } = useOppStore();
   const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
   const { getImage } = usegetImage();
+  const [isEnabled, setIsEnabled] = useState(false);
+
+  useEffect(() => {
+    console.log("Switch is now:", isEnabled);
+  }, [isEnabled]);
+
+  const handleSwitch = () => {
+    setIsEnabled((previousState) => !previousState);
+  };
 
   useEffect(() => {
     const foundOpportunity = opportunities.find((opp) => opp.id === id);
@@ -110,19 +119,31 @@ const approvePage = () => {
             </Text>
             <Text style={{ fontSize: 16 }}>{opportunity.commitmentPeriod}</Text>
           </View>
-
-          <View
-            style={{
-              alignSelf: "center",
-              width: "90%",
-              paddingHorizontal: 30,
-              gap: 5,
-              marginTop: 30,
-            }}
-          ></View>
-          <View style={{ marginBottom: 100 }}></View>
         </View>
       </>
+      <View
+        style={{
+          width: "90%",
+          alignSelf: "flex-end", // aligns the whole block to the right
+          marginTop: 30,
+          paddingHorizontal: 30,
+          flexDirection: "row",
+          justifyContent: "flex-end", // pushes content to the right
+          alignItems: "center",
+          gap: 10, // optional spacing
+        }}
+      >
+        <Text>Approve</Text>
+        <View style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}>
+          <Switch
+            trackColor={{ false: "#767577", true: "#81b0ff" }}
+            thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={handleSwitch}
+            value={isEnabled}
+          />
+        </View>
+      </View>
     </View>
   );
 };
