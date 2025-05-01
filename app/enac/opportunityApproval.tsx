@@ -72,15 +72,27 @@ const opportunityApproval = () => {
             .filter((o) => !o.isApproved)
             .map((o) => (
               <View key={o.id} style={styles.card}>
-                <Link href={`./editApprove/${o.id}`}>
-                  {" "}
-                  <Text style={styles.title}>{o.title}</Text>
-                  <Text style={styles.orgName}>
-                    {o.organisation.organisationName}
-                  </Text>
-                </Link>
-
-                <Text style={styles.subtitle}>{o.description}</Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <View>
+                    <Link href={`./editApprove/${o.id}`}>
+                      <Text style={styles.title}>{o.title}</Text>
+                    </Link>
+                    <Link href={`./editApprove/${o.id}`}>
+                      <Text style={styles.orgName}>
+                        {o.organisation.organisationName}
+                      </Text>
+                    </Link>
+                    <Link href={`./editApprove/${o.id}`}>
+                      <Text style={styles.subtitle}>{o.description}</Text>
+                    </Link>
+                  </View>
+                  <AntDesign name="right" size={24} color="black" />
+                </View>
               </View>
             ))}
         </ScrollView>
