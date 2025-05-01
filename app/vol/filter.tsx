@@ -51,6 +51,9 @@ export const categories: string[] = [
   "Tangata Whenua",
   "Veteran Services",
   "Young People",
+  "Food",
+  "Tech",
+  "Admin",
 ];
 
 export const commitments: string[] = [

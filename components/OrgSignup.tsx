@@ -6,6 +6,7 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import React, { useState } from "react";
 
@@ -48,89 +49,91 @@ const OrgSignup = () => {
 
   return (
     <SafeAreaView>
-      <View style={styles.container}>
-        {/* Full Name Input */}
-        <View style={styles.inputContainer}>
-          <Fontisto
-            name="person"
-            size={20}
-            color="#8e8e93"
-            style={styles.icon}
-          />
-          <TextInput
-            placeholder="Enter Full Name"
-            value={inputs.fullName}
-            onChangeText={(text) =>
-              setInputs((prev) => ({ ...prev, fullName: text }))
-            }
-            style={styles.input}
-            placeholderTextColor={"#8e8e93"}
-          />
-        </View>
+      <ScrollView>
+        <View style={styles.container}>
+          {/* Full Name Input */}
+          <View style={styles.inputContainer}>
+            <Fontisto
+              name="person"
+              size={20}
+              color="#8e8e93"
+              style={styles.icon}
+            />
+            <TextInput
+              placeholder="Enter Full Name"
+              value={inputs.fullName}
+              onChangeText={(text) =>
+                setInputs((prev) => ({ ...prev, fullName: text }))
+              }
+              style={styles.input}
+              placeholderTextColor={"#8e8e93"}
+            />
+          </View>
 
-        {/* Org Name Input */}
-        <View style={styles.inputContainer}>
-          <Octicons
-            name="organization"
-            size={20}
-            color="#8e8e93"
-            style={styles.icon}
-          />
-          <TextInput
-            placeholder="Enter Organisation Name"
-            value={inputs.orgName}
-            onChangeText={(text) =>
-              setInputs((prev) => ({ ...prev, orgName: text }))
-            }
-            style={styles.input}
-            placeholderTextColor={"#8e8e93"}
-          />
-        </View>
+          {/* Org Name Input */}
+          <View style={styles.inputContainer}>
+            <Octicons
+              name="organization"
+              size={20}
+              color="#8e8e93"
+              style={styles.icon}
+            />
+            <TextInput
+              placeholder="Enter Organisation Name"
+              value={inputs.orgName}
+              onChangeText={(text) =>
+                setInputs((prev) => ({ ...prev, orgName: text }))
+              }
+              style={styles.input}
+              placeholderTextColor={"#8e8e93"}
+            />
+          </View>
 
-        {/* Email Input */}
-        <View style={styles.inputContainer}>
-          <Fontisto
-            name="email"
-            size={20}
-            color="#8e8e93"
-            style={styles.icon}
-          />
-          <TextInput
-            placeholder="Enter Email"
-            value={inputs.email}
-            onChangeText={(text) =>
-              setInputs((prev) => ({ ...prev, email: text }))
-            }
-            style={styles.input}
-            placeholderTextColor={"#8e8e93"}
-            keyboardType="email-address"
-          />
-        </View>
+          {/* Email Input */}
+          <View style={styles.inputContainer}>
+            <Fontisto
+              name="email"
+              size={20}
+              color="#8e8e93"
+              style={styles.icon}
+            />
+            <TextInput
+              placeholder="Enter Email"
+              value={inputs.email}
+              onChangeText={(text) =>
+                setInputs((prev) => ({ ...prev, email: text }))
+              }
+              style={styles.input}
+              placeholderTextColor={"#8e8e93"}
+              keyboardType="email-address"
+            />
+          </View>
 
-        {/* Password Input */}
-        <View style={styles.inputContainer}>
-          <AntDesign
-            name="lock"
-            size={20}
-            color="#8e8e93"
-            style={styles.icon}
-          />
-          <TextInput
-            placeholder="Enter Password"
-            value={inputs.pass}
-            onChangeText={(text) =>
-              setInputs((prev) => ({ ...prev, pass: text }))
-            }
-            style={styles.input}
-            placeholderTextColor={"#8e8e93"}
-            secureTextEntry={!showPass}
-          />
-        </View>
+          {/* Password Input */}
+          <View style={styles.inputContainer}>
+            <AntDesign
+              name="lock"
+              size={20}
+              color="#8e8e93"
+              style={styles.icon}
+            />
+            <TextInput
+              placeholder="Enter Password"
+              value={inputs.pass}
+              onChangeText={(text) =>
+                setInputs((prev) => ({ ...prev, pass: text }))
+              }
+              style={styles.input}
+              placeholderTextColor={"#8e8e93"}
+              secureTextEntry={!showPass}
+            />
+          </View>
 
-        <TouchableOpacity onPress={handleSignup} style={styles.buttonStyle}>
-          <Text style={styles.buttonText}>Join now! </Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity onPress={handleSignup} style={styles.buttonStyle}>
+            <Text style={styles.buttonText}>Join now! </Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

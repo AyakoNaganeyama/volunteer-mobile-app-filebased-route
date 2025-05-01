@@ -2,10 +2,12 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
 import useLogout from "@/hooks/org/useLogout";
 import { useRouter } from "expo-router";
+import { useOrgStore } from "@/userStore/orgStore";
 
 const two = () => {
   const router = useRouter();
   const { handleLogout } = useLogout();
+  const { org } = useOrgStore();
 
   const Logout = async () => {
     await handleLogout(); // Execute logout logic
@@ -14,6 +16,7 @@ const two = () => {
 
   return (
     <View>
+      <Text>{org?.organisationName ?? ""}</Text>
       <TouchableOpacity onPress={Logout} style={styles.buttonStyle}>
         <Text style={styles.buttonText}>Logout</Text>
       </TouchableOpacity>

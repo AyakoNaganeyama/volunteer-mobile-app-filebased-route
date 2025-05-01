@@ -49,6 +49,9 @@ const categoriesArray = [
   "Tangata Whenua",
   "Veteran Services",
   "Young People",
+  "Food",
+  "Tech",
+  "Admin",
 ];
 
 const commitmentsArray = [

@@ -52,6 +52,12 @@ const usegetImage = () => {
       category == "Museums & Heritage"
     ) {
       return require("../../assets/images/opportunityImg/art.jpg");
+    } else if (category == "Food") {
+      return require("../../assets/images/opportunityImg/bread.jpg");
+    } else if (category == "Tech") {
+      return require("../../assets/images/opportunityImg/Tech.jpg");
+    } else if (category == "Admin") {
+      return require("../../assets/images/opportunityImg/Admin.jpg");
     } else {
       return require("../../assets/images/opportunityImg/exampleImage.jpg");
     }
