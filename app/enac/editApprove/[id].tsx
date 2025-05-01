@@ -1,4 +1,4 @@
-import { View, Text, Image, Switch } from "react-native";
+import { View, Text, Image, Switch, TouchableOpacity } from "react-native";
 import React from "react";
 import { useLocalSearchParams } from "expo-router";
 import { useRouter } from "expo-router";
@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import usegetImage from "@/hooks/vol/usegetImage";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import Entypo from "@expo/vector-icons/Entypo";
+import * as Linking from "expo-linking";
 
 const approvePage = () => {
   const router = useRouter();
@@ -32,6 +33,14 @@ const approvePage = () => {
   if (!opportunity) {
     return <Text>Loading opportunity...</Text>;
   }
+
+  const handleRedirect = async (url: string) => {
+    if (await Linking.canOpenURL(url)) {
+      await Linking.openURL(url);
+    } else {
+      console.warn("Can't open URL:", url);
+    }
+  };
 
   return (
     <View>
@@ -118,6 +127,32 @@ const approvePage = () => {
               Commitment Period
             </Text>
             <Text style={{ fontSize: 16 }}>{opportunity.commitmentPeriod}</Text>
+          </View>
+
+          <View
+            style={{
+              width: "90%",
+              paddingHorizontal: 30,
+
+              marginBottom: 20,
+            }}
+          >
+            <Text style={{ fontSize: 14, color: "grey", fontWeight: "bold" }}>
+              Organisation Form URL
+            </Text>
+            <TouchableOpacity
+              onPress={() => handleRedirect(opportunity.registrationFormUrl)}
+            >
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: "blue",
+                  textDecorationLine: "underline",
+                }}
+              >
+                {opportunity.registrationFormUrl}
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </>
