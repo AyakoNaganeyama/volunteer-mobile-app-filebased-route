@@ -9,6 +9,8 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import React from "react";
 
@@ -82,7 +84,10 @@ const one = () => {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+    >
       <SafeAreaView style={styles.container}>
         {/* <LinearGradient
         colors={['#e0f7fa', '#ffffff']}
@@ -207,7 +212,7 @@ const one = () => {
           />
         )}
       </SafeAreaView>
-    </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
