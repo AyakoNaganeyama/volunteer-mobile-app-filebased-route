@@ -16,12 +16,16 @@ import { Picker } from "@react-native-picker/picker";
 import useFilter from "@/hooks/vol/useFilter";
 import { useFilterStore } from "@/userStore/useFilterStore";
 import { useSearchStore } from "@/userStore/searchStore";
+import DateTimePicker, {
+  DateTimePickerEvent,
+} from "@react-native-community/datetimepicker";
 
 export interface Filter {
   category: string;
   commitment: string;
   location: string;
-  date: Date;
+  fromDate: Date | null;
+  toDate: Date | null;
 }
 
 export const categories: string[] = [
@@ -92,9 +96,26 @@ const FilterScreen = () => {
     category: category,
     commitment: commitment,
     location: location,
-    date: new Date(),
+    fromDate: null,
+    toDate: null,
   });
 
+  const [showFromPicker, setShowFromPicker] = useState(false);
+  const [showToPicker, setShowToPicker] = useState(false);
+
+  const onChangeFrom = (e: DateTimePickerEvent, date?: Date) => {
+    setShowFromPicker(Platform.OS === "ios");
+    if (e.type === "set" && date) {
+      setInputs((prev) => ({ ...prev, fromDate: date }));
+    }
+  };
+
+  const onChangeTo = (e: DateTimePickerEvent, date?: Date) => {
+    setShowToPicker(Platform.OS === "ios");
+    if (e.type === "set" && date) {
+      setInputs((prev) => ({ ...prev, toDate: date }));
+    }
+  };
   useEffect(() => {
     console.log("Current inputs:", inputs);
   }, [inputs]);
@@ -180,6 +201,50 @@ const FilterScreen = () => {
               ))}
             </Picker>
           </View>
+
+          {/* From Date */}
+          <Text style={styles.label}>From</Text>
+          <TouchableOpacity
+            onPress={() => setShowFromPicker(true)}
+            style={[styles.pickerContainer, { paddingVertical: 12 }]}
+          >
+            <Text>
+              {inputs.fromDate
+                ? inputs.fromDate.toLocaleDateString()
+                : "Select start date"}
+            </Text>
+          </TouchableOpacity>
+          {showFromPicker && (
+            <DateTimePicker
+              value={inputs.fromDate ?? new Date()}
+              mode="date"
+              display="default"
+              onChange={onChangeFrom}
+              maximumDate={inputs.toDate ?? undefined}
+            />
+          )}
+
+          {/* To Date */}
+          <Text style={styles.label}>To</Text>
+          <TouchableOpacity
+            onPress={() => setShowToPicker(true)}
+            style={[styles.pickerContainer, { paddingVertical: 12 }]}
+          >
+            <Text>
+              {inputs.toDate
+                ? inputs.toDate.toLocaleDateString()
+                : "Select end date"}
+            </Text>
+          </TouchableOpacity>
+          {showToPicker && (
+            <DateTimePicker
+              value={inputs.toDate ?? new Date()}
+              mode="date"
+              display="default"
+              onChange={onChangeTo}
+              minimumDate={inputs.fromDate ?? undefined}
+            />
+          )}
 
           <TouchableOpacity
             onPress={() =>
