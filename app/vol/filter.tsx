@@ -92,6 +92,7 @@ const FilterScreen = () => {
   //     });
   //   }
   // }, []);
+  // test
   const [inputs, setInputs] = useState<Filter>({
     category: category,
     commitment: commitment,
