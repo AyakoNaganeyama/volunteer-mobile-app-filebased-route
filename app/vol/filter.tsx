@@ -79,7 +79,7 @@ export const locations: string[] = [
 const FilterScreen = () => {
   const router = useRouter();
   const { applyFilter } = useFilter();
-  const { category, commitment, location } = useFilterStore();
+  const { category, commitment, location, fromDate, toDate } = useFilterStore();
 
   const { searchClicked } = useSearchStore();
   // useEffect(() => {
@@ -96,8 +96,8 @@ const FilterScreen = () => {
     category: category,
     commitment: commitment,
     location: location,
-    fromDate: null,
-    toDate: null,
+    fromDate: fromDate,
+    toDate: toDate,
   });
 
   const [showFromPicker, setShowFromPicker] = useState(false);
