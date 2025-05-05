@@ -103,6 +103,8 @@ const FilterScreen = () => {
   const [showFromPicker, setShowFromPicker] = useState(false);
   const [showToPicker, setShowToPicker] = useState(false);
 
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
   const onChangeFrom = (e: DateTimePickerEvent, date?: Date) => {
     setShowFromPicker(Platform.OS === "ios");
     if (e.type === "set" && date) {
@@ -116,8 +118,22 @@ const FilterScreen = () => {
       setInputs((prev) => ({ ...prev, toDate: date }));
     }
   };
+
   useEffect(() => {
-    console.log("Current inputs:", inputs);
+    // helper to turn a Date|null into "YYYY-MM-DD" or null
+    const formatLocalDate = (d: Date | null): string | null => {
+      if (!d) return null;
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, "0");
+      const dd = String(d.getDate()).padStart(2, "0");
+      return `${yyyy}-${mm}-${dd}`;
+    };
+
+    console.log("Current inputs:", {
+      ...inputs,
+      fromDate: formatLocalDate(inputs.fromDate),
+      toDate: formatLocalDate(inputs.toDate),
+    });
   }, [inputs]);
 
   const handleDismiss = () => {
@@ -127,9 +143,11 @@ const FilterScreen = () => {
   const handleFilter = (
     category: string,
     commitment: string,
-    location: string
+    location: string,
+    fromDate: Date | null,
+    toDate: Date | null
   ) => {
-    applyFilter(category, commitment, location);
+    applyFilter(category, commitment, location, fromDate, toDate);
     router.back();
   };
 
@@ -203,29 +221,64 @@ const FilterScreen = () => {
           </View>
 
           {/* From Date */}
-          <Text style={styles.label}>From</Text>
-          <TouchableOpacity
-            onPress={() => setShowFromPicker(true)}
-            style={[styles.pickerContainer, { paddingVertical: 12 }]}
-          >
-            <Text>
-              {inputs.fromDate
-                ? inputs.fromDate.toLocaleDateString()
-                : "Select start date"}
-            </Text>
-          </TouchableOpacity>
-          {showFromPicker && (
-            <DateTimePicker
-              value={inputs.fromDate ?? new Date()}
-              mode="date"
-              display="default"
-              onChange={onChangeFrom}
-              maximumDate={inputs.toDate ?? undefined}
-            />
+
+          {(inputs.commitment === "One off - a few hours" ||
+            inputs.commitment === "One off - an event" ||
+            inputs.commitment === "") && (
+            <>
+              <Text style={styles.label}>Any Particular Date?</Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  width: "100%",
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() => setShowFromPicker(true)}
+                  style={[
+                    styles.pickerContainer,
+                    { flex: 1, paddingVertical: 12 },
+                  ]}
+                >
+                  <Text>
+                    {inputs.fromDate
+                      ? inputs.fromDate.toLocaleDateString()
+                      : "Not a particular date"}
+                  </Text>
+                </TouchableOpacity>
+
+                {inputs.fromDate && (
+                  <TouchableOpacity
+                    onPress={() => {
+                      // clear local state
+                      setInputs((prev) => ({ ...prev, fromDate: null }));
+                      // if you also want to clear in your store:
+                      // setFromDate(null);
+                    }}
+                    style={{ marginLeft: 8, padding: 8 }}
+                  >
+                    <Text style={{ color: "#0d528f", fontWeight: "bold" }}>
+                      Clear
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+
+              {showFromPicker && (
+                <DateTimePicker
+                  value={inputs.fromDate ?? new Date()}
+                  mode="date"
+                  display="default"
+                  onChange={onChangeFrom}
+                  maximumDate={inputs.toDate ?? undefined}
+                />
+              )}
+            </>
           )}
 
           {/* To Date */}
-          <Text style={styles.label}>To</Text>
+          {/* <Text style={styles.label}>To</Text>
           <TouchableOpacity
             onPress={() => setShowToPicker(true)}
             style={[styles.pickerContainer, { paddingVertical: 12 }]}
@@ -244,11 +297,17 @@ const FilterScreen = () => {
               onChange={onChangeTo}
               minimumDate={inputs.fromDate ?? undefined}
             />
-          )}
+          )} */}
 
           <TouchableOpacity
             onPress={() =>
-              handleFilter(inputs.category, inputs.commitment, inputs.location)
+              handleFilter(
+                inputs.category,
+                inputs.commitment,
+                inputs.location,
+                inputs.fromDate,
+                inputs.toDate
+              )
             }
             style={styles.buttonStyle}
           >
@@ -277,6 +336,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     alignSelf: "flex-start",
     padding: 5,
+    marginTop: 10,
   },
   pickerContainer: {
     width: "100%",

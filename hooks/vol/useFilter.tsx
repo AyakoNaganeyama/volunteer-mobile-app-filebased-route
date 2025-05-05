@@ -7,8 +7,14 @@ import { useFilterStore } from "@/userStore/useFilterStore";
 
 const useFilter = () => {
   const { setSearchClicked, clearSearchClicked } = useSearchStore();
-  const { setCategory, setCommitment, setLocation, clearFilters } =
-    useFilterStore();
+  const {
+    setCategory,
+    setCommitment,
+    setLocation,
+    clearFilters,
+    setFromDate,
+    setToDate,
+  } = useFilterStore();
   const {
     opportunities,
     clearOpportunities,
@@ -20,26 +26,46 @@ const useFilter = () => {
   const applyFilter = (
     category: string,
     commitment: string,
-    location: string
+    location: string,
+    fromDate: Date | null,
+    toDate: Date | null
   ) => {
     // clear the store
     clearFiltered();
     setCategory(category);
     setCommitment(commitment);
     setLocation(location);
+    setFromDate(fromDate);
+    setToDate(toDate);
+
+    const formatLocalDate = (d: Date | null): string | null => {
+      if (!d) return null;
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, "0");
+      const dd = String(d.getDate()).padStart(2, "0");
+      return `${yyyy}-${mm}-${dd}`;
+    };
+
+    const converted = formatLocalDate(fromDate);
 
     // run filter on the full list
     const filtered = opportunities.filter(
       (o) =>
         (category ? o.category === category : true) &&
         (commitment ? o.commitmentPeriod === commitment : true) &&
-        (location ? o.location === location : true)
+        (location ? o.location === location : true) &&
+        (converted ? o.date === converted : true)
     );
 
     // re-populate store with only the matches
     filtered.forEach((o) => setFilteredOpportunity(o));
 
-    if (commitment == "" && category == "" && location == "") {
+    if (
+      commitment == "" &&
+      category == "" &&
+      location == "" &&
+      fromDate == null
+    ) {
       clearSearchClicked();
     } else {
       setSearchClicked();
