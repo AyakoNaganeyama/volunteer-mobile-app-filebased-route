@@ -9,6 +9,7 @@ import usegetImage from "@/hooks/vol/usegetImage";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import Entypo from "@expo/vector-icons/Entypo";
 import * as Linking from "expo-linking";
+import Approve from "@/components/enac/Approve";
 
 const approvePage = () => {
   const router = useRouter();
@@ -18,13 +19,20 @@ const approvePage = () => {
   const { getImage } = usegetImage();
   const [isEnabled, setIsEnabled] = useState(false);
 
+  const [modalVisible, setModalVisible] = useState(false);
+
+  function handleOpenModal() {
+    setModalVisible(true);
+  }
+
+  function handleCloseModal() {
+    setModalVisible(false);
+    setIsEnabled(false);
+  }
+
   useEffect(() => {
     console.log("Switch is now:", isEnabled);
   }, [isEnabled]);
-
-  const handleSwitch = () => {
-    setIsEnabled((previousState) => !previousState);
-  };
 
   useEffect(() => {
     const foundOpportunity = opportunities.find((opp) => opp.id === id);
@@ -33,6 +41,13 @@ const approvePage = () => {
   if (!opportunity) {
     return <Text>Loading opportunity...</Text>;
   }
+
+  const handleSwitch = (value: boolean) => {
+    setIsEnabled(value);
+    if (value) {
+      setModalVisible(true);
+    }
+  };
 
   const handleRedirect = async (url: string) => {
     if (await Linking.canOpenURL(url)) {
@@ -178,6 +193,14 @@ const approvePage = () => {
           value={isEnabled}
         />
       </View>
+
+      {modalVisible && (
+        <Approve
+          visible={modalVisible}
+          onClose={handleCloseModal}
+          opp={opportunity}
+        />
+      )}
     </View>
   );
 };

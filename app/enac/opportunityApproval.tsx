@@ -50,7 +50,11 @@ const opportunityApproval = () => {
       <View style={{ flex: 1 }}>
         {/* header */}
         <View style={{ width: "90%", alignSelf: "center", marginTop: 30 }}>
-          <AntDesign name="arrowleft" size={24} onPress={() => router.back()} />
+          <AntDesign
+            name="arrowleft"
+            size={24}
+            onPress={() => router.push("/enac/(tabs)/one")}
+          />
           <Text
             style={{
               fontSize: 24,
