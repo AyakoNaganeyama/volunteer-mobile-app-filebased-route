@@ -23,6 +23,7 @@ const orgListPage = () => {
 
   return (
     <>
+      <AntDesign name="arrowleft" size={24} onPress={() => router.back()} />
       <View
         style={{
           flex: 1,

@@ -21,7 +21,10 @@ const useFetchListings = () => {
     // 3) push each one into your Zustand store
     snap.forEach((d) => {
       const data = d.data() as Omit<Opportunity, "id">;
-      addOpportunity({ id: d.id, ...data });
+
+      if (data.isApproved) {
+        addOpportunity({ id: d.id, ...data });
+      }
     });
   };
 

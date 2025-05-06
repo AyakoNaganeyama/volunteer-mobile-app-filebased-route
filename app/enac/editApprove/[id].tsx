@@ -10,6 +10,7 @@ import EvilIcons from "@expo/vector-icons/EvilIcons";
 import Entypo from "@expo/vector-icons/Entypo";
 import * as Linking from "expo-linking";
 import Approve from "@/components/enac/Approve";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 const approvePage = () => {
   const router = useRouter();
@@ -59,13 +60,14 @@ const approvePage = () => {
 
   return (
     <View>
-      <Text
+      <AntDesign
+        name="arrowleft"
+        size={24}
+        color="black"
         onPress={() => {
           router.back();
         }}
-      >
-        Back
-      </Text>
+      />
       <>
         <Image
           source={getImage(opportunity.category)}
