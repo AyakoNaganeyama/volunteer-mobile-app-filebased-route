@@ -222,7 +222,7 @@ const FilterScreen = () => {
 
           {/* From Date */}
 
-          {(inputs.commitment === "One off - a few hours" ||
+          {/* {(inputs.commitment === "One off - a few hours" ||
             inputs.commitment === "One off - an event" ||
             inputs.commitment === "") && (
             <>
@@ -275,7 +275,7 @@ const FilterScreen = () => {
                 />
               )}
             </>
-          )}
+          )} */}
 
           {/* To Date */}
           {/* <Text style={styles.label}>To</Text>

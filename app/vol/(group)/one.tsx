@@ -170,11 +170,25 @@ const one = () => {
               />
             </Link>
             {/* <View style={{ alignSelf: "center" }}> */}
-            <Text style={{ fontSize: 16, fontWeight: "bold", marginTop: 8 }}>
-              {opportunity.title}
-            </Text>
+            <View
+              style={{
+                flexDirection: "column",
 
-            <View style={{ flexDirection: "row", gap: 10 }}>
+                marginTop: 8,
+              }}
+            >
+              <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                {opportunity.title}
+              </Text>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Entypo name="awareness-ribbon" size={24} color="#0d528f" />
+                <Text style={{ fontSize: 14, color: "grey" }}>
+                  {opportunity.category}
+                </Text>
+              </View>
+            </View>
+
+            <View style={{ flexDirection: "row", gap: 10, marginTop: 5 }}>
               <View
                 style={{ flexDirection: "row", alignItems: "center", gap: 3 }}
               >

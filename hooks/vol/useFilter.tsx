@@ -53,19 +53,13 @@ const useFilter = () => {
       (o) =>
         (category ? o.category === category : true) &&
         (commitment ? o.commitmentPeriod === commitment : true) &&
-        (location ? o.location === location : true) &&
-        (converted ? o.date === converted : true)
+        (location ? o.location === location : true)
     );
 
     // re-populate store with only the matches
     filtered.forEach((o) => setFilteredOpportunity(o));
 
-    if (
-      commitment == "" &&
-      category == "" &&
-      location == "" &&
-      fromDate == null
-    ) {
+    if (commitment == "" && category == "" && location == "") {
       clearSearchClicked();
     } else {
       setSearchClicked();
