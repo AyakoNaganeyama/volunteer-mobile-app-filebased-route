@@ -59,8 +59,21 @@ const orgListPage = () => {
             style={styles.card}
             activeOpacity={0.8}
           >
-            <Text style={styles.title}>{org.organisationName}</Text>
-            <Text style={styles.subtitle}>{org.email}</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <View>
+                <Text style={styles.title}>{org.organisationName}</Text>
+                <Text style={styles.subtitle}>{org.email}</Text>
+              </View>
+
+              <View>
+                <AntDesign name="right" size={24} color="black" />
+              </View>
+            </View>
           </TouchableOpacity>
         ))}
       </ScrollView>
