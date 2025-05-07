@@ -5,6 +5,8 @@ import {
   Image,
   ScrollView,
   RefreshControl,
+  StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import React from "react";
 import { Link } from "expo-router";
@@ -19,11 +21,13 @@ import { mockOpportunities } from "@/constants/mockListing";
 import useListing from "@/hooks/vol/useListing";
 import { useGlobalSearchParams } from "expo-router";
 import { useVolunteerStore } from "@/userStore/volSore";
-import { Opportunity } from "@/constants/types";
+import { Application, Opportunity } from "@/constants/types";
 import { useListingStore } from "@/userStore/volListingStore";
 import useFetchListings from "@/hooks/vol/useFetchListings";
 import { useSearchStore } from "@/userStore/searchStore";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+
+import { useApplicationsStore } from "@/userStore/volApplicationStore";
 
 const one = () => {
   const { volunteer } = useVolunteerStore();
@@ -33,8 +37,16 @@ const one = () => {
   const { getImage } = usegetImage();
   const { searchClicked, clearSearchClicked } = useSearchStore();
   const [refreshing, setRefreshing] = useState(false);
+  const { applications } = useApplicationsStore();
+  const [apps, setApps] = useState<Application[]>(applications);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setApps(applications);
+  }, [applications]);
 
   const [opps, setOpps] = useState<Opportunity[]>([]);
+
   // Helper to convert parameter to a string (if it's an array, take the first element)
   const getStringParam = (
     param: string | string[] | undefined
@@ -46,8 +58,13 @@ const one = () => {
   const params = useGlobalSearchParams();
 
   useEffect(() => {
-    fetchListings();
-    console.log("listfetched");
+    // wrap in an async IIFE so we can await fetchListings
+    (async () => {
+      setLoading(true);
+      await fetchListings();
+      console.log("list fetched");
+      setLoading(false);
+    })();
   }, []);
 
   useEffect(() => {
@@ -108,6 +125,21 @@ const one = () => {
   // }, [params]);
 
   // const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
+
+  if (loading) {
+    // full-screen loader
+    return (
+      <View style={styles.loaderContainer}>
+        <Image
+          source={require("../../../assets/images/logo.png")}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+        <ActivityIndicator size="large" color="#0d528f" />
+        <Text style={styles.loadingText}>Loading…</Text>
+      </View>
+    );
+  }
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {searchClicked && (
@@ -147,8 +179,54 @@ const one = () => {
           </View>
         </View>
       )}
+
+      {!searchClicked && (
+        <>
+          <Text
+            style={{
+              color: "#0d528f",
+              fontSize: 18,
+              fontWeight: "bold",
+              marginLeft: 16,
+              marginTop: 16,
+            }}
+          >
+            Applied Opportunities
+          </Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.horizontalScroll}
+            contentContainerStyle={styles.horizontalContent}
+          >
+            {apps.map((item) => (
+              <TouchableOpacity key={item.id} style={styles.card}>
+                <Image
+                  source={getImage(item.opportunity.category)}
+                  style={styles.cardImage}
+                />
+                <Text style={styles.cardTitle} numberOfLines={1}>
+                  {item.opportunity.title}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+          <Text
+            style={{
+              color: "#0d528f",
+              fontSize: 18,
+              fontWeight: "bold",
+              marginLeft: 16,
+              marginTop: 30,
+            }}
+          >
+            Discover
+          </Text>
+        </>
+      )}
+
       <ScrollView
-        style={{ flex: 1, marginVertical: 20 }}
+        style={{ flex: 1 }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -214,3 +292,99 @@ const one = () => {
 };
 
 export default one;
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
+  horizontalScroll: {
+    maxHeight: 140,
+    marginVertical: 10,
+  },
+  horizontalContent: {
+    paddingHorizontal: 16,
+  },
+  card: {
+    width: 120,
+    marginRight: 12,
+    borderRadius: 8,
+    overflow: "hidden",
+    backgroundColor: "#fff",
+    elevation: 2,
+  },
+  cardImage: {
+    width: "100%",
+    height: 80,
+  },
+  cardTitle: {
+    fontSize: 14,
+    fontWeight: "bold",
+    padding: 8,
+  },
+  searchHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    marginBottom: 10,
+  },
+  searchInfo: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft: 12,
+  },
+  searchText: {
+    color: "#0d528f",
+    fontSize: 16,
+  },
+  searchCount: {
+    color: "#0d528f",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginLeft: 4,
+  },
+  listScroll: {
+    flex: 1,
+  },
+  listItem: {
+    width: "90%",
+    alignSelf: "center",
+    marginVertical: 15,
+  },
+  listImage: {
+    width: "100%",
+    height: 200,
+  },
+  listContent: {
+    marginTop: 8,
+  },
+  listTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  listMetaRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 5,
+  },
+  listMetaText: {
+    fontSize: 14,
+    color: "grey",
+    marginLeft: 4,
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  logo: {
+    width: 120,
+    height: 120,
+    marginBottom: 20,
+  },
+  loadingText: {
+    marginTop: 12,
+    color: "#0d528f",
+    fontSize: 16,
+    fontWeight: "500",
+  },
+});
