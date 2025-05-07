@@ -11,10 +11,12 @@ import * as MailComposer from "expo-mail-composer";
 import * as Linking from "expo-linking";
 import { useListingStore } from "@/userStore/volListingStore";
 import usegetImage from "@/hooks/vol/usegetImage";
+import useApply from "@/hooks/vol/useApply";
 
 const Page = () => {
   const { opportunities } = useListingStore();
   const { getImage } = usegetImage();
+  const { applyOpportunity } = useApply();
 
   // const handleRedirect = async (Regurl:string) => {
   //   const url =
@@ -28,11 +30,20 @@ const Page = () => {
   //   }
   // };
 
-  const handleRedirect = async (url: string) => {
-    if (await Linking.canOpenURL(url)) {
-      await Linking.openURL(url);
-    } else {
-      console.warn("Can't open URL:", url);
+  // in your Page component
+  const handleRedirect = async (url: string, opp: Opportunity) => {
+    try {
+      // wait for the write + local store update to finish
+      await applyOpportunity(opp);
+
+      // then navigate
+      if (await Linking.canOpenURL(url)) {
+        await Linking.openURL(url);
+      } else {
+        console.warn("Can't open URL:", url);
+      }
+    } catch (err: any) {
+      console.error("Failed to apply + redirect:", err);
     }
   };
 
@@ -162,7 +173,9 @@ const Page = () => {
         ></View>
         <View style={{ marginBottom: 100 }}>
           <TouchableOpacity
-            onPress={() => handleRedirect(opportunity.registrationFormUrl)}
+            onPress={() =>
+              handleRedirect(opportunity.registrationFormUrl, opportunity)
+            }
             style={styles.buttonStyle}
           >
             <Text style={styles.buttonText}>Apply</Text>

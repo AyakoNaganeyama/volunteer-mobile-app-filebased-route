@@ -42,3 +42,11 @@ export interface Opportunity {
 //enacadmin@gmail.com
 //UZ69X8wKIWhcPVvu0U442KLKdsl1
 //fullName
+
+export interface Application {
+  id: string;
+  opportunity: Opportunity;
+  volunteer: Volunteer;
+  appliedDate: Date;
+  status: "pending" | "accepted" | "rejected";
+}
