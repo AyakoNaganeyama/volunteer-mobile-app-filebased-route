@@ -42,6 +42,7 @@ const Page = () => {
       } else {
         console.warn("Can't open URL:", url);
       }
+      router.back();
     } catch (err: any) {
       console.error("Failed to apply + redirect:", err);
     }

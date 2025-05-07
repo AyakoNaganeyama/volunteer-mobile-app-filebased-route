@@ -8,15 +8,17 @@ import { useEffect } from "react";
 import { useToast } from "../useToast";
 import { collection, doc, setDoc, addDoc } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
+import { useListingStore } from "@/userStore/volListingStore";
 
 const useApply = () => {
   const { volunteer } = useVolunteerStore();
   const addApplication = useApplicationsStore((s) => s.addApplication);
   const { applications } = useApplicationsStore();
   const { showSuccessToast, showErrorToast } = useToast();
+  const removeOpportunity = useListingStore((state) => state.removeOpportunity);
 
   useEffect(() => {
-    console.log("application store", applications);
+    console.log("application store", applications.length, ":", applications);
   }, [applications]);
 
   const applyOpportunity = async (opportunity: Opportunity) => {
@@ -37,6 +39,8 @@ const useApply = () => {
 
       await setDoc(doc(firestore, "applications", application.id), application);
       addApplication(application);
+      // Remove it from the opportunities list
+      removeOpportunity(opportunity.id);
       showSuccessToast("Applied successfully", opportunity.title);
     } catch (err: any) {
       console.error("Firestore write failed:", err);
