@@ -26,25 +26,30 @@ const useFetchListings = () => {
     const snap2 = await getDocs(collection(firestore, "applications"));
 
     // 3) push each one into your Zustand store
-    snap.forEach((d) => {
-      const data = d.data() as Omit<Opportunity, "id">;
 
-      if (data.isApproved) {
-        addOpportunity({ id: d.id, ...data });
-      }
-    });
+    const appliedOppIds = new Set<string>();
 
     snap2.forEach((a) => {
       const raw = a.data() as Omit<Application, "id">;
       // only add if this application belongs to the logged-in volunteer
-      if (!volunteer || raw.volunteer.id !== volunteer.id) return;
+      if (volunteer && raw.volunteer.id === volunteer.id) {
+        appliedOppIds.add(raw.opportunity.id);
 
-      const appliedDate =
-        raw.appliedDate instanceof Timestamp
-          ? raw.appliedDate.toDate()
-          : new Date(raw.appliedDate);
+        // also seed application store
+        const appliedDate =
+          raw.appliedDate instanceof Timestamp
+            ? raw.appliedDate.toDate()
+            : new Date(raw.appliedDate);
+        addApplication({ id: a.id, ...raw, appliedDate });
+      }
+    });
 
-      addApplication({ id: a.id, ...raw, appliedDate });
+    snap.forEach((d) => {
+      const data = d.data() as Omit<Opportunity, "id">;
+
+      if (data.isApproved && !appliedOppIds.has(d.id)) {
+        addOpportunity({ id: d.id, ...data });
+      }
     });
   };
 
