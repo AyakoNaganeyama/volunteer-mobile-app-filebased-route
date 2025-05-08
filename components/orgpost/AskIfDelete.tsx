@@ -41,7 +41,7 @@ const AskIfDelete = ({ visible, onClose, opp }: DetailsProps) => {
           </View>
 
           <Text style={{ textAlign: "left", marginBottom: 10 }}>
-            Would you like delete an opportunity: {opp?.id}
+            Would you like delete an opportunity: {opp?.title}
           </Text>
 
           {/* Delete Button */}

@@ -159,58 +159,54 @@ const one = () => {
                         gap: 10,
                       }}
                     >
-                      <View style={styles.todoItem}>
+                      <View>
                         <TouchableOpacity
-                        // onPress={() => toggleDone(item.id)}
+                          style={{
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                          }}
                         >
-                          {/* {item.done ? (
-                          <Ionicons
-                            name="checkmark-circle"
-                            size={24}
-                            color="#007aff"
-                          />
-                        ) : (
-                          <Entypo name="circle" size={24} color="#007aff" />
-                        )} */}
                           <TouchableOpacity>
                             <Text style={styles.todoText}>{item.title}</Text>
                           </TouchableOpacity>
+
+                          <View style={{ flexDirection: "row", gap: 5 }}>
+                            <EvilIcons
+                              name="pencil"
+                              size={24}
+                              color="#8e8e93"
+                              onPress={() => handleOpenModal(item)}
+                            />
+                            <Text>|</Text>
+                            <AntDesign
+                              name="delete"
+                              size={20}
+                              color="#8e8e93"
+                              onPress={() => handleDleteModal(item)}
+                            />
+                          </View>
                         </TouchableOpacity>
 
                         <Text>{item.isOpen}</Text>
                       </View>
                       <View style={styles.todoItem}>
-                        <View style={{ flexDirection: "row", gap: 5 }}>
-                          <EvilIcons
-                            name="pencil"
-                            size={24}
-                            color="#8e8e93"
-                            onPress={() => handleOpenModal(item)}
-                          />
-                          <Text>|</Text>
-                          <AntDesign
-                            name="delete"
-                            size={20}
-                            color="#8e8e93"
-                            onPress={() => handleDleteModal(item)}
-                          />
-                        </View>
-
                         <View style={{ flexDirection: "column" }}>
+                          {/* Approval row */}
                           <View
                             style={{
                               flexDirection: "row",
                               alignItems: "center",
                             }}
                           >
-                            <Text style={{ marginRight: 6 }}>
+                            {/* give the label a fixed width */}
+                            <Text style={{ width: 120, marginRight: 6 }}>
                               Approval Status:
                             </Text>
                             <Text
                               style={{
                                 backgroundColor: item.isApproved
-                                  ? "#28a745" /* green */
-                                  : "#ffc107" /* yellow */,
+                                  ? "#28a745"
+                                  : "#ffc107",
                                 color: "#fff",
                                 paddingHorizontal: 8,
                                 paddingVertical: 4,
@@ -225,6 +221,7 @@ const one = () => {
                             </Text>
                           </View>
 
+                          {/* Open row */}
                           <View
                             style={{
                               flexDirection: "row",
@@ -232,12 +229,15 @@ const one = () => {
                               marginTop: 8,
                             }}
                           >
-                            <Text style={{ marginRight: 6 }}>Open Status:</Text>
+                            {/* same fixed width here */}
+                            <Text style={{ width: 120, marginRight: 6 }}>
+                              Open Status:
+                            </Text>
                             <Text
                               style={{
                                 backgroundColor: item.isOpen
-                                  ? "#28a745" /* green */
-                                  : "#ffc107" /* yellow */,
+                                  ? "#28a745"
+                                  : "#ffc107",
                                 color: "#fff",
                                 paddingHorizontal: 8,
                                 paddingVertical: 4,
@@ -349,6 +349,7 @@ const styles = StyleSheet.create({
   todoText: {
     fontSize: 16,
     color: "#333",
+    fontWeight: "bold",
   },
   logoutButtonContainer: {
     padding: 10,
