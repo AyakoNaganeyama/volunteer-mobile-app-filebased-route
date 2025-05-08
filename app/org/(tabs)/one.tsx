@@ -93,30 +93,42 @@ const one = () => {
         colors={['#e0f7fa', '#ffffff']}
         style={styles.background}
       > */}
-        <View style={styles.header}>
-          <Text style={styles.headerText}>Manage Opportunities</Text>
-        </View>
 
         <View style={{ flex: 1, justifyContent: "space-between" }}>
           {/* Input Section */}
           <View style={styles.todos}>
             <View style={styles.inputHead}>
-              <View style={styles.inputContainer}>
-                <Ionicons
-                  name="add-circle-outline"
-                  size={30}
-                  color="#8e8e93"
-                  style={styles.icon}
-                  onPress={() => router.push("../createOpp")}
-                />
-                <Text style={{ color: "#8e8e93", fontSize: 18 }}>Add New</Text>
-                {/* <TextInput
-                  placeholder="Add new todo"
-                  value={""}
-                  placeholderTextColor="#8e8e93"
-                  style={styles.input}
-                /> */}
-              </View>
+              <TouchableOpacity
+                onPress={() => router.push("../createOpp")}
+                activeOpacity={0.8}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  backgroundColor: "#007AFF", // blue button
+                  borderRadius: 8,
+                  paddingVertical: 10,
+                  paddingHorizontal: 16,
+                  marginRight: 10,
+                  justifyContent: "center",
+                  shadowColor: "#000", // iOS shadow
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.2,
+                  shadowRadius: 3,
+                  elevation: 3, // Android shadow
+                }}
+              >
+                <Ionicons name="add-circle-outline" size={24} color="#fff" />
+                <Text
+                  style={{
+                    color: "#fff",
+                    fontSize: 16,
+                    fontWeight: "600",
+                    marginLeft: 8,
+                  }}
+                >
+                  Add New
+                </Text>
+              </TouchableOpacity>
             </View>
 
             {/* Opportunity List */}
@@ -184,9 +196,60 @@ const one = () => {
                           />
                         </View>
 
-                        <Text style={{ color: "#8e8e93" }}>
-                          Status:Approved
-                        </Text>
+                        <View style={{ flexDirection: "column" }}>
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Text style={{ marginRight: 6 }}>
+                              Approval Status:
+                            </Text>
+                            <Text
+                              style={{
+                                backgroundColor: item.isApproved
+                                  ? "#28a745" /* green */
+                                  : "#ffc107" /* yellow */,
+                                color: "#fff",
+                                paddingHorizontal: 8,
+                                paddingVertical: 4,
+                                borderRadius: 12,
+                                fontSize: 12,
+                                fontWeight: "600",
+                              }}
+                            >
+                              {item.isApproved
+                                ? "Approved"
+                                : "Pending Approval"}
+                            </Text>
+                          </View>
+
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                              marginTop: 8,
+                            }}
+                          >
+                            <Text style={{ marginRight: 6 }}>Open Status:</Text>
+                            <Text
+                              style={{
+                                backgroundColor: item.isOpen
+                                  ? "#28a745" /* green */
+                                  : "#ffc107" /* yellow */,
+                                color: "#fff",
+                                paddingHorizontal: 8,
+                                paddingVertical: 4,
+                                borderRadius: 12,
+                                fontSize: 12,
+                                fontWeight: "600",
+                              }}
+                            >
+                              {item.isOpen ? "Active" : "Inactive"}
+                            </Text>
+                          </View>
+                        </View>
                       </View>
                     </View>
                   ))}
@@ -281,6 +344,7 @@ const styles = StyleSheet.create({
   todoItem: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
   },
   todoText: {
     fontSize: 16,
