@@ -11,6 +11,7 @@ import {
   TouchableWithoutFeedback,
   Platform,
   KeyboardAvoidingView,
+  ActivityIndicator,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
@@ -74,6 +75,7 @@ const CreateOpp = () => {
   const router = useRouter();
   const { org } = useOrgStore();
   const { createOpportunity } = useManageOpportunities();
+  const [loading, setLoading] = useState(false);
 
   const [opportunity, setOpportunity] = useState<Opportunity>({
     id: uuid.v4() as string,
@@ -112,12 +114,15 @@ const CreateOpp = () => {
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
-      await createOpportunity(opportunity); // passing the entire object
+      await createOpportunity(opportunity);
       console.log("Opportunity Submitted:", opportunity);
       router.back();
     } catch (error) {
       console.error("Error submitting opportunity:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -244,7 +249,7 @@ const CreateOpp = () => {
         /> */}
 
             {/* Date Picker */}
-            <Text style={styles.label}>Date</Text>
+            {/* <Text style={styles.label}>Date</Text>
             <TouchableOpacity
               style={[styles.input, styles.dateInput]}
               onPress={() => setShowDatePicker(true)}
@@ -268,11 +273,30 @@ const CreateOpp = () => {
                 display="default"
                 onChange={onDateChange}
               />
-            )}
+            )} */}
 
             {/* Submit Button */}
-            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-              <Text style={styles.buttonText}>Submit Opportunity</Text>
+            <TouchableOpacity
+              onPress={handleSubmit}
+              disabled={loading}
+              style={{
+                ...styles.button,
+                opacity: loading ? 0.6 : 1, // fade when loading
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {loading && (
+                <ActivityIndicator
+                  size="small"
+                  color="#fff"
+                  style={{ marginRight: 8 }}
+                />
+              )}
+              <Text style={styles.buttonText}>
+                {loading ? "Creating…" : "Submit Opportunity"}
+              </Text>
             </TouchableOpacity>
           </ScrollView>
         </TouchableWithoutFeedback>
