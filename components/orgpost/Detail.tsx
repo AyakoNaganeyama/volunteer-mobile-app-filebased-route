@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Switch,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -82,8 +83,13 @@ export default function EditOpportunityModal({
     setForm(opp);
   }, [opp]);
 
-  const handleChange = (field: keyof Opportunity, value: string) =>
-    setForm((f) => ({ ...f, [field]: value }));
+  // const handleChange = (field: keyof Opportunity, value: string) =>
+  //   setForm((f) => ({ ...f, [field]: value }));
+
+  const handleChange = <K extends keyof Opportunity>(
+    field: K,
+    value: Opportunity[K]
+  ) => setForm((f) => ({ ...f, [field]: value }));
 
   const onSave = (from: Opportunity) => {
     console.log(
@@ -207,6 +213,26 @@ export default function EditOpportunityModal({
               value={form.registrationFormUrl}
               onChangeText={(t) => handleChange("registrationFormUrl", t)}
             />
+
+            {/* Open / Closed Switch */}
+            <Text style={styles.label}>Open for Applications</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginTop: 4,
+              }}
+            >
+              <Switch
+                value={form.isOpen}
+                onValueChange={(v) => handleChange("isOpen", v)}
+                trackColor={{ false: "#ccc", true: "#0d528f" }}
+                thumbColor="#fff"
+              />
+              <Text style={{ marginLeft: 8, fontSize: 16 }}>
+                {form.isOpen ? "Active" : "Inactive"}
+              </Text>
+            </View>
 
             {/* Save */}
             <TouchableOpacity

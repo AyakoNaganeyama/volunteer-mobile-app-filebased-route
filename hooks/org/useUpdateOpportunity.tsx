@@ -18,6 +18,7 @@ const useUpdateOpportunity = () => {
         category: form.category,
         commitmentPeriod: form.commitmentPeriod,
         registrationFormUrl: form.registrationFormUrl,
+        isOpen: form.isOpen,
       });
 
       // update Zustand store
@@ -28,6 +29,7 @@ const useUpdateOpportunity = () => {
         category: form.category,
         commitmentPeriod: form.commitmentPeriod,
         registrationFormUrl: form.registrationFormUrl,
+        isOpen: form.isOpen,
       });
 
       // success toast
