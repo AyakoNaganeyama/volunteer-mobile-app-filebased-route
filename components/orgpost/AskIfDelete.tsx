@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  ActivityIndicator,
 } from "react-native";
 import React from "react";
 import { Opportunity } from "@/constants/types";
@@ -12,6 +13,7 @@ import { useState } from "react";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useOpportunitiesStore } from "@/userStore/orgOpportunityStore";
 import useRemoveOpportunity from "@/hooks/org/useRemoveOpportunity";
+import { useToast } from "@/hooks/useToast";
 
 interface DetailsProps {
   visible: boolean;
@@ -21,10 +23,22 @@ interface DetailsProps {
 
 const AskIfDelete = ({ visible, onClose, opp }: DetailsProps) => {
   const { deleteOpportunity } = useRemoveOpportunity();
+  const [loading, setLoading] = useState(false);
+  const { showSuccessToast, showErrorToast } = useToast();
 
-  const handleDelete = () => {
-    deleteOpportunity(opp);
-    onClose();
+  const handleDelete = async () => {
+    // deleteOpportunity(opp);
+    // onClose();
+    if (!opp) return;
+    setLoading(true);
+    try {
+      await deleteOpportunity(opp); // assume this returns a Promise
+    } catch (err) {
+      showErrorToast("Delete failed:", "error");
+    } finally {
+      setLoading(false);
+      onClose();
+    }
   };
   return (
     <Modal
@@ -45,8 +59,27 @@ const AskIfDelete = ({ visible, onClose, opp }: DetailsProps) => {
           </Text>
 
           {/* Delete Button */}
-          <TouchableOpacity style={styles.saveButton} onPress={handleDelete}>
-            <Text style={styles.buttonText}>Delete</Text>
+          <TouchableOpacity
+            style={{
+              ...styles.saveButton,
+              opacity: loading ? 0.5 : 1, // fade when disabled
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onPress={handleDelete}
+            disabled={loading}
+          >
+            {loading && (
+              <ActivityIndicator
+                size="small"
+                color="#fff"
+                style={{ marginRight: 8 }}
+              />
+            )}
+            <Text style={styles.buttonText}>
+              {loading ? "Deleting..." : "Delete"}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
