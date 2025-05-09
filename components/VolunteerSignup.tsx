@@ -6,6 +6,9 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import Fontisto from "@expo/vector-icons/Fontisto";
@@ -21,6 +24,7 @@ interface InputFields {
 
 const VolunteerSignup = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [inputs, setInputs] = useState<InputFields>({
     fullName: "",
     email: "",
@@ -32,83 +36,106 @@ const VolunteerSignup = () => {
   // Destructure the signup function (and optionally other properties) from useSignup
   const { signup } = useSignup();
 
-  const handleSignup = () => {
-    // You can perform additional validation here if needed
-    // Then call the signup function from the hook.
-    signup({
-      fullName: inputs.fullName,
-      email: inputs.email,
-      pass: inputs.pass,
-    });
+  const handleSignup = async () => {
+    Keyboard.dismiss();
+    setLoading(true);
+    try {
+      await signup({
+        fullName: inputs.fullName,
+        email: inputs.email,
+        pass: inputs.pass,
+      });
+      // on success you might want to navigate:
+      // router.replace("/volunteer/welcome");
+    } catch (err) {
+      // handle/display error
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <SafeAreaView>
-      <View style={styles.container}>
-        {/* Full Name Input */}
-        <View style={styles.inputContainer}>
-          <Fontisto
-            name="person"
-            size={20}
-            color="#8e8e93"
-            style={styles.icon}
-          />
-          <TextInput
-            placeholder="Enter Full Name"
-            value={inputs.fullName}
-            onChangeText={(text) =>
-              setInputs((prev) => ({ ...prev, fullName: text }))
-            }
-            style={styles.input}
-            placeholderTextColor={"#8e8e93"}
-          />
-        </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          {/* Full Name Input */}
+          <View style={styles.inputContainer}>
+            <Fontisto
+              name="person"
+              size={20}
+              color="#8e8e93"
+              style={styles.icon}
+            />
+            <TextInput
+              placeholder="Enter Full Name"
+              value={inputs.fullName}
+              onChangeText={(text) =>
+                setInputs((prev) => ({ ...prev, fullName: text }))
+              }
+              style={styles.input}
+              placeholderTextColor={"#8e8e93"}
+            />
+          </View>
 
-        {/* Email Input */}
-        <View style={styles.inputContainer}>
-          <Fontisto
-            name="email"
-            size={20}
-            color="#8e8e93"
-            style={styles.icon}
-          />
-          <TextInput
-            placeholder="Enter Email"
-            value={inputs.email}
-            onChangeText={(text) =>
-              setInputs((prev) => ({ ...prev, email: text }))
-            }
-            style={styles.input}
-            placeholderTextColor={"#8e8e93"}
-            keyboardType="email-address"
-          />
-        </View>
+          {/* Email Input */}
+          <View style={styles.inputContainer}>
+            <Fontisto
+              name="email"
+              size={20}
+              color="#8e8e93"
+              style={styles.icon}
+            />
+            <TextInput
+              placeholder="Enter Email"
+              value={inputs.email}
+              onChangeText={(text) =>
+                setInputs((prev) => ({ ...prev, email: text }))
+              }
+              style={styles.input}
+              placeholderTextColor={"#8e8e93"}
+              keyboardType="email-address"
+            />
+          </View>
 
-        {/* Password Input */}
-        <View style={styles.inputContainer}>
-          <AntDesign
-            name="lock"
-            size={20}
-            color="#8e8e93"
-            style={styles.icon}
-          />
-          <TextInput
-            placeholder="Enter Password"
-            value={inputs.pass}
-            onChangeText={(text) =>
-              setInputs((prev) => ({ ...prev, pass: text }))
-            }
-            style={styles.input}
-            placeholderTextColor={"#8e8e93"}
-            secureTextEntry={!showPass}
-          />
-        </View>
+          {/* Password Input */}
+          <View style={styles.inputContainer}>
+            <AntDesign
+              name="lock"
+              size={20}
+              color="#8e8e93"
+              style={styles.icon}
+            />
+            <TextInput
+              placeholder="Enter Password"
+              value={inputs.pass}
+              onChangeText={(text) =>
+                setInputs((prev) => ({ ...prev, pass: text }))
+              }
+              style={styles.input}
+              placeholderTextColor={"#8e8e93"}
+              secureTextEntry={!showPass}
+            />
+          </View>
 
-        {/* Signup Button */}
-        <TouchableOpacity onPress={handleSignup} style={styles.buttonStyle}>
-          <Text style={styles.buttonText}>Join now!</Text>
-        </TouchableOpacity>
-      </View>
+          {/* Signup Button */}
+          <TouchableOpacity
+            onPress={handleSignup}
+            style={[styles.buttonStyle, loading && styles.buttonDisabled]}
+            disabled={loading}
+          >
+            {loading && (
+              <ActivityIndicator
+                size="small"
+                color="#fff"
+                style={{ marginRight: 8 }}
+              />
+            )}
+            <Text style={styles.buttonText}>
+              {loading ? "Signining up..." : "Join now!"}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 };
@@ -156,5 +183,8 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  buttonDisabled: {
+    opacity: 0.6,
   },
 });
