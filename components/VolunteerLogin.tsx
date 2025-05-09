@@ -87,7 +87,11 @@ const VolunteerLogin = () => {
         </View>
 
         {/* Login Button */}
-        <TouchableOpacity onPress={handleLogin} style={styles.buttonStyle}>
+        <TouchableOpacity
+          onPress={handleLogin}
+          style={[styles.buttonStyle, loading && styles.buttonDisabled]}
+          disabled={loading}
+        >
           <Text style={styles.buttonText}>
             {loading ? "Logging in..." : "Login"}
           </Text>
@@ -105,6 +109,9 @@ export default VolunteerLogin;
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
+  },
+  buttonDisabled: {
+    opacity: 0.6,
   },
   inputContainer: {
     flexDirection: "row",
