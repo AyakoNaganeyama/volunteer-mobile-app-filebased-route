@@ -5,6 +5,7 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import Fontisto from "@expo/vector-icons/Fontisto";
@@ -81,7 +82,18 @@ const OrgLogin = () => {
         </View>
 
         {/* Login Button */}
-        <TouchableOpacity onPress={handleLogin} style={styles.buttonStyle}>
+        <TouchableOpacity
+          onPress={handleLogin}
+          style={[styles.buttonStyle, loading && styles.buttonDisabled]}
+          disabled={loading}
+        >
+          {loading && (
+            <ActivityIndicator
+              size="small"
+              color="#fff"
+              style={{ marginRight: 8 }}
+            />
+          )}
           <Text style={styles.buttonText}>
             {loading ? "Logging in..." : "Login"}
           </Text>
@@ -132,6 +144,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
+    flexDirection: "row",
   },
   buttonText: {
     color: "#ffffff",
@@ -142,5 +155,8 @@ const styles = StyleSheet.create({
     color: "#ff5252",
     fontSize: 13,
     marginBottom: 10,
+  },
+  buttonDisabled: {
+    opacity: 0.6,
   },
 });
