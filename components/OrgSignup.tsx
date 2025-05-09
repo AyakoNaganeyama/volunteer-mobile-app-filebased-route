@@ -7,8 +7,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
+  Keyboard,
 } from "react-native";
 import React, { useState } from "react";
+import { useToast } from "@/hooks/useToast";
 
 import Fontisto from "@expo/vector-icons/Fontisto";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -21,6 +24,7 @@ interface SignupInputs {
   pass: string;
 }
 import useSignup from "@/hooks/org/useSignup";
+import { useTransitionProgress } from "react-native-screens";
 
 const OrgSignup = () => {
   const router = useRouter();
@@ -31,20 +35,28 @@ const OrgSignup = () => {
     pass: "",
   });
   const [errors, setErrors] = useState({ email: "", pass: "" });
+  const { showErrorToast } = useToast();
 
   const [showPass, setShowPass] = useState(false);
 
   const { signup } = useSignup();
+  const [loading, setLoading] = useState(false);
 
-  const handleSignup = () => {
-    // You can perform additional validation here if needed
-    // Then call the signup function from the hook.
-    signup({
-      fullName: inputs.fullName,
-      orgName: inputs.orgName,
-      email: inputs.email,
-      pass: inputs.pass,
-    });
+  const handleSignup = async () => {
+    Keyboard.dismiss();
+    setLoading(true);
+    try {
+      await signup({
+        fullName: inputs.fullName,
+        orgName: inputs.orgName,
+        email: inputs.email,
+        pass: inputs.pass,
+      });
+    } catch (err) {
+      showErrorToast("Signin failed", "error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -129,8 +141,21 @@ const OrgSignup = () => {
             />
           </View>
 
-          <TouchableOpacity onPress={handleSignup} style={styles.buttonStyle}>
-            <Text style={styles.buttonText}>Join now! </Text>
+          <TouchableOpacity
+            onPress={handleSignup}
+            style={[styles.buttonStyle, loading && styles.buttonDisabled]}
+            disabled={loading}
+          >
+            {loading && (
+              <ActivityIndicator
+                size="small"
+                color="#fff"
+                style={{ marginRight: 8 }}
+              />
+            )}
+            <Text style={styles.buttonText}>
+              {loading ? "Signing up..." : "Join now!"}
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -189,7 +214,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   buttonDisabled: {
-    backgroundColor: "#c7c7c7",
+    opacity: 0.6,
   },
   buttonText: {
     color: "#ffffff",
@@ -214,5 +239,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
+    flexDirection: "row",
   },
 });

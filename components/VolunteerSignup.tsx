@@ -15,6 +15,7 @@ import Fontisto from "@expo/vector-icons/Fontisto";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useRouter } from "expo-router";
 import useSignup from "@/hooks/vol/useSignup";
+import { useToast } from "@/hooks/useToast";
 
 interface InputFields {
   fullName: string;
@@ -25,6 +26,7 @@ interface InputFields {
 const VolunteerSignup = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { showErrorToast } = useToast();
   const [inputs, setInputs] = useState<InputFields>({
     fullName: "",
     email: "",
@@ -48,7 +50,7 @@ const VolunteerSignup = () => {
       // on success you might want to navigate:
       // router.replace("/volunteer/welcome");
     } catch (err) {
-      // handle/display error
+      showErrorToast("Signup failed", "error");
     } finally {
       setLoading(false);
     }
