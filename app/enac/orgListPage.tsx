@@ -9,7 +9,7 @@ import React from "react";
 import { useOrganisationStore } from "@/userStore/orgArrayStore";
 import { useState, useEffect } from "react";
 import { Organisation } from "@/constants/types";
-import { useRouter } from "expo-router";
+import { useRouter, Link } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
 const orgListPage = () => {
@@ -23,23 +23,17 @@ const orgListPage = () => {
 
   return (
     <>
-      <AntDesign name="arrowleft" size={24} onPress={() => router.back()} />
+      <Text onPress={() => router.back()} style={styles.backText}>
+        ← Back
+      </Text>
+
       <View
         style={{
           flex: 1,
           width: "90%",
           alignSelf: "center",
-          marginTop: 30,
         }}
       >
-        <AntDesign
-          name="arrowleft"
-          size={24}
-          color="black"
-          onPress={() => {
-            router.back();
-          }}
-        />
         <Text
           style={{
             fontSize: 24,
@@ -54,27 +48,17 @@ const orgListPage = () => {
 
       <ScrollView contentContainerStyle={styles.container}>
         {localOrgList.map((org) => (
-          <TouchableOpacity
-            key={org.id}
-            style={styles.card}
-            activeOpacity={0.8}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <View>
-                <Text style={styles.title}>{org.organisationName}</Text>
-                <Text style={styles.subtitle}>{org.email}</Text>
-              </View>
-
-              <View>
+          <Link key={org.id} href={`./listofEachorg/${org.id}`} asChild>
+            <TouchableOpacity style={styles.card} activeOpacity={0.8}>
+              <View style={styles.cardRow}>
+                <View>
+                  <Text style={styles.title}>{org.organisationName}</Text>
+                  <Text style={styles.subtitle}>{org.email}</Text>
+                </View>
                 <AntDesign name="right" size={24} color="black" />
               </View>
-            </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
+          </Link>
         ))}
       </ScrollView>
     </>
@@ -112,5 +96,14 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 14,
     color: "gray",
+  },
+  cardRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  backText: {
+    fontSize: 16,
+    color: "#0d528f",
+    margin: 16,
   },
 });

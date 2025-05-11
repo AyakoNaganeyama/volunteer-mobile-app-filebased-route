@@ -7,6 +7,7 @@ import {
   Alert,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from "react-native";
 import { LineChart } from "react-native-gifted-charts";
 import { useEnactore } from "@/userStore/enacStore";
@@ -34,14 +35,21 @@ const MonthlyVolunteerChart = () => {
   const { orgList } = useOrganisationStore();
   const { opportunities } = useOppStore();
   const { getOppList } = useFetcOpp();
+  const [loading, setLoading] = useState(true);
   const [pendingCount, setPendingCount] = useState<number>(0);
   useEffect(() => {
-    console.log("Volunteer datas");
-    getVolList();
-    console.log("Volunteer datas");
-    getOrgList();
-    console.log("Opportunity datas");
-    getOppList();
+    async function loadAll() {
+      try {
+        await getVolList();
+        await getOrgList();
+        await getOppList();
+      } catch (err) {
+        console.warn("Failed to load ENAC data", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadAll();
   }, []);
 
   useEffect(() => {
@@ -89,6 +97,19 @@ const MonthlyVolunteerChart = () => {
     value: values[i] ?? 0,
     label,
   }));
+
+  if (loading) {
+    return (
+      <View style={styles.splashContainer}>
+        <Image
+          source={require("../../../assets/images/logo.png")}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+        <Text style={styles.loadingText}>Loading…</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView>
@@ -422,6 +443,27 @@ const styles = StyleSheet.create({
     color: "rgba(255, 255, 255, 0.7)",
     fontSize: 15,
     paddingBottom: 20,
+  },
+  splashContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
+  logo: {
+    width: 120,
+    height: 120,
+    marginBottom: 20,
+  },
+  loadingText: {
+    fontSize: 18,
+    color: "#666",
+  },
+  welcome: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#0d528f",
+    marginTop: 20,
   },
 });
 
