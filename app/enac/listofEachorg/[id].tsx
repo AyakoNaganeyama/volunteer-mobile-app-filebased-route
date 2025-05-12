@@ -58,9 +58,7 @@ const EachList = () => {
                 <View style={styles.cardHeader}>
                   <Text style={styles.title}>{item.title}</Text>
                   <View style={styles.icons}>
-                    <EvilIcons name="pencil" size={20} color="#8e8e93" />
-                    <Text>|</Text>
-                    <AntDesign name="delete" size={18} color="#8e8e93" />
+                    <AntDesign name="right" size={24} color="black" />
                   </View>
                 </View>
 

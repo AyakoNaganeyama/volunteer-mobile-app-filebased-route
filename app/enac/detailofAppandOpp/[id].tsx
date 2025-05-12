@@ -97,10 +97,12 @@ const detail = () => {
       {org && (
         <View
           style={{
-            padding: 16,
             backgroundColor: "#eef5ff",
             marginVertical: 8,
             borderRadius: 8,
+            width: "90%",
+            paddingHorizontal: 30,
+            paddingVertical: 20,
           }}
         >
           <Text style={{ fontSize: 18, fontWeight: "600" }}>
@@ -130,53 +132,50 @@ const detail = () => {
 
           <View
             style={{
-              alignSelf: "center",
-              marginHorizontal: 20,
               marginBottom: 30,
+              backgroundColor: "#eef5ff",
             }}
           >
-            <Text
-              style={{
-                fontSize: 18,
-                textAlign: "center",
-                fontWeight: "bold",
-                marginTop: 20,
-                marginBottom: 5,
-              }}
-            >
-              {opportunity.title}
-            </Text>
-            <Text style={{ fontSize: 14, color: "grey", textAlign: "center" }}>
-              {opportunity.companyName}
-            </Text>
-            <View
-              style={{
-                flexDirection: "row",
-                gap: 10,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <View style={styles.statusRow}>
-                <Text
-                  style={[
-                    styles.badge,
-                    opportunity.isApproved ? styles.approved : styles.pending,
-                  ]}
-                >
-                  {opportunity.isApproved ? "Approved" : "Pending"}
-                </Text>
-              </View>
+            <View style={{ width: "90%", paddingHorizontal: 30 }}>
+              <Text
+                style={{
+                  fontSize: 18,
 
-              <View style={styles.statusRow}>
-                <Text
-                  style={[
-                    styles.badge,
-                    opportunity.isOpen ? styles.approved : styles.pending,
-                  ]}
-                >
-                  {opportunity.isOpen ? "Active" : "Inactive"}
-                </Text>
+                  fontWeight: "bold",
+                  marginTop: 20,
+                  marginBottom: 5,
+                }}
+              >
+                {opportunity.title}
+              </Text>
+
+              <View
+                style={{
+                  flexDirection: "row",
+                  gap: 10,
+                }}
+              >
+                <View style={styles.statusRow}>
+                  <Text
+                    style={[
+                      styles.badge,
+                      opportunity.isApproved ? styles.approved : styles.pending,
+                    ]}
+                  >
+                    {opportunity.isApproved ? "Approved" : "Pending"}
+                  </Text>
+                </View>
+
+                <View style={styles.statusRow}>
+                  <Text
+                    style={[
+                      styles.badge,
+                      opportunity.isOpen ? styles.approved : styles.pending,
+                    ]}
+                  >
+                    {opportunity.isOpen ? "Active" : "Inactive"}
+                  </Text>
+                </View>
               </View>
             </View>
 
@@ -184,7 +183,7 @@ const detail = () => {
               style={{
                 width: "90%",
                 gap: 30,
-                alignSelf: "center",
+
                 marginTop: 30,
                 paddingHorizontal: 30,
                 flexDirection: "row",
@@ -260,7 +259,7 @@ const detail = () => {
       </View>
 
       {/* Applied Volunteers */}
-      <View style={{ padding: 16, marginTop: 24 }}>
+      <View style={{ paddingVertical: 16, paddingHorizontal: 30 }}>
         <Text style={{ fontSize: 16, fontWeight: "600", marginBottom: 8 }}>
           Applied Volunteers
         </Text>
@@ -297,10 +296,6 @@ const detail = () => {
                     {app.volunteer.email}
                   </Text>
                 </TouchableOpacity>
-
-                <Text style={{ fontSize: 13, color: "gray", marginTop: 2 }}>
-                  Status: {app.status}
-                </Text>
               </View>
             );
           })
