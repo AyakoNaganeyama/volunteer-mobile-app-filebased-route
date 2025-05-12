@@ -53,20 +53,6 @@ const Page = () => {
     }
   };
 
-  // const handleApply = async () => {
-  //   const isAvailable = await MailComposer.isAvailableAsync();
-  //   if (isAvailable) {
-  //     await MailComposer.composeAsync({
-  //       recipients: ["user@example.com"], // dynamically set user's email
-  //       subject: "Application Received",
-  //       body: "Thank you for applying!",
-  //     });
-  //   } else {
-  //     // Fallback or alert if email client is unavailable
-  //     alert("Email client is not available on this device.");
-  //   }
-  // };
-
   const router = useRouter();
   const { id } = useLocalSearchParams();
   const [opportunity, setOpportunity] = useState<Opportunity | null>(null);

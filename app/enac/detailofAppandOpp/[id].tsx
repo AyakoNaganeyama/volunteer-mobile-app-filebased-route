@@ -23,6 +23,7 @@ import { Application } from "@/constants/types";
 import { useOrganisationStore } from "@/userStore/orgArrayStore";
 import { useApplicationListStore } from "@/userStore/enacApplicationStore";
 import { Organisation } from "@/constants/types";
+import * as MailComposer from "expo-mail-composer";
 
 const detail = () => {
   const router = useRouter();
@@ -61,6 +62,20 @@ const detail = () => {
     }
   }, [id, opportunities, orgList, ApplicationList]);
 
+  const sendEmail = async (address: string) => {
+    // Try MailComposer first
+    if (await MailComposer.isAvailableAsync()) {
+      await MailComposer.composeAsync({
+        recipients: [address],
+        subject: "",
+        body: "",
+      });
+    } else {
+      // fallback to mailto:
+      Linking.openURL(`mailto:${address}`);
+    }
+  };
+
   if (!opportunity || !org) {
     return (
       <View style={styles.loadingContainer}>
@@ -91,20 +106,22 @@ const detail = () => {
           <Text style={{ fontSize: 18, fontWeight: "600" }}>
             {org.organisationName}
           </Text>
-          <Text style={{ fontSize: 14, color: "gray" }}>{org.email}</Text>
+          <TouchableOpacity onPress={() => sendEmail(org.email)}>
+            <Text
+              style={{
+                fontSize: 16,
+                color: "blue",
+                textDecorationLine: "underline",
+              }}
+            >
+              {org.email}
+            </Text>
+          </TouchableOpacity>
         </View>
       )}
 
       {/* Full opportunity details */}
       <View>
-        <AntDesign
-          name="arrowleft"
-          size={24}
-          color="black"
-          onPress={() => {
-            router.back();
-          }}
-        />
         <>
           <Image
             source={getImage(opportunity.category)}
@@ -132,6 +149,36 @@ const detail = () => {
             <Text style={{ fontSize: 14, color: "grey", textAlign: "center" }}>
               {opportunity.companyName}
             </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                gap: 10,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <View style={styles.statusRow}>
+                <Text
+                  style={[
+                    styles.badge,
+                    opportunity.isApproved ? styles.approved : styles.pending,
+                  ]}
+                >
+                  {opportunity.isApproved ? "Approved" : "Pending"}
+                </Text>
+              </View>
+
+              <View style={styles.statusRow}>
+                <Text
+                  style={[
+                    styles.badge,
+                    opportunity.isOpen ? styles.approved : styles.pending,
+                  ]}
+                >
+                  {opportunity.isOpen ? "Active" : "Inactive"}
+                </Text>
+              </View>
+            </View>
 
             <View
               style={{
@@ -210,23 +257,9 @@ const detail = () => {
             </View>
           </View>
         </>
-        <View
-          style={{
-            width: "90%",
-            alignSelf: "flex-end", // aligns the whole block to the right
-            marginTop: 30,
-            paddingHorizontal: 30,
-            flexDirection: "row",
-            justifyContent: "flex-end", // pushes content to the right
-            alignItems: "center",
-            gap: 10, // optional spacing
-          }}
-        >
-          <Text>Approve</Text>
-        </View>
       </View>
 
-      {/* 3️⃣ Applied Volunteers */}
+      {/* Applied Volunteers */}
       <View style={{ padding: 16, marginTop: 24 }}>
         <Text style={{ fontSize: 16, fontWeight: "600", marginBottom: 8 }}>
           Applied Volunteers
@@ -253,9 +286,17 @@ const detail = () => {
                 <Text style={{ fontSize: 15, fontWeight: "500" }}>
                   {app.volunteer.fullName}
                 </Text>
-                <Text style={{ fontSize: 15, fontWeight: "500" }}>
-                  {app.volunteer.email}
-                </Text>
+                <TouchableOpacity onPress={() => sendEmail(org.email)}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      color: "blue",
+                      textDecorationLine: "underline",
+                    }}
+                  >
+                    {app.volunteer.email}
+                  </Text>
+                </TouchableOpacity>
 
                 <Text style={{ fontSize: 13, color: "gray", marginTop: 2 }}>
                   Status: {app.status}
@@ -388,4 +429,16 @@ const styles = StyleSheet.create({
     color: "gray",
     marginTop: 4,
   },
+  statusRow: { flexDirection: "row", alignItems: "center", marginTop: 4 },
+
+  badge: {
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 12,
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "500",
+  },
+  approved: { backgroundColor: "#28a745" },
+  pending: { backgroundColor: "#ffc107" },
 });

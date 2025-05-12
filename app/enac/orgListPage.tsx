@@ -29,6 +29,24 @@ const orgListPage = () => {
 
       <View
         style={{
+          width: "90%",
+          alignSelf: "center",
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 24,
+            fontWeight: "bold",
+            color: "#0d528f",
+            marginTop: 20,
+          }}
+        >
+          Organisation List
+        </Text>
+      </View>
+
+      <View
+        style={{
           flex: 1,
           width: "90%",
           alignSelf: "center",
