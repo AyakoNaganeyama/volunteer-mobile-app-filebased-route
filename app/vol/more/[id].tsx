@@ -12,11 +12,13 @@ import * as Linking from "expo-linking";
 import { useListingStore } from "@/userStore/volListingStore";
 import usegetImage from "@/hooks/vol/usegetImage";
 import useApply from "@/hooks/vol/useApply";
+import { useSearchStore } from "@/userStore/searchStore";
 
 const Page = () => {
-  const { opportunities } = useListingStore();
+  const { opportunities, setFilteredAll } = useListingStore();
   const { getImage } = usegetImage();
   const { applyOpportunity } = useApply();
+  const { searchClicked, clearSearchClicked } = useSearchStore();
 
   // const handleRedirect = async (Regurl:string) => {
   //   const url =
@@ -42,6 +44,9 @@ const Page = () => {
       } else {
         console.warn("Can't open URL:", url);
       }
+
+      clearSearchClicked();
+      setFilteredAll();
       router.back();
     } catch (err: any) {
       console.error("Failed to apply + redirect:", err);

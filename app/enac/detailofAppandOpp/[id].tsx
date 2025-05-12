@@ -256,12 +256,7 @@ const detail = () => {
                 <Text style={{ fontSize: 15, fontWeight: "500" }}>
                   {app.volunteer.email}
                 </Text>
-                <Text style={{ fontSize: 13, color: "gray", marginTop: 4 }}>
-                  Applied:{" "}
-                  {app.appliedDate instanceof Date
-                    ? app.appliedDate.toLocaleDateString()
-                    : app.appliedDate}
-                </Text>
+
                 <Text style={{ fontSize: 13, color: "gray", marginTop: 2 }}>
                   Status: {app.status}
                 </Text>

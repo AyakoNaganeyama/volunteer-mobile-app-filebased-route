@@ -11,7 +11,6 @@ import { useOppStore } from "@/userStore/oppArrayStore";
 import { Opportunity } from "@/constants/types";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import detail from "../detailofAppandOpp/detailofAppandOpp";
 
 const EachList = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -46,29 +45,30 @@ const EachList = () => {
           keyboardDismissMode="on-drag"
         >
           {opps.map((item) => (
-            <View key={item.id} style={styles.card}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
+            <Link
+              href={`../detailofAppandOpp/${item.id}`}
+              key={item.id}
+              asChild
+            >
+              <TouchableOpacity
+                style={styles.card}
+                activeOpacity={0.8}
+                key={item.id}
               >
-                <TouchableOpacity>
-                  <Text style={styles.todoText}>{item.title}</Text>
-                </TouchableOpacity>
-                <View style={{ flexDirection: "row", gap: 8 }}>
-                  <EvilIcons name="pencil" size={24} color="#8e8e93" />
-                  <Text>|</Text>
-                  <AntDesign name="delete" size={20} color="#8e8e93" />
+                <View style={styles.cardHeader}>
+                  <Text style={styles.title}>{item.title}</Text>
+                  <View style={styles.icons}>
+                    <EvilIcons name="pencil" size={20} color="#8e8e93" />
+                    <Text>|</Text>
+                    <AntDesign name="delete" size={18} color="#8e8e93" />
+                  </View>
                 </View>
-              </View>
 
-              <View>
                 <View style={styles.statusRow}>
-                  <Text style={styles.label}>Approval Status:</Text>
+                  <Text style={styles.label}>Approval:</Text>
                   <Text
                     style={[
-                      styles.statusBadge,
+                      styles.badge,
                       item.isApproved ? styles.approved : styles.pending,
                     ]}
                   >
@@ -77,18 +77,18 @@ const EachList = () => {
                 </View>
 
                 <View style={styles.statusRow}>
-                  <Text style={styles.label}>Open Status:</Text>
+                  <Text style={styles.label}>Open:</Text>
                   <Text
                     style={[
-                      styles.statusBadge,
+                      styles.badge,
                       item.isOpen ? styles.approved : styles.pending,
                     ]}
                   >
                     {item.isOpen ? "Active" : "Inactive"}
                   </Text>
                 </View>
-              </View>
-            </View>
+              </TouchableOpacity>
+            </Link>
           ))}
         </ScrollView>
       )}
@@ -99,62 +99,44 @@ const EachList = () => {
 export default EachList;
 
 const styles = StyleSheet.create({
-  backText: {
-    fontSize: 16,
-    color: "#0d528f",
-    margin: 16,
-  },
+  backText: { fontSize: 16, color: "#0d528f", margin: 16 },
   empty: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     marginTop: 40,
   },
-  emptyText: {
-    fontSize: 16,
-    color: "#666",
-  },
+  emptyText: { fontSize: 16, color: "#666" },
+  scroll: { padding: 16 },
   card: {
     backgroundColor: "#fff",
-    padding: 20,
-    borderRadius: 10,
-    marginBottom: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    borderColor: "#0d528f",
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 12,
     borderWidth: 1,
-    gap: 10,
+    borderColor: "#ddd",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
   },
-  todoText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  statusRow: {
+  cardHeader: {
     flexDirection: "row",
-    alignItems: "center",
-    marginTop: 8,
+    justifyContent: "space-between",
+    marginBottom: 8,
   },
-  label: {
-    width: 120,
-    marginRight: 6,
-    fontSize: 14,
-    color: "#333",
-  },
-  statusBadge: {
-    color: "#fff",
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+  title: { fontSize: 16, fontWeight: "600" },
+  icons: { flexDirection: "row", gap: 6 },
+  statusRow: { flexDirection: "row", alignItems: "center", marginTop: 4 },
+  label: { width: 100, fontSize: 14 },
+  badge: {
+    paddingHorizontal: 6,
+    paddingVertical: 2,
     borderRadius: 12,
+    color: "#fff",
     fontSize: 12,
-    fontWeight: "600",
+    fontWeight: "500",
   },
-  approved: {
-    backgroundColor: "#28a745",
-  },
-  pending: {
-    backgroundColor: "#ffc107",
-  },
+  approved: { backgroundColor: "#28a745" },
+  pending: { backgroundColor: "#ffc107" },
 });
