@@ -23,6 +23,7 @@ import { useOrganisationStore } from "@/userStore/orgArrayStore";
 import { useRouter } from "expo-router";
 import { useOppStore } from "@/userStore/oppArrayStore";
 import useFetcOpp from "@/hooks/enac/useFetcOpp";
+import useFetchApp from "@/hooks/enac/useFetchApplication";
 
 const screenWidth = Dimensions.get("window").width - 40; // account for container padding
 const chartHeight = 200;
@@ -35,6 +36,7 @@ const MonthlyVolunteerChart = () => {
   const { orgList } = useOrganisationStore();
   const { opportunities } = useOppStore();
   const { getOppList } = useFetcOpp();
+  const { getAppList } = useFetchApp();
   const [loading, setLoading] = useState(true);
   const [pendingCount, setPendingCount] = useState<number>(0);
   useEffect(() => {
@@ -43,6 +45,7 @@ const MonthlyVolunteerChart = () => {
         await getVolList();
         await getOrgList();
         await getOppList();
+        await getAppList();
       } catch (err) {
         console.warn("Failed to load ENAC data", err);
       } finally {

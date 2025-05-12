@@ -6,11 +6,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter, Link } from "expo-router";
 import { useOppStore } from "@/userStore/oppArrayStore";
 import { Opportunity } from "@/constants/types";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import detail from "../detailofAppandOpp/detailofAppandOpp";
 
 const EachList = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
