@@ -180,7 +180,7 @@ const one = () => {
         </View>
       )}
 
-      {!searchClicked && (
+      {!searchClicked && apps.length > 0 && (
         <>
           <Text
             style={{
