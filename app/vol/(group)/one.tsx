@@ -28,9 +28,11 @@ import { useSearchStore } from "@/userStore/searchStore";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 import { useApplicationsStore } from "@/userStore/volApplicationStore";
+import { useFilterStore } from "@/userStore/useFilterStore";
 
 const one = () => {
   const { volunteer } = useVolunteerStore();
+  const { category, commitment, location, fromDate, toDate } = useFilterStore();
   const { opportunities, filteredOpportunities, setFilteredAll } =
     useListingStore();
   const { fetchListings } = useFetchListings();
@@ -143,41 +145,48 @@ const one = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {searchClicked && (
-        <View
-          style={{
-            width: "90%",
-            alignSelf: "center",
-            marginTop: 10,
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <AntDesign
-            name="arrowleft"
-            size={24}
-            color="black"
-            onPress={backtoOriginalList}
-          />
+        <>
+          <View style={styles.filterRow}>
+            {category && <Text style={styles.filterTag}>{category}</Text>}
+            {commitment && <Text style={styles.filterTag}>{commitment}</Text>}
+            {location && <Text style={styles.filterTag}>{location}</Text>}
+          </View>
           <View
             style={{
+              width: "90%",
+              alignSelf: "center",
+              marginTop: 10,
               flexDirection: "row",
+              justifyContent: "space-between",
             }}
           >
-            <MaterialCommunityIcons
-              name="text-search"
+            <AntDesign
+              name="arrowleft"
               size={24}
-              color="#0d528f"
+              color="black"
+              onPress={backtoOriginalList}
             />
-            <Text style={{ color: "#0d528f", fontSize: 16 }}>
-              Search Result:
-            </Text>
-            <Text
-              style={{ fontWeight: "bold", fontSize: 16, color: "#0d528f" }}
+            <View
+              style={{
+                flexDirection: "row",
+              }}
             >
-              {filteredOpportunities.length}
-            </Text>
+              <MaterialCommunityIcons
+                name="text-search"
+                size={24}
+                color="#0d528f"
+              />
+              <Text style={{ color: "#0d528f", fontSize: 16 }}>
+                Search Result:
+              </Text>
+              <Text
+                style={{ fontWeight: "bold", fontSize: 16, color: "#0d528f" }}
+              >
+                {filteredOpportunities.length}
+              </Text>
+            </View>
           </View>
-        </View>
+        </>
       )}
 
       {!searchClicked && apps.length > 0 && (
@@ -386,5 +395,22 @@ const styles = StyleSheet.create({
     color: "#0d528f",
     fontSize: 16,
     fontWeight: "500",
+  },
+  filterRow: {
+    flexDirection: "row",
+    width: "90%",
+    alignSelf: "center",
+    marginTop: 10,
+    marginBottom: 12,
+  },
+  filterTag: {
+    backgroundColor: "#0d528f",
+    color: "#fff",
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 12,
+    fontSize: 12,
+    fontWeight: "500",
+    marginRight: 8,
   },
 });
