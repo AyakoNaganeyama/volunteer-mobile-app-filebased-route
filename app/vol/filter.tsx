@@ -44,7 +44,7 @@ export const categories: string[] = [
   "Health",
   "Homeless",
   "Human Rights",
-  "LGBTIQA+",
+
   "Mental Health",
   "Mentoring & Advocacy",
   "Museums & Heritage",

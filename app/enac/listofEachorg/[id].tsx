@@ -11,6 +11,7 @@ import { useOppStore } from "@/userStore/oppArrayStore";
 import { Opportunity } from "@/constants/types";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const EachList = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -30,6 +31,40 @@ const EachList = () => {
       <Text onPress={() => router.back()} style={styles.backText}>
         ← Back
       </Text>
+      <Link href={`../createOppforOrg/${id}`} asChild>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            backgroundColor: "#007AFF",
+            borderRadius: 8,
+            paddingVertical: 10,
+            paddingHorizontal: 16,
+            marginRight: 10,
+            justifyContent: "center",
+            // iOS shadow
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.2,
+            shadowRadius: 3,
+            // Android shadow
+            elevation: 3,
+          }}
+        >
+          <Ionicons name="add-circle-outline" size={24} color="#fff" />
+          <Text
+            style={{
+              color: "#fff",
+              fontSize: 16,
+              fontWeight: "600",
+              marginLeft: 8,
+            }}
+          >
+            Add New
+          </Text>
+        </TouchableOpacity>
+      </Link>
 
       {opps.length === 0 ? (
         <View style={styles.empty}>

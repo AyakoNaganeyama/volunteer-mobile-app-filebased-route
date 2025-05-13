@@ -16,11 +16,14 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import { Opportunity } from "@/constants/types";
-import { useOrgStore } from "@/userStore/orgStore";
+//orgstore
+import { useOrganisationStore } from "@/userStore/orgArrayStore";
 import uuid from "react-native-uuid";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useRouter } from "expo-router";
-import useManageOpportunities from "@/hooks/org/uesManageOpportunities";
+import { Organisation } from "@/constants/types";
+import { useLocalSearchParams } from "expo-router";
+import useCreateOpportunityforOrg from "@/hooks/enac/useCreateOpportunityforOrg";
 
 // Option arrays for dropdowns
 const categoriesArray = [
@@ -72,24 +75,42 @@ const locationsArray = [
 ];
 
 const CreateOpp = () => {
+  const { id } = useLocalSearchParams();
   const router = useRouter();
-  const { org } = useOrgStore();
-  const { createOpportunity } = useManageOpportunities();
+  const { orgList } = useOrganisationStore();
+  //  create opp
+  const { createOpportunityforOrg } = useCreateOpportunityforOrg();
+  //   const { createOpportunity } = useManageOpportunities();
   const [loading, setLoading] = useState(false);
+  const [org, setOrg] = useState<Organisation | null>(null);
+  useEffect(() => {
+    if (!id) return;
+    const found = orgList.find((o) => o.id === id) ?? null;
+    setOrg(found);
+
+    if (found) {
+      setOpportunity((prev) => ({
+        ...prev,
+        companyName: found.organisationName,
+        companyId: found.id,
+      }));
+      console.log("Found org:", found.organisationName);
+    }
+  }, [id, orgList]);
 
   const [opportunity, setOpportunity] = useState<Opportunity>({
     id: uuid.v4() as string,
     title: "",
-    companyName: org?.organisationName ?? "",
+    companyName: "",
     description: "",
-    isApproved: false,
+    isApproved: true,
     location: "",
     category: "",
     commitmentPeriod: "",
     registrationFormUrl: "",
     imageURL: "",
     date: null,
-    companyId: org?.id ?? "",
+    companyId: "",
     isOpen: true,
   });
 
@@ -116,7 +137,7 @@ const CreateOpp = () => {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      await createOpportunity(opportunity);
+      await createOpportunityforOrg(opportunity);
       console.log("Opportunity Submitted:", opportunity);
       router.back();
     } catch (error) {
