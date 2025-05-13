@@ -50,6 +50,8 @@ const EachList = () => {
             shadowRadius: 3,
             // Android shadow
             elevation: 3,
+            width: "30%",
+            alignSelf: "flex-end",
           }}
         >
           <Ionicons name="add-circle-outline" size={24} color="#fff" />
