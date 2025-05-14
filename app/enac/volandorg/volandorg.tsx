@@ -1,4 +1,13 @@
-import { ScrollView, View, Text, Image, StyleSheet } from "react-native";
+import {
+  ScrollView,
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+  TextInput,
+} from "react-native";
 import React from "react";
 import { useVolunteerListStore } from "@/userStore/volusersArrayStore";
 import { Volunteer } from "@/constants/types";
@@ -10,32 +19,61 @@ const volandorg = () => {
   const [volunteers, setVolunteers] = useState<Volunteer[]>(volunteerList);
   const defaultProfileIcon = require("../../../assets/images/blankIcon.png");
   const router = useRouter();
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     setVolunteers(volunteerList);
   }, [volunteerList]);
 
+  const filtered = volunteers.filter((v) => {
+    const q = searchText.toLowerCase();
+    return (
+      v.fullName.toLowerCase().includes(q) || v.email.toLowerCase().includes(q)
+    );
+  });
+
   return (
     <>
-      <Text onPress={() => router.back()} style={styles.backText}>
-        ← Back
-      </Text>
-      <ScrollView contentContainerStyle={styles.container}>
-        {volunteers.length === 0 && (
-          <View style={styles.empty}>
-            <Text>No volunteers to display.</Text>
-          </View>
-        )}
-        {volunteers.map((item) => (
-          <View key={item.id} style={styles.item}>
-            <Image source={defaultProfileIcon} style={styles.avatar} />
-            <View style={styles.info}>
-              <Text style={styles.name}>{item.fullName}</Text>
-              <Text style={styles.email}>{item.email}</Text>
+      <SafeAreaView style={{ flex: 1 }}>
+        <Text onPress={() => router.back()} style={styles.backText}>
+          ← Back
+        </Text>
+
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search by name or email"
+            value={searchText}
+            onChangeText={setSearchText}
+            autoCapitalize="none"
+          />
+          {searchText !== "" && (
+            <TouchableOpacity
+              onPress={() => setSearchText("")}
+              style={styles.clearButton}
+            >
+              <Text style={styles.clearButtonText}>×</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+
+        <ScrollView contentContainerStyle={styles.container}>
+          {filtered.length === 0 && (
+            <View style={styles.empty}>
+              <Text>No volunteers match your search.</Text>
             </View>
-          </View>
-        ))}
-      </ScrollView>
+          )}
+          {filtered.map((item) => (
+            <TouchableOpacity key={item.id} style={styles.item}>
+              <Image source={defaultProfileIcon} style={styles.avatar} />
+              <View style={styles.info}>
+                <Text style={styles.name}>{item.fullName}</Text>
+                <Text style={styles.email}>{item.email}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </SafeAreaView>
     </>
   );
 };
@@ -43,8 +81,47 @@ const volandorg = () => {
 export default volandorg;
 
 const styles = StyleSheet.create({
+  backText: {
+    fontSize: 16,
+    color: "#0d528f",
+    margin: 16,
+  },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginHorizontal: 16,
+    marginBottom: 12,
+
+    // make the container look like the input
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 8,
+    backgroundColor: "#fff",
+    height: 40, // match TextInput height
+    position: "relative",
+  },
+  searchInput: {
+    flex: 1,
+    height: "100%",
+    paddingHorizontal: 12,
+    paddingRight: 32, // leave room for the clear icon
+  },
+  clearButton: {
+    position: "absolute",
+    right: 8,
+    top: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 4,
+  },
+  clearButtonText: {
+    fontSize: 18,
+    color: "#888",
+  },
   container: {
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingBottom: 24,
   },
   item: {
     flexDirection: "row",
@@ -82,5 +159,4 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 50,
   },
-  backText: { fontSize: 16, color: "#0d528f", margin: 16 },
 });
