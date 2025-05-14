@@ -267,6 +267,17 @@ const one = () => {
               ))}
             </ScrollView>
           )}
+          <Text
+            style={{
+              color: "#0d528f",
+              fontSize: 18,
+              fontWeight: "bold",
+              marginLeft: 16,
+              marginTop: 30,
+            }}
+          >
+            Discover
+          </Text>
         </>
       )}
       {/* closed */}
@@ -293,18 +304,6 @@ const one = () => {
           </ScrollView>
         </>
       )} */}
-
-      <Text
-        style={{
-          color: "#0d528f",
-          fontSize: 18,
-          fontWeight: "bold",
-          marginLeft: 16,
-          marginTop: 30,
-        }}
-      >
-        Discover
-      </Text>
 
       <ScrollView
         style={{ flex: 1 }}
