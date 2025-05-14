@@ -39,13 +39,16 @@ const one = () => {
   const { getImage } = usegetImage();
   const { searchClicked, clearSearchClicked } = useSearchStore();
   const [refreshing, setRefreshing] = useState(false);
-  const { applications } = useApplicationsStore();
+  const { applications, closedApplication } = useApplicationsStore();
   const [apps, setApps] = useState<Application[]>(applications);
   const [loading, setLoading] = useState(true);
+  const [closedApp, setClosedApp] = useState<Application[]>();
 
   useEffect(() => {
     setApps(applications);
-  }, [applications]);
+    setClosedApp(closedApplication);
+    console.log("Closed", closedApplication);
+  }, [applications, closedApplication]);
 
   const [opps, setOpps] = useState<Opportunity[]>([]);
 
@@ -209,6 +212,52 @@ const one = () => {
             contentContainerStyle={styles.horizontalContent}
           >
             {apps.map((item) => (
+              <TouchableOpacity key={item.id} style={styles.card}>
+                <Image
+                  source={getImage(item.opportunity.category)}
+                  style={styles.cardImage}
+                />
+                <Text style={styles.cardTitle} numberOfLines={1}>
+                  {item.opportunity.title}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+          <Text
+            style={{
+              color: "#0d528f",
+              fontSize: 18,
+              fontWeight: "bold",
+              marginLeft: 16,
+              marginTop: 30,
+            }}
+          >
+            Discover
+          </Text>
+        </>
+      )}
+      {/* closed */}
+
+      {!searchClicked && closedApp.length > 0 && (
+        <>
+          <Text
+            style={{
+              color: "#0d528f",
+              fontSize: 18,
+              fontWeight: "bold",
+              marginLeft: 16,
+              marginTop: 16,
+            }}
+          >
+            Closed Opportunities
+          </Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.horizontalScroll}
+            contentContainerStyle={styles.horizontalContent}
+          >
+            {closedApp.map((item) => (
               <TouchableOpacity key={item.id} style={styles.card}>
                 <Image
                   source={getImage(item.opportunity.category)}

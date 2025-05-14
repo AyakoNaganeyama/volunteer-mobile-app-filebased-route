@@ -4,18 +4,27 @@ import { Application } from "@/constants/types";
 
 interface ApplicationsState {
   applications: Application[];
+  closedApplication: Application[];
   addApplication: (app: Application) => void;
+  addClosedApplication: (app: Application) => void;
   updateApplication: (id: string, updates: Partial<Application>) => void;
   removeApplication: (id: string) => void;
   clearApplications: () => void;
+  clearClosedApplications: () => void;
 }
 
 export const useApplicationsStore = create<ApplicationsState>((set) => ({
   applications: [],
+  closedApplication: [],
 
   addApplication: (app) =>
     set((state) => ({
       applications: [...state.applications, app],
+    })),
+
+  addClosedApplication: (app) =>
+    set((state) => ({
+      closedApplication: [...state.closedApplication, app],
     })),
 
   updateApplication: (id, updates) =>
@@ -31,4 +40,6 @@ export const useApplicationsStore = create<ApplicationsState>((set) => ({
     })),
 
   clearApplications: () => set({ applications: [] }),
+
+  clearClosedApplications: () => set({ closedApplication: [] }),
 }));
