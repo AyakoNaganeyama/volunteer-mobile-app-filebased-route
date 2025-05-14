@@ -22,7 +22,7 @@ import { StyleSheet } from "react-native";
 import { useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useEffect } from "react";
-import { useRouter } from "expo-router";
+import { useRouter, Link } from "expo-router";
 import index from "@/app";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -32,6 +32,7 @@ import useManageOpportunities from "@/hooks/org/uesManageOpportunities";
 import { useFetchOpportunities } from "@/hooks/org/useFetchOpportunities";
 import { useOpportunitiesStore } from "@/userStore/orgOpportunityStore";
 import AskIfDelete from "@/components/orgpost/AskIfDelete";
+
 const one = () => {
   const { createOpportunity } = useManageOpportunities();
   const [opps, setOpps] = useState<Opportunity[]>([]);
@@ -167,7 +168,12 @@ const one = () => {
                           }}
                         >
                           <TouchableOpacity>
-                            <Text style={styles.todoText}>{item.title}</Text>
+                            <Link
+                              href={`../applicationDetail/${item.id}`}
+                              asChild
+                            >
+                              <Text style={styles.todoText}>{item.title}</Text>
+                            </Link>
                           </TouchableOpacity>
 
                           <View style={{ flexDirection: "row", gap: 5 }}>

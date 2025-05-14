@@ -40,19 +40,19 @@ export const useFetchOpportunities = () => {
       const snap2 = await getDocs(colRef2);
 
       const apps: Application[] = snap2.docs.map((docSnap) => {
-        const data = docSnap.data() as Omit<Application, "id">;
+        const data2 = docSnap.data() as Omit<Application, "id">;
         return {
           id: docSnap.id,
-          opportunity: data.opportunity,
-          volunteer: data.volunteer,
-          appliedDate: data.appliedDate,
-          status: data.status,
+          opportunity: data2.opportunity,
+          volunteer: data2.volunteer,
+          appliedDate: data2.appliedDate,
+          status: data2.status,
         };
       });
 
       setApp(apps);
 
-      snap.docs.forEach((docSnap) => {
+      snap2.docs.forEach((docSnap) => {
         console.log(`Apps [${docSnap.id}]:`, docSnap.data());
       });
     } catch (error) {
