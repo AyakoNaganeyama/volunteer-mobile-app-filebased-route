@@ -12,7 +12,7 @@ import React from "react";
 import { useVolunteerListStore } from "@/userStore/volusersArrayStore";
 import { Volunteer } from "@/constants/types";
 import { useState, useEffect } from "react";
-import { useRouter } from "expo-router";
+import { useRouter, Link } from "expo-router";
 
 const volandorg = () => {
   const { volunteerList } = useVolunteerListStore();
@@ -64,13 +64,15 @@ const volandorg = () => {
             </View>
           )}
           {filtered.map((item) => (
-            <TouchableOpacity key={item.id} style={styles.item}>
-              <Image source={defaultProfileIcon} style={styles.avatar} />
-              <View style={styles.info}>
-                <Text style={styles.name}>{item.fullName}</Text>
-                <Text style={styles.email}>{item.email}</Text>
-              </View>
-            </TouchableOpacity>
+            <Link key={item.id} href={`../eachvolunteer/${item.id}`} asChild>
+              <TouchableOpacity style={styles.item}>
+                <Image source={defaultProfileIcon} style={styles.avatar} />
+                <View style={styles.info}>
+                  <Text style={styles.name}>{item.fullName}</Text>
+                  <Text style={styles.email}>{item.email}</Text>
+                </View>
+              </TouchableOpacity>
+            </Link>
           ))}
         </ScrollView>
       </SafeAreaView>
