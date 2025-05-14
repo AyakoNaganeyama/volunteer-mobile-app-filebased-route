@@ -43,6 +43,7 @@ const one = () => {
   const [apps, setApps] = useState<Application[]>(applications);
   const [loading, setLoading] = useState(true);
   const [closedApp, setClosedApp] = useState<Application[]>();
+  const [isCurrent, setIsCurrent] = useState(true);
 
   useEffect(() => {
     setApps(applications);
@@ -88,7 +89,6 @@ const one = () => {
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
 
-    // 1) clear your “search clicked” flag
     clearSearchClicked();
 
     // 2) copy the full list into filteredOpportunities
@@ -192,65 +192,87 @@ const one = () => {
         </>
       )}
 
-      {!searchClicked && apps.length > 0 && (
+      {!searchClicked && (apps.length > 0 || closedApp.length > 0) && (
         <>
-          <Text
-            style={{
-              color: "#0d528f",
-              fontSize: 18,
-              fontWeight: "bold",
-              marginLeft: 16,
-              marginTop: 16,
-            }}
-          >
-            Applied Opportunities
-          </Text>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={styles.horizontalScroll}
-            contentContainerStyle={styles.horizontalContent}
-          >
-            {apps.map((item) => (
-              <TouchableOpacity key={item.id} style={styles.card}>
-                <Image
-                  source={getImage(item.opportunity.category)}
-                  style={styles.cardImage}
-                />
-                <Text style={styles.cardTitle} numberOfLines={1}>
-                  {item.opportunity.title}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-          <Text
-            style={{
-              color: "#0d528f",
-              fontSize: 18,
-              fontWeight: "bold",
-              marginLeft: 16,
-              marginTop: 30,
-            }}
-          >
-            Discover
-          </Text>
+          <View style={{ flexDirection: "row" }}>
+            <TouchableOpacity onPress={() => setIsCurrent(true)}>
+              <Text
+                style={{
+                  color: isCurrent ? "#0d528f" : "grey",
+                  fontSize: 14,
+                  fontWeight: "bold",
+                  marginLeft: 16,
+                  marginTop: 16,
+                  textDecorationLine: isCurrent ? "underline" : "none",
+                }}
+              >
+                Applied
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => setIsCurrent(false)}>
+              <Text
+                style={{
+                  color: !isCurrent ? "#0d528f" : "grey",
+                  fontSize: 14,
+                  fontWeight: "bold",
+                  marginLeft: 16,
+                  marginTop: 16,
+                  textDecorationLine: !isCurrent ? "underline" : "none",
+                }}
+              >
+                Past/Closed
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          {isCurrent && (
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={styles.horizontalScroll}
+              contentContainerStyle={styles.horizontalContent}
+            >
+              {apps.map((item) => (
+                <TouchableOpacity key={item.id} style={styles.card}>
+                  <Image
+                    source={getImage(item.opportunity.category)}
+                    style={styles.cardImage}
+                  />
+                  <Text style={styles.cardTitle} numberOfLines={1}>
+                    {item.opportunity.title}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          )}
+
+          {!isCurrent && (
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={styles.horizontalScroll}
+              contentContainerStyle={styles.horizontalContent}
+            >
+              {closedApp.map((item) => (
+                <TouchableOpacity key={item.id} style={styles.card}>
+                  <Image
+                    source={getImage(item.opportunity.category)}
+                    style={styles.cardImage}
+                  />
+                  <Text style={styles.cardTitle} numberOfLines={1}>
+                    {item.opportunity.title}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          )}
         </>
       )}
       {/* closed */}
 
-      {!searchClicked && closedApp.length > 0 && (
+      {/* {!searchClicked && closedApp.length > 0 && (
         <>
-          <Text
-            style={{
-              color: "#0d528f",
-              fontSize: 18,
-              fontWeight: "bold",
-              marginLeft: 16,
-              marginTop: 16,
-            }}
-          >
-            Closed Opportunities
-          </Text>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -269,19 +291,20 @@ const one = () => {
               </TouchableOpacity>
             ))}
           </ScrollView>
-          <Text
-            style={{
-              color: "#0d528f",
-              fontSize: 18,
-              fontWeight: "bold",
-              marginLeft: 16,
-              marginTop: 30,
-            }}
-          >
-            Discover
-          </Text>
         </>
-      )}
+      )} */}
+
+      <Text
+        style={{
+          color: "#0d528f",
+          fontSize: 18,
+          fontWeight: "bold",
+          marginLeft: 16,
+          marginTop: 30,
+        }}
+      >
+        Discover
+      </Text>
 
       <ScrollView
         style={{ flex: 1 }}
