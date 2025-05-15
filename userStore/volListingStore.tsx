@@ -5,22 +5,31 @@ import { Opportunity } from "@/constants/types";
 interface OpportunitiesState {
   opportunities: Opportunity[]; // original copy
   filteredOpportunities: Opportunity[];
+  wholeOpportunities: Opportunity[];
   addOpportunity: (opp: Opportunity) => void;
+  addWholeOpportunity: (opp: Opportunity) => void;
   setFilteredOpportunity: (opp: Opportunity) => void;
 
   clearOpportunities: () => void;
   clearFiltered: () => void;
   setFilteredAll: () => void;
   removeOpportunity: (id: string) => void;
+  clearWholeOpportunities: () => void;
 }
 
 export const useListingStore = create<OpportunitiesState>((set) => ({
   opportunities: [],
   filteredOpportunities: [],
+  wholeOpportunities: [],
 
   addOpportunity: (opp) =>
     set((state) => ({
       opportunities: [...state.opportunities, opp],
+    })),
+
+  addWholeOpportunity: (opp) =>
+    set((state) => ({
+      wholeOpportunities: [...state.wholeOpportunities, opp],
     })),
 
   setFilteredOpportunity: (opp) =>
@@ -39,4 +48,6 @@ export const useListingStore = create<OpportunitiesState>((set) => ({
     set((state) => ({
       opportunities: state.opportunities.filter((o) => o.id !== id),
     })),
+
+  clearWholeOpportunities: () => set({ wholeOpportunities: [] }),
 }));

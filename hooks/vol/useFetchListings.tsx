@@ -8,7 +8,12 @@ import { useApplicationsStore } from "@/userStore/volApplicationStore";
 import { useVolunteerStore } from "@/userStore/volSore";
 
 const useFetchListings = () => {
-  const { clearOpportunities, addOpportunity } = useListingStore();
+  const {
+    clearOpportunities,
+    addOpportunity,
+    clearWholeOpportunities,
+    addWholeOpportunity,
+  } = useListingStore();
   const { clearSearchClicked } = useSearchStore();
   const addApplication = useApplicationsStore((s) => s.addApplication);
   const addClosedApplication = useApplicationsStore(
@@ -26,9 +31,16 @@ const useFetchListings = () => {
     clearSearchClicked();
     clearApplications();
     clearClosedApplications();
+    clearWholeOpportunities();
 
     // 2) fetch all opportunities & build a lookup map
     const oppSnap = await getDocs(collection(firestore, "opportunities"));
+
+    oppSnap.forEach((doc) => {
+      const data = doc.data() as Omit<Opportunity, "id">;
+      addWholeOpportunity({ id: doc.id, ...data });
+    });
+
     const oppMap = new Map<string, Opportunity>();
     oppSnap.forEach((doc) => {
       const data = doc.data() as Omit<Opportunity, "id">;

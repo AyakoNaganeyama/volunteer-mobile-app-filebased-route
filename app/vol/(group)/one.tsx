@@ -29,6 +29,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 import { useApplicationsStore } from "@/userStore/volApplicationStore";
 import { useFilterStore } from "@/userStore/useFilterStore";
+import applicationDetail from "@/app/org/applicationDetail/[id]";
 
 const one = () => {
   const { volunteer } = useVolunteerStore();
@@ -234,15 +235,21 @@ const one = () => {
               contentContainerStyle={styles.horizontalContent}
             >
               {apps.map((item) => (
-                <TouchableOpacity key={item.id} style={styles.card}>
-                  <Image
-                    source={getImage(item.opportunity.category)}
-                    style={styles.cardImage}
-                  />
-                  <Text style={styles.cardTitle} numberOfLines={1}>
-                    {item.opportunity.title}
-                  </Text>
-                </TouchableOpacity>
+                <Link
+                  key={item.id}
+                  href={`../applicationDetail/${item.opportunity.id}`}
+                  asChild
+                >
+                  <TouchableOpacity key={item.id} style={styles.card}>
+                    <Image
+                      source={getImage(item.opportunity.category)}
+                      style={styles.cardImage}
+                    />
+                    <Text style={styles.cardTitle} numberOfLines={1}>
+                      {item.opportunity.title}
+                    </Text>
+                  </TouchableOpacity>
+                </Link>
               ))}
             </ScrollView>
           )}
@@ -255,15 +262,21 @@ const one = () => {
               contentContainerStyle={styles.horizontalContent}
             >
               {closedApp.map((item) => (
-                <TouchableOpacity key={item.id} style={styles.card}>
-                  <Image
-                    source={getImage(item.opportunity.category)}
-                    style={styles.cardImage}
-                  />
-                  <Text style={styles.cardTitle} numberOfLines={1}>
-                    {item.opportunity.title}
-                  </Text>
-                </TouchableOpacity>
+                <Link
+                  key={item.id}
+                  href={`../applicationDetail/${item.opportunity.id}`}
+                  asChild
+                >
+                  <TouchableOpacity key={item.id} style={styles.card}>
+                    <Image
+                      source={getImage(item.opportunity.category)}
+                      style={styles.cardImage}
+                    />
+                    <Text style={styles.cardTitle} numberOfLines={1}>
+                      {item.opportunity.title}
+                    </Text>
+                  </TouchableOpacity>
+                </Link>
               ))}
             </ScrollView>
           )}
