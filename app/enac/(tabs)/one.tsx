@@ -344,7 +344,7 @@ const MonthlyVolunteerChart = () => {
               borderColor: "gray",
             }}
             onPress={() => {
-              /* ... */
+              router.push("../volandorg/organisationList");
             }}
           >
             <View
