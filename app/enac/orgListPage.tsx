@@ -4,6 +4,7 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
+  TextInput,
 } from "react-native";
 import React from "react";
 import { useOrganisationStore } from "@/userStore/orgArrayStore";
@@ -16,17 +17,25 @@ const orgListPage = () => {
   const { orgList } = useOrganisationStore();
   const [localOrgList, setLocalOrgList] = useState<Organisation[]>(orgList);
   const router = useRouter();
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     setLocalOrgList(orgList);
   }, [orgList]);
+
+  const filtered = localOrgList.filter((v) => {
+    const q = searchText.toLowerCase();
+    return (
+      v.organisationName.toLowerCase().includes(q) ||
+      v.email.toLowerCase().includes(q)
+    );
+  });
 
   return (
     <>
       <Text onPress={() => router.back()} style={styles.backText}>
         ← Back
       </Text>
-
       <View
         style={{
           width: "90%",
@@ -38,34 +47,36 @@ const orgListPage = () => {
             fontSize: 24,
             fontWeight: "bold",
             color: "#0d528f",
-            marginTop: 20,
-          }}
-        >
-          Create Post for Organisation
-        </Text>
-      </View>
-
-      <View
-        style={{
-          flex: 1,
-          width: "90%",
-          alignSelf: "center",
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 24,
-            fontWeight: "bold",
-            color: "#0d528f",
-            marginTop: 20,
           }}
         >
           Choose an Organisation
         </Text>
       </View>
 
-      <ScrollView contentContainerStyle={styles.container}>
-        {localOrgList.map((org) => (
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search by name or email"
+          value={searchText}
+          onChangeText={setSearchText}
+          autoCapitalize="none"
+        />
+        {searchText !== "" && (
+          <TouchableOpacity
+            onPress={() => setSearchText("")}
+            style={styles.clearButton}
+          >
+            <Text style={styles.clearButtonText}>×</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+
+      <ScrollView
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag"
+      >
+        {filtered.map((org) => (
           <Link key={org.id} href={`./listofEachorg/${org.id}`} asChild>
             <TouchableOpacity style={styles.card} activeOpacity={0.8}>
               <View style={styles.cardRow}>
@@ -123,5 +134,38 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#0d528f",
     margin: 16,
+  },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginHorizontal: 16,
+    marginBottom: 12,
+
+    // make the container look like the input
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 8,
+    backgroundColor: "#fff",
+    height: 40, // match TextInput height
+    position: "relative",
+  },
+  searchInput: {
+    flex: 1,
+    height: "100%",
+    paddingHorizontal: 12,
+    paddingRight: 32, // leave room for the clear icon
+  },
+  clearButton: {
+    position: "absolute",
+    right: 8,
+    top: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 4,
+  },
+  clearButtonText: {
+    fontSize: 18,
+    color: "#888",
   },
 });
