@@ -41,7 +41,7 @@ const orgListPage = () => {
             marginTop: 20,
           }}
         >
-          Organisation List
+          Create Post for Organisation
         </Text>
       </View>
 

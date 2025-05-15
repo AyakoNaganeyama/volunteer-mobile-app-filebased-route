@@ -185,7 +185,7 @@ const MonthlyVolunteerChart = () => {
               <Text style={{ fontWeight: "bold", fontSize: 18 }}>
                 Manage Opportunities
               </Text>
-              <Text>Post Opportunities</Text>
+              <Text>Post opportunities for organisations</Text>
             </View>
           </View>
         </View>
@@ -247,7 +247,7 @@ const MonthlyVolunteerChart = () => {
               }}
             >
               <Text style={{ fontWeight: "bold", fontSize: 18 }}>New</Text>
-              <Text>You have opportunities to approve</Text>
+              <Text>You have new opportunities to approve</Text>
             </View>
           </View>
         </View>
