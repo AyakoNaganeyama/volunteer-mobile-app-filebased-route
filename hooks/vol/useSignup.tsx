@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { authentication, firestore } from "../../firebaseConfig";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import {
@@ -29,6 +29,7 @@ const useSignup = () => {
   }
 
   const router = useRouter();
+  const [passError, setPassError] = useState("");
 
   useEffect(() => {
     if (volunteer) {
@@ -36,10 +37,36 @@ const useSignup = () => {
     }
   }, [volunteer]);
 
+  function validateComplexPassword(pw: string): string | null {
+    if (pw.length < 6) {
+      return "Password must be at least 6 characters.";
+    }
+    if (!/[a-z]/.test(pw)) {
+      return "Lowercase character required.";
+    }
+    if (!/[A-Z]/.test(pw)) {
+      return "Uppercase character required.";
+    }
+    if (!/[0-9]/.test(pw)) {
+      return "Numeric character required.";
+    }
+    if (!/[^A-Za-z0-9]/.test(pw)) {
+      return "Non-alphanumeric character required.";
+    }
+    return null; // all checks passed
+  }
+
   const signup = async (inputs: SignupInputs) => {
     if (!inputs.email || !inputs.pass || !inputs.fullName) {
       console.log("Error", "please fill all the fields", "error");
       showErrorToast("Error", "please fill all the fields");
+      return;
+    }
+
+    const pwError = validateComplexPassword(inputs.pass);
+    if (pwError) {
+      showErrorToast("Weak password", pwError);
+      setPassError(pwError);
       return;
     }
 
@@ -64,7 +91,8 @@ const useSignup = () => {
         inputs.pass
       );
       if (!newUser && error) {
-        console.log("Error", error.message, "error");
+        // console.log("Error", error.message, "error");
+        showErrorToast("Error", "An account with this email already exists.");
         return;
       }
       if (newUser) {
@@ -91,11 +119,11 @@ const useSignup = () => {
         }
       }
     } catch (error) {
-      console.log(error);
+      showErrorToast("Something went wrong", "Error");
     }
   };
 
-  return { signup, user, loading, error };
+  return { signup, user, loading, error, passError };
 };
 
 export default useSignup;

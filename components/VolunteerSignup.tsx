@@ -36,7 +36,7 @@ const VolunteerSignup = () => {
   const [showPass, setShowPass] = useState(false);
 
   // Destructure the signup function (and optionally other properties) from useSignup
-  const { signup } = useSignup();
+  const { signup, passError } = useSignup();
 
   const handleSignup = async () => {
     Keyboard.dismiss();
@@ -119,6 +119,8 @@ const VolunteerSignup = () => {
             />
           </View>
 
+          {passError ? <Text style={styles.errorText}>{passError}</Text> : null}
+
           {/* Signup Button */}
           <TouchableOpacity
             onPress={handleSignup}
@@ -189,5 +191,11 @@ const styles = StyleSheet.create({
   },
   buttonDisabled: {
     opacity: 0.6,
+  },
+  errorText: {
+    color: "red",
+    alignSelf: "flex-start",
+    marginBottom: 12,
+    marginLeft: 16, // match your input padding if you like
   },
 });
