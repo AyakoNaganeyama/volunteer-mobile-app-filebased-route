@@ -207,7 +207,7 @@ const one = () => {
                   textDecorationLine: isCurrent ? "underline" : "none",
                 }}
               >
-                Applied
+                Visited
               </Text>
             </TouchableOpacity>
 
@@ -222,7 +222,7 @@ const one = () => {
                   textDecorationLine: !isCurrent ? "underline" : "none",
                 }}
               >
-                Past/Closed
+                Past Visit/Closed
               </Text>
             </TouchableOpacity>
           </View>
