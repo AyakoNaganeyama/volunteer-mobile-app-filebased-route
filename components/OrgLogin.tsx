@@ -100,7 +100,11 @@ const OrgLogin = () => {
         </TouchableOpacity>
 
         {/* Optionally display an error message if login fails */}
-        {error && <Text style={styles.errorText}>{error.message}</Text>}
+        {error && (
+          <Text style={styles.errorText}>
+            The email or password you entered is incorrect
+          </Text>
+        )}
       </View>
     </SafeAreaView>
   );

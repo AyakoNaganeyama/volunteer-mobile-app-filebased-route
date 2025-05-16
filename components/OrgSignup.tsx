@@ -72,7 +72,7 @@ const OrgSignup = () => {
               style={styles.icon}
             />
             <TextInput
-              placeholder="Enter Full Name"
+              placeholder="Enter Full Name (Optional)"
               value={inputs.fullName}
               onChangeText={(text) =>
                 setInputs((prev) => ({ ...prev, fullName: text }))
