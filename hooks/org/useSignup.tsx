@@ -16,6 +16,7 @@ import { useOrgStore } from "@/userStore/orgStore";
 import { useEffect } from "react";
 import { useRouter } from "expo-router";
 import { useToast } from "../useToast";
+import { useState } from "react";
 const useSignup = () => {
   const { showSuccessToast, showErrorToast } = useToast();
   const [createUserWithEmailAndPassword, user, loading, error] =
@@ -29,6 +30,26 @@ const useSignup = () => {
   }
 
   const router = useRouter();
+  const [passError, setPassError] = useState("");
+
+  function validateComplexPassword(pw: string): string | null {
+    if (pw.length < 6) {
+      return "Password must be at least 6 characters.";
+    }
+    if (!/[a-z]/.test(pw)) {
+      return "Lowercase character required.";
+    }
+    if (!/[A-Z]/.test(pw)) {
+      return "Uppercase character required.";
+    }
+    if (!/[0-9]/.test(pw)) {
+      return "Numeric character required.";
+    }
+    if (!/[^A-Za-z0-9]/.test(pw)) {
+      return "Non-alphanumeric character required.";
+    }
+    return null; // all checks passed
+  }
 
   useEffect(() => {
     if (org) {
@@ -43,6 +64,13 @@ const useSignup = () => {
       return;
     }
 
+    const pwError = validateComplexPassword(inputs.pass);
+    if (pwError) {
+      showErrorToast("Weak password", pwError);
+      setPassError(pwError);
+      return;
+    }
+
     try {
       // this only checks if use name and pass exist
       const newUser = await createUserWithEmailAndPassword(
@@ -51,7 +79,7 @@ const useSignup = () => {
       );
       if (!newUser && error) {
         console.log("Error", error.message, "error");
-        showErrorToast("Error", error.message);
+        showErrorToast("Error", "Please enter a valid email");
         return;
       }
       if (newUser) {
@@ -82,7 +110,7 @@ const useSignup = () => {
     }
   };
 
-  return { signup, user, loading, error };
+  return { signup, user, loading, error, passError };
 };
 
 export default useSignup;

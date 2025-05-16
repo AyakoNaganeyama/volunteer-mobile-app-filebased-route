@@ -39,7 +39,7 @@ const OrgSignup = () => {
 
   const [showPass, setShowPass] = useState(false);
 
-  const { signup } = useSignup();
+  const { signup, passError } = useSignup();
   const [loading, setLoading] = useState(false);
 
   const handleSignup = async () => {
@@ -140,6 +140,8 @@ const OrgSignup = () => {
               secureTextEntry={!showPass}
             />
           </View>
+
+          {passError ? <Text style={styles.errorText}>{passError}</Text> : null}
 
           <TouchableOpacity
             onPress={handleSignup}
