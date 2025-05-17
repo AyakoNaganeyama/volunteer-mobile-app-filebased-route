@@ -32,11 +32,21 @@ const useRemoveOpportunity = () => {
       const appsSnap = await getDocs(appsQuery);
 
       // 2) delete each matching application (Firestore + Zustand)
-      for (const appDoc of appsSnap.docs) {
-        // remove in Firestore
-        await deleteDoc(doc(firestore, "applications", appDoc.id));
-        // remove in your local store
-        removeAppFromStore(appDoc.id);
+      // for (const appDoc of appsSnap.docs) {
+      //   // remove in Firestore
+      //   await deleteDoc(doc(firestore, "applications", appDoc.id));
+      //   // remove in your local store
+      //   removeAppFromStore(appDoc.id);
+      // }
+
+      if (!appsSnap.empty) {
+        // 2) only if there ARE applications, delete them
+        for (const appDoc of appsSnap.docs) {
+          await deleteDoc(doc(firestore, "applications", appDoc.id));
+          removeAppFromStore(appDoc.id);
+        }
+      } else {
+        console.log("No applications to delete");
       }
 
       // Delete from Firestore

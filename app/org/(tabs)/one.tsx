@@ -195,68 +195,73 @@ const one = () => {
 
                         <Text>{item.isOpen}</Text>
                       </View>
-                      <View style={styles.todoItem}>
-                        <View style={{ flexDirection: "column" }}>
-                          {/* Approval row */}
-                          <View
-                            style={{
-                              flexDirection: "row",
-                              alignItems: "center",
-                            }}
-                          >
-                            {/* give the label a fixed width */}
-                            <Text style={{ width: 120, marginRight: 6 }}>
-                              Approval Status:
-                            </Text>
-                            <Text
-                              style={{
-                                backgroundColor: item.isApproved
-                                  ? "#28a745"
-                                  : "#ffc107",
-                                color: "#fff",
-                                paddingHorizontal: 8,
-                                paddingVertical: 4,
-                                borderRadius: 12,
-                                fontSize: 12,
-                                fontWeight: "600",
-                              }}
-                            >
-                              {item.isApproved
-                                ? "Approved"
-                                : "Pending Approval"}
-                            </Text>
-                          </View>
 
-                          {/* Open row */}
-                          <View
-                            style={{
-                              flexDirection: "row",
-                              alignItems: "center",
-                              marginTop: 8,
-                            }}
-                          >
-                            {/* same fixed width here */}
-                            <Text style={{ width: 120, marginRight: 6 }}>
-                              Open Status:
-                            </Text>
-                            <Text
-                              style={{
-                                backgroundColor: item.isOpen
-                                  ? "#28a745"
-                                  : "#ffc107",
-                                color: "#fff",
-                                paddingHorizontal: 8,
-                                paddingVertical: 4,
-                                borderRadius: 12,
-                                fontSize: 12,
-                                fontWeight: "600",
-                              }}
-                            >
-                              {item.isOpen ? "Active" : "Inactive"}
-                            </Text>
+                      <Link href={`../applicationDetail/${item.id}`} asChild>
+                        <TouchableOpacity>
+                          <View style={styles.todoItem}>
+                            <View style={{ flexDirection: "column" }}>
+                              {/* Approval row */}
+                              <View
+                                style={{
+                                  flexDirection: "row",
+                                  alignItems: "center",
+                                }}
+                              >
+                                {/* give the label a fixed width */}
+                                <Text style={{ width: 120, marginRight: 6 }}>
+                                  Approval Status:
+                                </Text>
+                                <Text
+                                  style={{
+                                    backgroundColor: item.isApproved
+                                      ? "#28a745"
+                                      : "#ffc107",
+                                    color: "#fff",
+                                    paddingHorizontal: 8,
+                                    paddingVertical: 4,
+                                    borderRadius: 12,
+                                    fontSize: 12,
+                                    fontWeight: "600",
+                                  }}
+                                >
+                                  {item.isApproved
+                                    ? "Approved"
+                                    : "Pending Approval"}
+                                </Text>
+                              </View>
+
+                              {/* Open row */}
+                              <View
+                                style={{
+                                  flexDirection: "row",
+                                  alignItems: "center",
+                                  marginTop: 8,
+                                }}
+                              >
+                                {/* same fixed width here */}
+                                <Text style={{ width: 120, marginRight: 6 }}>
+                                  Open Status:
+                                </Text>
+                                <Text
+                                  style={{
+                                    backgroundColor: item.isOpen
+                                      ? "#28a745"
+                                      : "#ffc107",
+                                    color: "#fff",
+                                    paddingHorizontal: 8,
+                                    paddingVertical: 4,
+                                    borderRadius: 12,
+                                    fontSize: 12,
+                                    fontWeight: "600",
+                                  }}
+                                >
+                                  {item.isOpen ? "Active" : "Inactive"}
+                                </Text>
+                              </View>
+                            </View>
                           </View>
-                        </View>
-                      </View>
+                        </TouchableOpacity>
+                      </Link>
                     </View>
                   ))}
                 </View>
