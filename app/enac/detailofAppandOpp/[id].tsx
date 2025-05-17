@@ -25,6 +25,7 @@ import { useApplicationListStore } from "@/userStore/enacApplicationStore";
 import { Organisation } from "@/constants/types";
 import * as MailComposer from "expo-mail-composer";
 import Askdelete from "@/components/enac/Askdelete";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const detail = () => {
   const router = useRouter();
@@ -92,9 +93,17 @@ const detail = () => {
 
   if (!opportunity || !org) {
     return (
-      <View style={styles.loadingContainer}>
-        <Text style={styles.loadingText}>Loading…</Text>
-      </View>
+      <SafeAreaView>
+        <Text
+          onPress={() => router.back()}
+          style={{ fontSize: 16, color: "#0d528f", margin: 16 }}
+        >
+          ← Back
+        </Text>
+        <View style={styles.loadingContainer}>
+          <Text style={styles.loadingText}>Opportunity Deleted</Text>
+        </View>
+      </SafeAreaView>
     );
   }
 
@@ -361,7 +370,6 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   loadingContainer: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
