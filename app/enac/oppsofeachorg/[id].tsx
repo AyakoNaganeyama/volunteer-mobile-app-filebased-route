@@ -12,6 +12,7 @@ import { Opportunity } from "@/constants/types";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const EachList = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -28,69 +29,71 @@ const EachList = () => {
 
   return (
     <>
-      <Text onPress={() => router.back()} style={styles.backText}>
-        ← Back
-      </Text>
+      <SafeAreaView style={{ flex: 1 }}>
+        <Text onPress={() => router.back()} style={styles.backText}>
+          ← Back
+        </Text>
 
-      {opps.length === 0 ? (
-        <View style={styles.empty}>
-          <Text style={styles.emptyText}>
-            No listings yet for this organisation.
-          </Text>
-        </View>
-      ) : (
-        <ScrollView
-          style={{ flex: 1 }}
-          contentContainerStyle={{ flexGrow: 1, padding: 16 }}
-          keyboardShouldPersistTaps="handled"
-          keyboardDismissMode="on-drag"
-        >
-          {opps.map((item) => (
-            <Link
-              href={`../detailofAppandOpp/${item.id}`}
-              key={item.id}
-              asChild
-            >
-              <TouchableOpacity
-                style={styles.card}
-                activeOpacity={0.8}
+        {opps.length === 0 ? (
+          <View style={styles.empty}>
+            <Text style={styles.emptyText}>
+              No listings yet for this organisation.
+            </Text>
+          </View>
+        ) : (
+          <ScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={{ flexGrow: 1, padding: 16 }}
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="on-drag"
+          >
+            {opps.map((item) => (
+              <Link
+                href={`../detailofAppandOpp/${item.id}`}
                 key={item.id}
+                asChild
               >
-                <View style={styles.cardHeader}>
-                  <Text style={styles.title}>{item.title}</Text>
-                  <View style={styles.icons}>
-                    <AntDesign name="right" size={24} color="black" />
+                <TouchableOpacity
+                  style={styles.card}
+                  activeOpacity={0.8}
+                  key={item.id}
+                >
+                  <View style={styles.cardHeader}>
+                    <Text style={styles.title}>{item.title}</Text>
+                    <View style={styles.icons}>
+                      <AntDesign name="right" size={24} color="black" />
+                    </View>
                   </View>
-                </View>
 
-                <View style={styles.statusRow}>
-                  <Text style={styles.label}>Approval:</Text>
-                  <Text
-                    style={[
-                      styles.badge,
-                      item.isApproved ? styles.approved : styles.pending,
-                    ]}
-                  >
-                    {item.isApproved ? "Approved" : "Pending"}
-                  </Text>
-                </View>
+                  <View style={styles.statusRow}>
+                    <Text style={styles.label}>Approval:</Text>
+                    <Text
+                      style={[
+                        styles.badge,
+                        item.isApproved ? styles.approved : styles.pending,
+                      ]}
+                    >
+                      {item.isApproved ? "Approved" : "Pending"}
+                    </Text>
+                  </View>
 
-                <View style={styles.statusRow}>
-                  <Text style={styles.label}>Open:</Text>
-                  <Text
-                    style={[
-                      styles.badge,
-                      item.isOpen ? styles.approved : styles.pending,
-                    ]}
-                  >
-                    {item.isOpen ? "Active" : "Inactive"}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </Link>
-          ))}
-        </ScrollView>
-      )}
+                  <View style={styles.statusRow}>
+                    <Text style={styles.label}>Open:</Text>
+                    <Text
+                      style={[
+                        styles.badge,
+                        item.isOpen ? styles.approved : styles.pending,
+                      ]}
+                    >
+                      {item.isOpen ? "Active" : "Inactive"}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </Link>
+            ))}
+          </ScrollView>
+        )}
+      </SafeAreaView>
     </>
   );
 };

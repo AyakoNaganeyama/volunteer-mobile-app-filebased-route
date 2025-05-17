@@ -150,11 +150,26 @@ const one = () => {
     <SafeAreaView style={{ flex: 1 }}>
       {searchClicked && (
         <>
-          <View style={styles.filterRow}>
-            {category && <Text style={styles.filterTag}>{category}</Text>}
-            {commitment && <Text style={styles.filterTag}>{commitment}</Text>}
-            {location && <Text style={styles.filterTag}>{location}</Text>}
-          </View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={{
+              flexGrow: 0,
+              marginTop: 0,
+              marginBottom: 8,
+            }}
+            contentContainerStyle={{
+              flexDirection: "row",
+              paddingHorizontal: 16,
+              alignItems: "center",
+            }}
+          >
+            <View style={styles.filterRow}>
+              {category && <Text style={styles.filterTag}>{category}</Text>}
+              {commitment && <Text style={styles.filterTag}>{commitment}</Text>}
+              {location && <Text style={styles.filterTag}>{location}</Text>}
+            </View>
+          </ScrollView>
           <View
             style={{
               width: "90%",

@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import { Organisation } from "@/constants/types";
 import { useRouter, Link } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const orgListPage = () => {
   const { orgList } = useOrganisationStore();
@@ -33,63 +34,65 @@ const orgListPage = () => {
 
   return (
     <>
-      <Text onPress={() => router.back()} style={styles.backText}>
-        ← Back
-      </Text>
-      <View
-        style={{
-          width: "90%",
-          alignSelf: "center",
-        }}
-      >
-        <Text
+      <SafeAreaView>
+        <Text onPress={() => router.back()} style={styles.backText}>
+          ← Back
+        </Text>
+        <View
           style={{
-            fontSize: 24,
-            fontWeight: "bold",
-            color: "#0d528f",
+            width: "90%",
+            alignSelf: "center",
           }}
         >
-          Choose an Organisation
-        </Text>
-      </View>
-
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search by name or email"
-          value={searchText}
-          onChangeText={setSearchText}
-          autoCapitalize="none"
-        />
-        {searchText !== "" && (
-          <TouchableOpacity
-            onPress={() => setSearchText("")}
-            style={styles.clearButton}
+          {/* <Text
+            style={{
+              fontSize: 24,
+              fontWeight: "bold",
+              color: "#0d528f",
+            }}
           >
-            <Text style={styles.clearButtonText}>×</Text>
-          </TouchableOpacity>
-        )}
-      </View>
+            Choose an Organisation
+          </Text> */}
+        </View>
 
-      <ScrollView
-        contentContainerStyle={styles.container}
-        keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag"
-      >
-        {filtered.map((org) => (
-          <Link key={org.id} href={`./listofEachorg/${org.id}`} asChild>
-            <TouchableOpacity style={styles.card} activeOpacity={0.8}>
-              <View style={styles.cardRow}>
-                <View>
-                  <Text style={styles.title}>{org.organisationName}</Text>
-                  <Text style={styles.subtitle}>{org.email}</Text>
-                </View>
-                <AntDesign name="right" size={24} color="black" />
-              </View>
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search organisations by name or email"
+            value={searchText}
+            onChangeText={setSearchText}
+            autoCapitalize="none"
+          />
+          {searchText !== "" && (
+            <TouchableOpacity
+              onPress={() => setSearchText("")}
+              style={styles.clearButton}
+            >
+              <Text style={styles.clearButtonText}>×</Text>
             </TouchableOpacity>
-          </Link>
-        ))}
-      </ScrollView>
+          )}
+        </View>
+
+        <ScrollView
+          contentContainerStyle={styles.container}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
+        >
+          {filtered.map((org) => (
+            <Link key={org.id} href={`./listofEachorg/${org.id}`} asChild>
+              <TouchableOpacity style={styles.card} activeOpacity={0.8}>
+                <View style={styles.cardRow}>
+                  <View>
+                    <Text style={styles.title}>{org.organisationName}</Text>
+                    <Text style={styles.subtitle}>{org.email}</Text>
+                  </View>
+                  <AntDesign name="right" size={24} color="black" />
+                </View>
+              </TouchableOpacity>
+            </Link>
+          ))}
+        </ScrollView>
+      </SafeAreaView>
     </>
   );
 };

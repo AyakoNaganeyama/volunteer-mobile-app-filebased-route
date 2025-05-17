@@ -13,6 +13,7 @@ import { useListingStore } from "@/userStore/volListingStore";
 import usegetImage from "@/hooks/vol/usegetImage";
 import useApply from "@/hooks/vol/useApply";
 import { useSearchStore } from "@/userStore/searchStore";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Page = () => {
   const { opportunities, setFilteredAll } = useListingStore();
@@ -66,80 +67,85 @@ const Page = () => {
   }
   return (
     <>
-      <Image
-        source={getImage(opportunity.category)}
-        style={{ width: "100%", height: 200 }}
-      />
-
-      <View
-        style={{ alignSelf: "center", marginHorizontal: 20, marginBottom: 30 }}
-      >
-        <Text
-          style={{
-            fontSize: 18,
-            textAlign: "center",
-            fontWeight: "bold",
-            marginTop: 20,
-            marginBottom: 5,
-          }}
-        >
-          {opportunity.title}
-        </Text>
-        <Text style={{ fontSize: 14, color: "grey", textAlign: "center" }}>
-          {opportunity.companyName}
-        </Text>
+      <SafeAreaView>
+        <Image
+          source={getImage(opportunity.category)}
+          style={{ width: "100%", height: 200 }}
+        />
 
         <View
           style={{
-            width: "90%",
-            gap: 30,
             alignSelf: "center",
-            marginTop: 30,
-            paddingHorizontal: 30,
-            flexDirection: "row",
+            marginHorizontal: 20,
+            marginBottom: 30,
           }}
         >
-          <View style={{ flexDirection: "row" }}>
-            <EvilIcons name="location" size={24} color="black" />
-            <Text>{opportunity.location}</Text>
+          <Text
+            style={{
+              fontSize: 18,
+              textAlign: "center",
+              fontWeight: "bold",
+              marginTop: 20,
+              marginBottom: 5,
+            }}
+          >
+            {opportunity.title}
+          </Text>
+          <Text style={{ fontSize: 14, color: "grey", textAlign: "center" }}>
+            {opportunity.companyName}
+          </Text>
+
+          <View
+            style={{
+              width: "90%",
+              gap: 30,
+              alignSelf: "center",
+              marginTop: 30,
+              paddingHorizontal: 30,
+              flexDirection: "row",
+            }}
+          >
+            <View style={{ flexDirection: "row" }}>
+              <EvilIcons name="location" size={24} color="black" />
+              <Text>{opportunity.location}</Text>
+            </View>
+
+            <View style={{ flexDirection: "row" }}>
+              <Entypo name="awareness-ribbon" size={24} color="black" />
+              <Text>{opportunity.category}</Text>
+            </View>
           </View>
 
-          <View style={{ flexDirection: "row" }}>
-            <Entypo name="awareness-ribbon" size={24} color="black" />
-            <Text>{opportunity.category}</Text>
+          <View
+            style={{
+              width: "90%",
+              paddingHorizontal: 30,
+
+              marginBottom: 20,
+              marginTop: 30,
+            }}
+          >
+            <Text style={{ fontSize: 14, color: "grey", fontWeight: "bold" }}>
+              Description
+            </Text>
+            <Text style={{ fontSize: 16 }}>{opportunity.description}</Text>
           </View>
-        </View>
 
-        <View
-          style={{
-            width: "90%",
-            paddingHorizontal: 30,
+          <View
+            style={{
+              width: "90%",
+              paddingHorizontal: 30,
 
-            marginBottom: 20,
-            marginTop: 30,
-          }}
-        >
-          <Text style={{ fontSize: 14, color: "grey", fontWeight: "bold" }}>
-            Description
-          </Text>
-          <Text style={{ fontSize: 16 }}>{opportunity.description}</Text>
-        </View>
+              marginBottom: 20,
+            }}
+          >
+            <Text style={{ fontSize: 14, color: "grey", fontWeight: "bold" }}>
+              Commitment Period
+            </Text>
+            <Text style={{ fontSize: 16 }}>{opportunity.commitmentPeriod}</Text>
+          </View>
 
-        <View
-          style={{
-            width: "90%",
-            paddingHorizontal: 30,
-
-            marginBottom: 20,
-          }}
-        >
-          <Text style={{ fontSize: 14, color: "grey", fontWeight: "bold" }}>
-            Commitment Period
-          </Text>
-          <Text style={{ fontSize: 16 }}>{opportunity.commitmentPeriod}</Text>
-        </View>
-
-        {/* <View
+          {/* <View
           style={{
             width: "90%",
             paddingHorizontal: 30,
@@ -154,26 +160,27 @@ const Page = () => {
           </Text>
         </View> */}
 
-        <View
-          style={{
-            alignSelf: "center",
-            width: "90%",
-            paddingHorizontal: 30,
-            gap: 5,
-            marginTop: 30,
-          }}
-        ></View>
-        <View style={{ marginBottom: 100 }}>
-          <TouchableOpacity
-            onPress={() =>
-              handleRedirect(opportunity.registrationFormUrl, opportunity)
-            }
-            style={styles.buttonStyle}
-          >
-            <Text style={styles.buttonText}>Apply</Text>
-          </TouchableOpacity>
+          <View
+            style={{
+              alignSelf: "center",
+              width: "90%",
+              paddingHorizontal: 30,
+              gap: 5,
+              marginTop: 30,
+            }}
+          ></View>
+          <View style={{ marginBottom: 100 }}>
+            <TouchableOpacity
+              onPress={() =>
+                handleRedirect(opportunity.registrationFormUrl, opportunity)
+              }
+              style={styles.buttonStyle}
+            >
+              <Text style={styles.buttonText}>Apply</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </SafeAreaView>
     </>
   );
 };

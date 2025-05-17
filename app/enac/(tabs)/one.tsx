@@ -247,7 +247,7 @@ const MonthlyVolunteerChart = () => {
               }}
             >
               <Text style={{ fontWeight: "bold", fontSize: 18 }}>New</Text>
-              <Text>You have new opportunities to approve</Text>
+              <Text>new opportunities to approve</Text>
             </View>
           </View>
         </View>

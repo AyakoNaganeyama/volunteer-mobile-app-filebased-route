@@ -37,9 +37,6 @@ const Page = () => {
   }
   return (
     <>
-      <Text onPress={() => router.back()} style={styles.backText}>
-        ← Back
-      </Text>
       <Image
         source={getImage(opportunity.category)}
         style={{ width: "100%", height: 200 }}

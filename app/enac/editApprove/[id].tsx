@@ -11,6 +11,7 @@ import Entypo from "@expo/vector-icons/Entypo";
 import * as Linking from "expo-linking";
 import Approve from "@/components/enac/Approve";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const approvePage = () => {
   const router = useRouter();
@@ -59,151 +60,155 @@ const approvePage = () => {
   };
 
   return (
-    <View>
-      <AntDesign
-        name="arrowleft"
-        size={24}
-        color="black"
-        onPress={() => {
-          router.back();
-        }}
-      />
-      <>
-        <Image
-          source={getImage(opportunity.category)}
-          style={{ width: "100%", height: 200 }}
+    <SafeAreaView>
+      <View>
+        <AntDesign
+          name="arrowleft"
+          size={24}
+          color="black"
+          onPress={() => {
+            router.back();
+          }}
         />
+        <>
+          <Image
+            source={getImage(opportunity.category)}
+            style={{ width: "100%", height: 200 }}
+          />
 
+          <View
+            style={{
+              alignSelf: "center",
+              marginHorizontal: 20,
+              marginBottom: 30,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 18,
+                textAlign: "center",
+                fontWeight: "bold",
+                marginTop: 20,
+                marginBottom: 5,
+              }}
+            >
+              {opportunity.title}
+            </Text>
+            <Text style={{ fontSize: 14, color: "grey", textAlign: "center" }}>
+              {opportunity.companyName}
+            </Text>
+
+            <View
+              style={{
+                width: "90%",
+                gap: 30,
+                alignSelf: "center",
+                marginTop: 30,
+                paddingHorizontal: 30,
+                flexDirection: "row",
+              }}
+            >
+              <View style={{ flexDirection: "row" }}>
+                <EvilIcons name="location" size={24} color="black" />
+                <Text>{opportunity.location}</Text>
+              </View>
+
+              <View style={{ flexDirection: "row" }}>
+                <Entypo name="awareness-ribbon" size={24} color="black" />
+                <Text>{opportunity.category}</Text>
+              </View>
+            </View>
+
+            <View
+              style={{
+                width: "90%",
+                paddingHorizontal: 30,
+
+                marginBottom: 20,
+                marginTop: 30,
+              }}
+            >
+              <Text style={{ fontSize: 14, color: "grey", fontWeight: "bold" }}>
+                Description
+              </Text>
+              <Text style={{ fontSize: 16 }}>{opportunity.description}</Text>
+            </View>
+
+            <View
+              style={{
+                width: "90%",
+                paddingHorizontal: 30,
+
+                marginBottom: 20,
+              }}
+            >
+              <Text style={{ fontSize: 14, color: "grey", fontWeight: "bold" }}>
+                Commitment Period
+              </Text>
+              <Text style={{ fontSize: 16 }}>
+                {opportunity.commitmentPeriod}
+              </Text>
+            </View>
+
+            <View
+              style={{
+                width: "90%",
+                paddingHorizontal: 30,
+
+                marginBottom: 20,
+              }}
+            >
+              <Text style={{ fontSize: 14, color: "grey", fontWeight: "bold" }}>
+                Organisation Form URL
+              </Text>
+              <TouchableOpacity
+                onPress={() => handleRedirect(opportunity.registrationFormUrl)}
+              >
+                <Text
+                  style={{
+                    fontSize: 16,
+                    color: "blue",
+                    textDecorationLine: "underline",
+                  }}
+                >
+                  {opportunity.registrationFormUrl}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </>
         <View
           style={{
-            alignSelf: "center",
-            marginHorizontal: 20,
-            marginBottom: 30,
+            width: "90%",
+            alignSelf: "flex-end", // aligns the whole block to the right
+            marginTop: 30,
+            paddingHorizontal: 30,
+            flexDirection: "row",
+            justifyContent: "flex-end", // pushes content to the right
+            alignItems: "center",
+            gap: 10, // optional spacing
           }}
         >
-          <Text
-            style={{
-              fontSize: 18,
-              textAlign: "center",
-              fontWeight: "bold",
-              marginTop: 20,
-              marginBottom: 5,
-            }}
-          >
-            {opportunity.title}
-          </Text>
-          <Text style={{ fontSize: 14, color: "grey", textAlign: "center" }}>
-            {opportunity.companyName}
-          </Text>
+          <Text>Approve</Text>
 
-          <View
-            style={{
-              width: "90%",
-              gap: 30,
-              alignSelf: "center",
-              marginTop: 30,
-              paddingHorizontal: 30,
-              flexDirection: "row",
-            }}
-          >
-            <View style={{ flexDirection: "row" }}>
-              <EvilIcons name="location" size={24} color="black" />
-              <Text>{opportunity.location}</Text>
-            </View>
-
-            <View style={{ flexDirection: "row" }}>
-              <Entypo name="awareness-ribbon" size={24} color="black" />
-              <Text>{opportunity.category}</Text>
-            </View>
-          </View>
-
-          <View
-            style={{
-              width: "90%",
-              paddingHorizontal: 30,
-
-              marginBottom: 20,
-              marginTop: 30,
-            }}
-          >
-            <Text style={{ fontSize: 14, color: "grey", fontWeight: "bold" }}>
-              Description
-            </Text>
-            <Text style={{ fontSize: 16 }}>{opportunity.description}</Text>
-          </View>
-
-          <View
-            style={{
-              width: "90%",
-              paddingHorizontal: 30,
-
-              marginBottom: 20,
-            }}
-          >
-            <Text style={{ fontSize: 14, color: "grey", fontWeight: "bold" }}>
-              Commitment Period
-            </Text>
-            <Text style={{ fontSize: 16 }}>{opportunity.commitmentPeriod}</Text>
-          </View>
-
-          <View
-            style={{
-              width: "90%",
-              paddingHorizontal: 30,
-
-              marginBottom: 20,
-            }}
-          >
-            <Text style={{ fontSize: 14, color: "grey", fontWeight: "bold" }}>
-              Organisation Form URL
-            </Text>
-            <TouchableOpacity
-              onPress={() => handleRedirect(opportunity.registrationFormUrl)}
-            >
-              <Text
-                style={{
-                  fontSize: 16,
-                  color: "blue",
-                  textDecorationLine: "underline",
-                }}
-              >
-                {opportunity.registrationFormUrl}
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <Switch
+            trackColor={{ false: "#767577", true: "#81b0ff" }}
+            thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={handleSwitch}
+            value={isEnabled}
+          />
         </View>
-      </>
-      <View
-        style={{
-          width: "90%",
-          alignSelf: "flex-end", // aligns the whole block to the right
-          marginTop: 30,
-          paddingHorizontal: 30,
-          flexDirection: "row",
-          justifyContent: "flex-end", // pushes content to the right
-          alignItems: "center",
-          gap: 10, // optional spacing
-        }}
-      >
-        <Text>Approve</Text>
 
-        <Switch
-          trackColor={{ false: "#767577", true: "#81b0ff" }}
-          thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={handleSwitch}
-          value={isEnabled}
-        />
+        {modalVisible && (
+          <Approve
+            visible={modalVisible}
+            onClose={handleCloseModal}
+            opp={opportunity}
+          />
+        )}
       </View>
-
-      {modalVisible && (
-        <Approve
-          visible={modalVisible}
-          onClose={handleCloseModal}
-          opp={opportunity}
-        />
-      )}
-    </View>
+    </SafeAreaView>
   );
 };
 

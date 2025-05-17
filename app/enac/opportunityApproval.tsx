@@ -1,4 +1,10 @@
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
 import { Opportunity, Organisation } from "@/constants/types";
 import { useEffect, useState } from "react";
@@ -6,6 +12,7 @@ import { useOppStore } from "@/userStore/oppArrayStore";
 import { useOrganisationStore } from "@/userStore/orgArrayStore";
 import { Link, useRouter } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export interface OpportunitywithOrg {
   id: string;
@@ -47,60 +54,53 @@ const opportunityApproval = () => {
 
   return (
     <>
-      <View style={{ flex: 1 }}>
-        {/* header */}
-        <View style={{ width: "90%", alignSelf: "center", marginTop: 30 }}>
-          <AntDesign
-            name="arrowleft"
-            size={24}
-            onPress={() => router.push("/enac/(tabs)/one")}
-          />
-          <Text
-            style={{
-              fontSize: 24,
-              fontWeight: "bold",
-              color: "#0d528f",
-              marginTop: 20,
-            }}
-          >
-            Approval Waiting List
-          </Text>
-        </View>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
+          {/* header */}
+          <View style={{ width: "90%", alignSelf: "center", marginTop: 30 }}>
+            <AntDesign
+              name="arrowleft"
+              size={24}
+              onPress={() => router.push("/enac/(tabs)/one")}
+            />
+            <Text
+              style={{
+                fontSize: 24,
+                fontWeight: "bold",
+                color: "#0d528f",
+                marginTop: 20,
+              }}
+            >
+              Approval Waiting List
+            </Text>
+          </View>
 
-        {/* scrollable list */}
-        <ScrollView
-          style={{ flex: 1 }}
-          contentContainerStyle={styles.container}
-        >
-          {oppwithOrg
-            .filter((o) => !o.isApproved)
-            .map((o) => (
-              <View key={o.id} style={styles.card}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <View>
-                    <Link href={`./editApprove/${o.id}`}>
-                      <Text style={styles.title}>{o.title}</Text>
-                    </Link>
-                    <Link href={`./editApprove/${o.id}`}>
-                      <Text style={styles.orgName}>
-                        {o.organisation.organisationName}
-                      </Text>
-                    </Link>
-                    <Link href={`./editApprove/${o.id}`}>
-                      <Text style={styles.subtitle}>{o.description}</Text>
-                    </Link>
-                  </View>
-                  <AntDesign name="right" size={24} color="black" />
-                </View>
-              </View>
-            ))}
-        </ScrollView>
-      </View>
+          {/* scrollable list */}
+          <ScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={styles.container}
+          >
+            {oppwithOrg
+              .filter((o) => !o.isApproved)
+              .map((o) => (
+                <Link key={o.id} href={`./editApprove/${o.id}`} asChild>
+                  <TouchableOpacity style={styles.card} activeOpacity={0.8}>
+                    <View style={styles.cardInner}>
+                      <View>
+                        <Text style={styles.title}>{o.title}</Text>
+                        <Text style={styles.orgName}>
+                          {o.organisation.organisationName}
+                        </Text>
+                        <Text style={styles.subtitle}>{o.description}</Text>
+                      </View>
+                      <AntDesign name="right" size={24} color="black" />
+                    </View>
+                  </TouchableOpacity>
+                </Link>
+              ))}
+          </ScrollView>
+        </View>
+      </SafeAreaView>
     </>
   );
 };
@@ -125,6 +125,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 6,
+  },
+  cardInner: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center", // vertical centering
   },
   title: {
     fontSize: 16,

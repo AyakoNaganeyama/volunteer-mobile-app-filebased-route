@@ -1,10 +1,18 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  TextInput,
+  Image,
+} from "react-native";
 import React from "react";
 import useLogout from "@/hooks/org/useLogout";
 import { useRouter } from "expo-router";
 import { useOrgStore } from "@/userStore/orgStore";
 
 const two = () => {
+  const defaultProfileIcon = require("../../../assets/images/blankIcon.png");
   const router = useRouter();
   const { handleLogout } = useLogout();
   const { org } = useOrgStore();
@@ -15,12 +23,57 @@ const two = () => {
   };
 
   return (
-    <View>
-      <Text>{org?.organisationName ?? ""}</Text>
-      <TouchableOpacity onPress={Logout} style={styles.buttonStyle}>
-        <Text style={styles.buttonText}>Logout</Text>
-      </TouchableOpacity>
-    </View>
+    <>
+      <View style={{ alignSelf: "center", width: "80%", marginTop: 50 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 10,
+          }}
+        >
+          <Image
+            source={defaultProfileIcon}
+            style={[
+              styles.image,
+              { width: 100, height: 100, borderRadius: 50 },
+            ]}
+          />
+
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Replace Photo</Text>
+          </TouchableOpacity>
+          {/* <Text style={{ marginLeft: 10, textAlign: "center", fontSize: 18 }}>
+            {volunteer?.fullName}
+          </Text> */}
+        </View>
+
+        <View style={{ flexDirection: "column", marginTop: 20, gap: 10 }}>
+          <View style={styles.inputContainer}>
+            <TextInput
+              value={org?.organisationName}
+              style={styles.input}
+              keyboardType="email-address"
+              editable={false}
+            />
+          </View>
+
+          <View style={styles.inputContainer}>
+            <TextInput
+              value={org?.email}
+              style={styles.input}
+              keyboardType="email-address"
+              editable={false}
+            />
+          </View>
+
+          <TouchableOpacity onPress={Logout} style={styles.buttonStyle}>
+            <Text style={styles.buttonText}>Logout</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </>
   );
 };
 

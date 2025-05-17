@@ -4,129 +4,169 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  SafeAreaView,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useLocalSearchParams, useRouter, Link } from "expo-router";
 import { useOppStore } from "@/userStore/oppArrayStore";
-import { Opportunity } from "@/constants/types";
+import { Opportunity, Organisation } from "@/constants/types";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useOrganisationStore } from "@/userStore/orgArrayStore";
 
 const EachList = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { opportunities } = useOppStore();
   const [opps, setOpps] = useState<Opportunity[]>([]);
   const router = useRouter();
+  const [org, setOrg] = useState<Organisation>();
+  const { orgList } = useOrganisationStore();
 
   useEffect(() => {
     if (!id) return;
-
+    //find opportunities
     const filtered = opportunities.filter((o) => o.companyId === id);
     setOpps(filtered);
+
+    //find organisation
+
+    const foundOrg = orgList.find((o) => o.id === id);
+    setOrg(foundOrg);
   }, [opportunities, id]);
 
   return (
     <>
-      <Text onPress={() => router.back()} style={styles.backText}>
-        ← Back
-      </Text>
-      <Link href={`../createOppforOrg/${id}`} asChild>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            backgroundColor: "#007AFF",
-            borderRadius: 8,
-            paddingVertical: 10,
-            paddingHorizontal: 16,
-            marginRight: 10,
-            justifyContent: "center",
-            // iOS shadow
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.2,
-            shadowRadius: 3,
-            // Android shadow
-            elevation: 3,
-            width: "30%",
-            alignSelf: "flex-end",
-          }}
-        >
-          <Ionicons name="add-circle-outline" size={24} color="#fff" />
-          <Text
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+        <Text onPress={() => router.back()} style={styles.backText}>
+          ← Back
+        </Text>
+        <Link href={`../createOppforOrg/${id}`} asChild>
+          <TouchableOpacity
+            activeOpacity={0.8}
             style={{
-              color: "#fff",
-              fontSize: 16,
-              fontWeight: "600",
-              marginLeft: 8,
+              flexDirection: "row",
+              alignItems: "center",
+              backgroundColor: "#007AFF",
+              borderRadius: 8,
+              paddingVertical: 10,
+              paddingHorizontal: 16,
+              marginRight: 10,
+              justifyContent: "center",
+              // iOS shadow
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.2,
+              shadowRadius: 3,
+              // Android shadow
+              elevation: 3,
+
+              alignSelf: "flex-end",
             }}
           >
-            Add New
-          </Text>
-        </TouchableOpacity>
-      </Link>
-
-      {opps.length === 0 ? (
-        <View style={styles.empty}>
-          <Text style={styles.emptyText}>
-            No listings yet for this organisation.
-          </Text>
-        </View>
-      ) : (
-        <ScrollView
-          style={{ flex: 1 }}
-          contentContainerStyle={{ flexGrow: 1, padding: 16 }}
-          keyboardShouldPersistTaps="handled"
-          keyboardDismissMode="on-drag"
-        >
-          {opps.map((item) => (
-            <Link
-              href={`../detailofAppandOpp/${item.id}`}
-              key={item.id}
-              asChild
+            <Ionicons name="add-circle-outline" size={24} color="#fff" />
+            <Text
+              style={{
+                color: "#fff",
+                fontSize: 16,
+                fontWeight: "600",
+                marginLeft: 8,
+              }}
             >
-              <TouchableOpacity
-                style={styles.card}
-                activeOpacity={0.8}
-                key={item.id}
+              Add New Opportunity
+            </Text>
+          </TouchableOpacity>
+        </Link>
+
+        {org && (
+          <View
+            style={{
+              backgroundColor: "#eef5ff",
+              marginVertical: 8,
+              borderRadius: 8,
+              width: "90%",
+              paddingHorizontal: 30,
+              paddingVertical: 20,
+              alignSelf: "center",
+            }}
+          >
+            <Text style={{ fontSize: 18, fontWeight: "600" }}>
+              {org.organisationName}
+            </Text>
+            <TouchableOpacity onPress={() => {}}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: "blue",
+                  textDecorationLine: "underline",
+                }}
               >
-                <View style={styles.cardHeader}>
-                  <Text style={styles.title}>{item.title}</Text>
-                  <View style={styles.icons}>
-                    <AntDesign name="right" size={24} color="black" />
+                {org.email}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
+        {opps.length === 0 ? (
+          <View style={styles.empty}>
+            <Text style={styles.emptyText}>
+              No listings yet for this organisation.
+            </Text>
+          </View>
+        ) : (
+          <ScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={{ flexGrow: 1, padding: 16 }}
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="on-drag"
+          >
+            {opps.map((item) => (
+              <Link
+                href={`../detailofAppandOpp/${item.id}`}
+                key={item.id}
+                asChild
+              >
+                <TouchableOpacity
+                  style={styles.card}
+                  activeOpacity={0.8}
+                  key={item.id}
+                >
+                  <View style={styles.cardHeader}>
+                    <Text style={styles.title}>{item.title}</Text>
+                    <View style={styles.icons}>
+                      <AntDesign name="right" size={24} color="black" />
+                    </View>
                   </View>
-                </View>
 
-                <View style={styles.statusRow}>
-                  <Text style={styles.label}>Approval:</Text>
-                  <Text
-                    style={[
-                      styles.badge,
-                      item.isApproved ? styles.approved : styles.pending,
-                    ]}
-                  >
-                    {item.isApproved ? "Approved" : "Pending"}
-                  </Text>
-                </View>
+                  <View style={styles.statusRow}>
+                    <Text style={styles.label}>Approval:</Text>
+                    <Text
+                      style={[
+                        styles.badge,
+                        item.isApproved ? styles.approved : styles.pending,
+                      ]}
+                    >
+                      {item.isApproved ? "Approved" : "Pending"}
+                    </Text>
+                  </View>
 
-                <View style={styles.statusRow}>
-                  <Text style={styles.label}>Open:</Text>
-                  <Text
-                    style={[
-                      styles.badge,
-                      item.isOpen ? styles.approved : styles.pending,
-                    ]}
-                  >
-                    {item.isOpen ? "Active" : "Inactive"}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </Link>
-          ))}
-        </ScrollView>
-      )}
+                  <View style={styles.statusRow}>
+                    <Text style={styles.label}>Open:</Text>
+                    <Text
+                      style={[
+                        styles.badge,
+                        item.isOpen ? styles.approved : styles.pending,
+                      ]}
+                    >
+                      {item.isOpen ? "Active" : "Inactive"}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </Link>
+            ))}
+          </ScrollView>
+        )}
+      </SafeAreaView>
     </>
   );
 };
