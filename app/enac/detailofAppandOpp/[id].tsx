@@ -24,6 +24,7 @@ import { useOrganisationStore } from "@/userStore/orgArrayStore";
 import { useApplicationListStore } from "@/userStore/enacApplicationStore";
 import { Organisation } from "@/constants/types";
 import * as MailComposer from "expo-mail-composer";
+import Askdelete from "@/components/enac/Askdelete";
 
 const detail = () => {
   const router = useRouter();
@@ -37,6 +38,19 @@ const detail = () => {
   const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
   const [org, setOrg] = useState<Organisation | null>(null);
   const [apps, setApps] = useState<Application[]>([]);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+
+  const handleEdit = () => {
+    // TODO: implement edit functionality
+  };
+
+  const openDeleteModal = () => {
+    setDeleteModalVisible(true);
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModalVisible(false);
+  };
 
   useEffect(() => {
     if (!id) return;
@@ -85,207 +99,173 @@ const detail = () => {
   }
 
   return (
-    <ScrollView>
-      <Text
-        onPress={() => router.back()}
-        style={{ fontSize: 16, color: "#0d528f", margin: 16 }}
-      >
-        ← Back
-      </Text>
-
-      {/* Organisation Info */}
-      {org && (
-        <View
-          style={{
-            backgroundColor: "#eef5ff",
-            marginVertical: 8,
-            borderRadius: 8,
-            width: "90%",
-            paddingHorizontal: 30,
-            paddingVertical: 20,
-          }}
+    <>
+      <ScrollView>
+        <Text
+          onPress={() => router.back()}
+          style={{ fontSize: 16, color: "#0d528f", margin: 16 }}
         >
-          <Text style={{ fontSize: 18, fontWeight: "600" }}>
-            {org.organisationName}
-          </Text>
-          <TouchableOpacity onPress={() => sendEmail(org.email)}>
-            <Text
-              style={{
-                fontSize: 16,
-                color: "blue",
-                textDecorationLine: "underline",
-              }}
-            >
-              {org.email}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      )}
-
-      {/* Full opportunity details */}
-      <View>
-        <>
-          <Image
-            source={getImage(opportunity.category)}
-            style={{ width: "100%", height: 200 }}
-          />
-
-          <View
-            style={{
-              marginBottom: 30,
-              backgroundColor: "#eef5ff",
-            }}
-          >
-            <View style={{ width: "90%", paddingHorizontal: 30 }}>
-              <Text
-                style={{
-                  fontSize: 18,
-
-                  fontWeight: "bold",
-                  marginTop: 20,
-                  marginBottom: 5,
-                }}
-              >
-                {opportunity.title}
-              </Text>
-
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 10,
-                }}
-              >
-                <View style={styles.statusRow}>
-                  <Text
-                    style={[
-                      styles.badge,
-                      opportunity.isApproved ? styles.approved : styles.pending,
-                    ]}
-                  >
-                    {opportunity.isApproved ? "Approved" : "Pending"}
-                  </Text>
-                </View>
-
-                <View style={styles.statusRow}>
-                  <Text
-                    style={[
-                      styles.badge,
-                      opportunity.isOpen ? styles.approved : styles.pending,
-                    ]}
-                  >
-                    {opportunity.isOpen ? "Active" : "Inactive"}
-                  </Text>
-                </View>
-              </View>
-            </View>
-
-            <View
-              style={{
-                width: "90%",
-                gap: 30,
-
-                marginTop: 30,
-                paddingHorizontal: 30,
-                flexDirection: "row",
-              }}
-            >
-              <View style={{ flexDirection: "row" }}>
-                <EvilIcons name="location" size={24} color="black" />
-                <Text>{opportunity.location}</Text>
-              </View>
-
-              <View style={{ flexDirection: "row" }}>
-                <Entypo name="awareness-ribbon" size={24} color="black" />
-                <Text>{opportunity.category}</Text>
-              </View>
-            </View>
-
-            <View
-              style={{
-                width: "90%",
-                paddingHorizontal: 30,
-
-                marginBottom: 20,
-                marginTop: 30,
-              }}
-            >
-              <Text style={{ fontSize: 14, color: "grey", fontWeight: "bold" }}>
-                Description
-              </Text>
-              <Text style={{ fontSize: 16 }}>{opportunity.description}</Text>
-            </View>
-
-            <View
-              style={{
-                width: "90%",
-                paddingHorizontal: 30,
-
-                marginBottom: 20,
-              }}
-            >
-              <Text style={{ fontSize: 14, color: "grey", fontWeight: "bold" }}>
-                Commitment Period
-              </Text>
-              <Text style={{ fontSize: 16 }}>
-                {opportunity.commitmentPeriod}
-              </Text>
-            </View>
-
-            <View
-              style={{
-                width: "90%",
-                paddingHorizontal: 30,
-
-                marginBottom: 20,
-              }}
-            >
-              <Text style={{ fontSize: 14, color: "grey", fontWeight: "bold" }}>
-                Organisation Form URL
-              </Text>
-              <TouchableOpacity>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    color: "blue",
-                    textDecorationLine: "underline",
-                  }}
-                >
-                  {opportunity.registrationFormUrl}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </>
-      </View>
-
-      {/* Applied Volunteers */}
-      <View style={{ paddingVertical: 16, paddingHorizontal: 30 }}>
-        <Text style={{ fontSize: 16, fontWeight: "600", marginBottom: 8 }}>
-          Applied Volunteers
+          ← Back
         </Text>
 
-        {apps.length === 0 ? (
-          <Text style={{ color: "#666" }}>No one has applied yet.</Text>
-        ) : (
-          apps.map((app) => {
-            // look up the volunteer’s name
-
-            return (
-              <View
-                key={app.id}
+        {/* Organisation Info */}
+        {org && (
+          <View
+            style={{
+              backgroundColor: "#eef5ff",
+              marginVertical: 8,
+              borderRadius: 8,
+              width: "90%",
+              paddingHorizontal: 30,
+              paddingVertical: 20,
+            }}
+          >
+            <Text style={{ fontSize: 18, fontWeight: "600" }}>
+              {org.organisationName}
+            </Text>
+            <TouchableOpacity onPress={() => sendEmail(org.email)}>
+              <Text
                 style={{
-                  padding: 12,
-                  backgroundColor: "#fff",
-                  borderRadius: 8,
-                  marginBottom: 12,
-                  borderWidth: 1,
-                  borderColor: "#ddd",
+                  fontSize: 16,
+                  color: "blue",
+                  textDecorationLine: "underline",
                 }}
               >
-                <Text style={{ fontSize: 15, fontWeight: "500" }}>
-                  {app.volunteer.fullName}
+                {org.email}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
+        {/* Full opportunity details */}
+        <View>
+          <>
+            <Image
+              source={getImage(opportunity.category)}
+              style={{ width: "100%", height: 200 }}
+            />
+
+            <View
+              style={{
+                marginBottom: 30,
+                backgroundColor: "#eef5ff",
+              }}
+            >
+              <View style={{ width: "90%", paddingHorizontal: 30 }}>
+                <Text
+                  style={{
+                    fontSize: 18,
+
+                    fontWeight: "bold",
+                    marginTop: 20,
+                    marginBottom: 5,
+                  }}
+                >
+                  {opportunity.title}
                 </Text>
-                <TouchableOpacity onPress={() => sendEmail(org.email)}>
+
+                <View
+                  style={{
+                    flexDirection: "row",
+                    gap: 10,
+                  }}
+                >
+                  <View style={styles.statusRow}>
+                    <Text
+                      style={[
+                        styles.badge,
+                        opportunity.isApproved
+                          ? styles.approved
+                          : styles.pending,
+                      ]}
+                    >
+                      {opportunity.isApproved ? "Approved" : "Pending"}
+                    </Text>
+                  </View>
+
+                  <View style={styles.statusRow}>
+                    <Text
+                      style={[
+                        styles.badge,
+                        opportunity.isOpen ? styles.approved : styles.pending,
+                      ]}
+                    >
+                      {opportunity.isOpen ? "Active" : "Inactive"}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+
+              <View
+                style={{
+                  width: "90%",
+                  gap: 30,
+
+                  marginTop: 30,
+                  paddingHorizontal: 30,
+                  flexDirection: "row",
+                }}
+              >
+                <View style={{ flexDirection: "row" }}>
+                  <EvilIcons name="location" size={24} color="black" />
+                  <Text>{opportunity.location}</Text>
+                </View>
+
+                <View style={{ flexDirection: "row" }}>
+                  <Entypo name="awareness-ribbon" size={24} color="black" />
+                  <Text>{opportunity.category}</Text>
+                </View>
+              </View>
+
+              <View
+                style={{
+                  width: "90%",
+                  paddingHorizontal: 30,
+
+                  marginBottom: 20,
+                  marginTop: 30,
+                }}
+              >
+                <Text
+                  style={{ fontSize: 14, color: "grey", fontWeight: "bold" }}
+                >
+                  Description
+                </Text>
+                <Text style={{ fontSize: 16 }}>{opportunity.description}</Text>
+              </View>
+
+              <View
+                style={{
+                  width: "90%",
+                  paddingHorizontal: 30,
+
+                  marginBottom: 20,
+                }}
+              >
+                <Text
+                  style={{ fontSize: 14, color: "grey", fontWeight: "bold" }}
+                >
+                  Commitment Period
+                </Text>
+                <Text style={{ fontSize: 16 }}>
+                  {opportunity.commitmentPeriod}
+                </Text>
+              </View>
+
+              <View
+                style={{
+                  width: "90%",
+                  paddingHorizontal: 30,
+
+                  marginBottom: 20,
+                }}
+              >
+                <Text
+                  style={{ fontSize: 14, color: "grey", fontWeight: "bold" }}
+                >
+                  Organisation Form URL
+                </Text>
+                <TouchableOpacity>
                   <Text
                     style={{
                       fontSize: 16,
@@ -293,17 +273,78 @@ const detail = () => {
                       textDecorationLine: "underline",
                     }}
                   >
-                    {app.volunteer.email}
+                    {opportunity.registrationFormUrl}
                   </Text>
                 </TouchableOpacity>
               </View>
-            );
-          })
-        )}
-      </View>
+            </View>
+          </>
+        </View>
 
-      {/* ← your Approve switch & modal, etc. */}
-    </ScrollView>
+        {/* Applied Volunteers */}
+        <View style={{ paddingVertical: 16, paddingHorizontal: 30 }}>
+          <Text style={{ fontSize: 16, fontWeight: "600", marginBottom: 8 }}>
+            Applied Volunteers
+          </Text>
+
+          {apps.length === 0 ? (
+            <Text style={{ color: "#666" }}>No one has applied yet.</Text>
+          ) : (
+            apps.map((app) => {
+              // look up the volunteer’s name
+
+              return (
+                <View
+                  key={app.id}
+                  style={{
+                    padding: 12,
+                    backgroundColor: "#fff",
+                    borderRadius: 8,
+                    marginBottom: 12,
+                    borderWidth: 1,
+                    borderColor: "#ddd",
+                  }}
+                >
+                  <Text style={{ fontSize: 15, fontWeight: "500" }}>
+                    {app.volunteer.fullName}
+                  </Text>
+                  <TouchableOpacity onPress={() => sendEmail(org.email)}>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        color: "blue",
+                        textDecorationLine: "underline",
+                      }}
+                    >
+                      {app.volunteer.email}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              );
+            })
+          )}
+        </View>
+
+        <View style={styles.actionButtonsContainer}>
+          <TouchableOpacity onPress={handleEdit} style={styles.actionButton}>
+            <Text style={styles.actionButtonText}>Edit</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={openDeleteModal}
+            style={[styles.actionButton, styles.deleteButton]}
+          >
+            <Text style={styles.actionButtonText}>Delete</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+      {deleteModalVisible && (
+        <Askdelete
+          visible={deleteModalVisible}
+          onClose={closeDeleteModal}
+          opp={opportunity}
+        />
+      )}
+    </>
   );
 };
 
@@ -436,4 +477,27 @@ const styles = StyleSheet.create({
   },
   approved: { backgroundColor: "#28a745" },
   pending: { backgroundColor: "#ffc107" },
+  actionButtonsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginVertical: 20,
+    width: "90%",
+    alignSelf: "center",
+  },
+  actionButton: {
+    flex: 1,
+    paddingVertical: 12,
+    marginHorizontal: 8,
+    borderRadius: 6,
+    backgroundColor: "#0d528f",
+    alignItems: "center",
+  },
+  deleteButton: {
+    backgroundColor: "#dc3545",
+  },
+  actionButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
+  },
 });
