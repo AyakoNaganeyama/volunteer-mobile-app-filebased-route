@@ -185,7 +185,7 @@ const MonthlyVolunteerChart = () => {
               <Text style={{ fontWeight: "bold", fontSize: 18 }}>
                 Manage Opportunities
               </Text>
-              <Text>Post opportunities for organisations</Text>
+              <Text>View, post, edit, remove opportunities</Text>
             </View>
           </View>
         </View>

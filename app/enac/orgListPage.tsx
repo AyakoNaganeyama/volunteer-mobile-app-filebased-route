@@ -13,6 +13,7 @@ import { Organisation } from "@/constants/types";
 import { useRouter, Link } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Octicons from "@expo/vector-icons/Octicons";
 
 const orgListPage = () => {
   const { orgList } = useOrganisationStore();
@@ -44,15 +45,15 @@ const orgListPage = () => {
             alignSelf: "center",
           }}
         >
-          {/* <Text
+          <Text
             style={{
               fontSize: 24,
               fontWeight: "bold",
               color: "#0d528f",
             }}
           >
-            Choose an Organisation
-          </Text> */}
+            Please Choose an Organisation
+          </Text>
         </View>
 
         <View style={styles.searchContainer}>
@@ -82,9 +83,9 @@ const orgListPage = () => {
             <Link key={org.id} href={`./listofEachorg/${org.id}`} asChild>
               <TouchableOpacity style={styles.card} activeOpacity={0.8}>
                 <View style={styles.cardRow}>
-                  <View>
+                  <View style={{ flexDirection: "row", gap: 10 }}>
+                    <Octicons name="organization" size={24} color="gray" />
                     <Text style={styles.title}>{org.organisationName}</Text>
-                    <Text style={styles.subtitle}>{org.email}</Text>
                   </View>
                   <AntDesign name="right" size={24} color="black" />
                 </View>
