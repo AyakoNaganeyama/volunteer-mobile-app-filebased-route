@@ -169,6 +169,18 @@ const Page = () => {
               marginTop: 30,
             }}
           ></View>
+
+          <Text
+            style={{
+              color: "red",
+              textAlign: "center",
+              marginBottom: 8,
+              fontSize: 14,
+            }}
+          >
+            By clicking “Apply”, you will be redirected to the organisation’s
+            application page.
+          </Text>
           <View style={{ marginBottom: 100 }}>
             <TouchableOpacity
               onPress={() =>

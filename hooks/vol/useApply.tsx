@@ -41,7 +41,7 @@ const useApply = () => {
       addApplication(application);
       // Remove it from the opportunities list
       removeOpportunity(opportunity.id);
-      showSuccessToast("Added to a visited list", opportunity.title);
+      showSuccessToast("Redirecting to", opportunity.registrationFormUrl);
     } catch (err: any) {
       console.error("Firestore write failed:", err);
       showErrorToast("Failed to apply", err.message);
