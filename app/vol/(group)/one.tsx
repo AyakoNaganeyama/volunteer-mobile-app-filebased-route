@@ -31,6 +31,9 @@ import { useApplicationsStore } from "@/userStore/volApplicationStore";
 import { useFilterStore } from "@/userStore/useFilterStore";
 import useFilter from "@/hooks/vol/useFilter";
 
+import { Animated } from "react-native";
+import { useRef } from "react";
+
 const one = () => {
   const { volunteer } = useVolunteerStore();
   const { category, commitment, location, fromDate, toDate } = useFilterStore();
@@ -43,9 +46,21 @@ const one = () => {
   const { applications, closedApplication } = useApplicationsStore();
   const [apps, setApps] = useState<Application[]>(applications);
   const [loading, setLoading] = useState(true);
-  const [closedApp, setClosedApp] = useState<Application[]>();
+  const [closedApp, setClosedApp] = useState<Application[]>([]);
   const [isCurrent, setIsCurrent] = useState(true);
   const { applyFilter } = useFilter();
+  const [headerHeight, setHeaderHeight] = useState(0);
+
+  const HEADER_HEIGHT =
+    searchClicked || apps.length || closedApp.length ? 180 : 50;
+
+  // Animated header values
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const headerTranslateY = scrollY.interpolate({
+    inputRange: [0, HEADER_HEIGHT],
+    outputRange: [0, -HEADER_HEIGHT],
+    extrapolate: "clamp",
+  });
 
   useEffect(() => {
     setApps(applications);
@@ -261,94 +276,103 @@ const one = () => {
           </View>
         </>
       )}
-
-      {!searchClicked && (apps.length > 0 || closedApp.length > 0) && (
-        <>
-          <View style={{ flexDirection: "row" }}>
-            <TouchableOpacity onPress={() => setIsCurrent(true)}>
-              <Text
-                style={{
-                  color: isCurrent ? "#0d528f" : "grey",
-                  fontSize: 14,
-                  fontWeight: "bold",
-                  marginLeft: 16,
-                  marginTop: 16,
-                  textDecorationLine: isCurrent ? "underline" : "none",
-                }}
-              >
-                Visited
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => setIsCurrent(false)}>
-              <Text
-                style={{
-                  color: !isCurrent ? "#0d528f" : "grey",
-                  fontSize: 14,
-                  fontWeight: "bold",
-                  marginLeft: 16,
-                  marginTop: 16,
-                  textDecorationLine: !isCurrent ? "underline" : "none",
-                }}
-              >
-                Past Visit/Closed
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-          {isCurrent && (
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={styles.horizontalScroll}
-              contentContainerStyle={styles.horizontalContent}
-            >
-              {apps.map((item) => (
-                <Link
-                  key={item.id}
-                  href={`../applicationDetail/${item.opportunity.id}`}
-                  asChild
+      <Animated.View
+        style={[
+          styles.headerContainer,
+          { transform: [{ translateY: headerTranslateY }] },
+        ]}
+      >
+        {!searchClicked && (apps.length > 0 || closedApp.length > 0) && (
+          <>
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity onPress={() => setIsCurrent(true)}>
+                <Text
+                  style={{
+                    color: isCurrent ? "#0d528f" : "grey",
+                    fontSize: 14,
+                    fontWeight: "bold",
+                    marginLeft: 16,
+                    marginTop: 16,
+                    textDecorationLine: isCurrent ? "underline" : "none",
+                  }}
                 >
-                  <TouchableOpacity key={item.id} style={styles.card}>
-                    <Image
-                      source={getImage(item.opportunity.category)}
-                      style={styles.cardImage}
-                    />
-                    <Text style={styles.cardTitle} numberOfLines={1}>
-                      {item.opportunity.title}
-                    </Text>
-                  </TouchableOpacity>
-                </Link>
-              ))}
-            </ScrollView>
-          )}
+                  Visited
+                </Text>
+              </TouchableOpacity>
 
-          {!isCurrent && (
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={styles.horizontalScroll}
-              contentContainerStyle={styles.horizontalContent}
-            >
-              {closedApp.map((item) => (
-                <Link
-                  key={item.id}
-                  href={`../applicationDetail/${item.opportunity.id}`}
-                  asChild
+              <TouchableOpacity onPress={() => setIsCurrent(false)}>
+                <Text
+                  style={{
+                    color: !isCurrent ? "#0d528f" : "grey",
+                    fontSize: 14,
+                    fontWeight: "bold",
+                    marginLeft: 16,
+                    marginTop: 16,
+                    textDecorationLine: !isCurrent ? "underline" : "none",
+                  }}
                 >
-                  <TouchableOpacity key={item.id} style={styles.card}>
-                    <Image
-                      source={getImage(item.opportunity.category)}
-                      style={styles.cardImage}
-                    />
-                    <Text style={styles.cardTitle} numberOfLines={1}>
-                      {item.opportunity.title}
-                    </Text>
-                  </TouchableOpacity>
-                </Link>
-              ))}
-            </ScrollView>
-          )}
+                  Past Visit/Closed
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            {isCurrent && (
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={styles.horizontalScroll}
+                contentContainerStyle={styles.horizontalContent}
+              >
+                {apps.map((item) => (
+                  <Link
+                    key={item.id}
+                    href={`../applicationDetail/${item.opportunity.id}`}
+                    asChild
+                  >
+                    <TouchableOpacity key={item.id} style={styles.card}>
+                      <Image
+                        source={getImage(item.opportunity.category)}
+                        style={styles.cardImage}
+                      />
+                      <Text style={styles.cardTitle} numberOfLines={1}>
+                        {item.opportunity.title}
+                      </Text>
+                    </TouchableOpacity>
+                  </Link>
+                ))}
+              </ScrollView>
+            )}
+
+            {!isCurrent && (
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={styles.horizontalScroll}
+                contentContainerStyle={styles.horizontalContent}
+              >
+                {closedApp.map((item) => (
+                  <Link
+                    key={item.id}
+                    href={`../applicationDetail/${item.opportunity.id}`}
+                    asChild
+                  >
+                    <TouchableOpacity key={item.id} style={styles.card}>
+                      <Image
+                        source={getImage(item.opportunity.category)}
+                        style={styles.cardImage}
+                      />
+                      <Text style={styles.cardTitle} numberOfLines={1}>
+                        {item.opportunity.title}
+                      </Text>
+                    </TouchableOpacity>
+                  </Link>
+                ))}
+              </ScrollView>
+            )}
+          </>
+        )}
+
+        {!searchClicked && (
           <Text
             style={{
               color: "#0d528f",
@@ -360,8 +384,8 @@ const one = () => {
           >
             Discover
           </Text>
-        </>
-      )}
+        )}
+      </Animated.View>
       {/* closed */}
 
       {/* {!searchClicked && closedApp.length > 0 && (
@@ -387,16 +411,22 @@ const one = () => {
         </>
       )} */}
 
-      <ScrollView
+      <Animated.ScrollView
         style={{ flex: 1 }}
+        contentContainerStyle={{ paddingTop: HEADER_HEIGHT }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            tintColor="#0d528f" // iOS
-            colors={["#0d528f"]} // Android
+            tintColor="#0d528f"
+            colors={["#0d528f"]}
           />
         }
+        scrollEventThrottle={16}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: true }
+        )}
       >
         {opps.map((opportunity) => (
           <View
@@ -448,7 +478,7 @@ const one = () => {
             {/* </View> */}
           </View>
         ))}
-      </ScrollView>
+      </Animated.ScrollView>
     </SafeAreaView>
   );
 };
@@ -572,5 +602,19 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 12,
     fontWeight: "500",
+  },
+  headerContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 10,
+    backgroundColor: "#fff",
+  },
+  discoverTitle: {
+    color: "#0d528f",
+    fontSize: 18,
+    fontWeight: "bold",
+    marginLeft: 16,
   },
 });
