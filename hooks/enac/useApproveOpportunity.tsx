@@ -19,7 +19,6 @@ const useApproveOpportunity = () => {
       showSuccessToast("Opportunity Approved", opp.title);
 
       // only navigate on success
-      router.push("/enac/opportunityApproval");
     } catch (err: any) {
       console.error("Failed to approve opportunity:", err);
       showErrorToast(

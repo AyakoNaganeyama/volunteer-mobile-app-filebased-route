@@ -61,7 +61,7 @@ const opportunityApproval = () => {
             <AntDesign
               name="arrowleft"
               size={24}
-              onPress={() => router.push("/enac/(tabs)/one")}
+              onPress={() => router.back()}
             />
             <Text
               style={{

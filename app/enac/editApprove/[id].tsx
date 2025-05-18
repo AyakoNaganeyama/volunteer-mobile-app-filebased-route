@@ -1,4 +1,11 @@
-import { View, Text, Image, Switch, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  Switch,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import React from "react";
 import { useLocalSearchParams } from "expo-router";
 import { useRouter } from "expo-router";
@@ -20,6 +27,7 @@ const approvePage = () => {
   const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
   const { getImage } = usegetImage();
   const [isEnabled, setIsEnabled] = useState(false);
+  const [approved, setApproved] = useState(false);
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -39,7 +47,7 @@ const approvePage = () => {
   useEffect(() => {
     const foundOpportunity = opportunities.find((opp) => opp.id === id);
     setOpportunity(foundOpportunity || null);
-  }, [id]);
+  }, [id, opportunities]);
   if (!opportunity) {
     return <Text>Loading opportunity...</Text>;
   }
@@ -58,6 +66,22 @@ const approvePage = () => {
       console.warn("Can't open URL:", url);
     }
   };
+
+  if (opportunity.isApproved) {
+    return (
+      <SafeAreaView style={styles.centered}>
+        <Text style={styles.approvedText}>
+          Opportunity approved ✅ {opportunity.title}
+        </Text>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => router.back()}
+        >
+          <Text style={styles.backButtonText}>Go Back</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView>
@@ -213,3 +237,27 @@ const approvePage = () => {
 };
 
 export default approvePage;
+const styles = StyleSheet.create({
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 16,
+  },
+  approvedText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 20,
+    color: "#0d528f",
+  },
+  backButton: {
+    backgroundColor: "#0d528f",
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 8,
+  },
+  backButtonText: {
+    color: "#fff",
+    fontSize: 16,
+  },
+});

@@ -35,7 +35,7 @@ const orgListPage = () => {
 
   return (
     <>
-      <SafeAreaView>
+      <SafeAreaView style={{ flex: 1 }}>
         <Text onPress={() => router.back()} style={styles.backText}>
           ← Back
         </Text>
@@ -50,6 +50,7 @@ const orgListPage = () => {
               fontSize: 24,
               fontWeight: "bold",
               color: "#0d528f",
+              marginBottom: 20,
             }}
           >
             Please Choose an Organisation
@@ -104,6 +105,7 @@ const styles = StyleSheet.create({
   container: {
     paddingVertical: 20,
     alignItems: "center",
+    paddingBottom: 100,
   },
   card: {
     width: "95%",
