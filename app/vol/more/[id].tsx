@@ -1,4 +1,12 @@
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import React from "react";
 import { useLocalSearchParams } from "expo-router";
 
@@ -20,6 +28,7 @@ const Page = () => {
   const { getImage } = usegetImage();
   const { applyOpportunity } = useApply();
   const { searchClicked, clearSearchClicked } = useSearchStore();
+  const [isLoading, setIsLoading] = useState(false);
 
   // const handleRedirect = async (Regurl:string) => {
   //   const url =
@@ -35,11 +44,10 @@ const Page = () => {
 
   // in your Page component
   const handleRedirect = async (url: string, opp: Opportunity) => {
+    setIsLoading(true);
     try {
-      // wait for the write + local store update to finish
       await applyOpportunity(opp);
 
-      // then navigate
       if (await Linking.canOpenURL(url)) {
         await Linking.openURL(url);
       } else {
@@ -51,6 +59,8 @@ const Page = () => {
       router.back();
     } catch (err: any) {
       console.error("Failed to apply + redirect:", err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -67,85 +77,88 @@ const Page = () => {
   }
   return (
     <>
-      <SafeAreaView>
-        <Image
-          source={getImage(opportunity.category)}
-          style={{ width: "100%", height: 200 }}
-        />
-
-        <View
-          style={{
-            alignSelf: "center",
-            marginHorizontal: 20,
-            marginBottom: 30,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 18,
-              textAlign: "center",
-              fontWeight: "bold",
-              marginTop: 20,
-              marginBottom: 5,
-            }}
-          >
-            {opportunity.title}
-          </Text>
-          <Text style={{ fontSize: 14, color: "grey", textAlign: "center" }}>
-            {opportunity.companyName}
-          </Text>
+      <SafeAreaView style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
+          <Image
+            source={getImage(opportunity.category)}
+            style={{ width: "100%", height: 200 }}
+          />
 
           <View
             style={{
-              width: "90%",
-              gap: 30,
               alignSelf: "center",
-              marginTop: 30,
-              paddingHorizontal: 30,
-              flexDirection: "row",
+              marginHorizontal: 20,
+              marginBottom: 30,
             }}
           >
-            <View style={{ flexDirection: "row" }}>
-              <EvilIcons name="location" size={24} color="black" />
-              <Text>{opportunity.location}</Text>
+            <Text
+              style={{
+                fontSize: 18,
+                textAlign: "center",
+                fontWeight: "bold",
+                marginTop: 20,
+                marginBottom: 5,
+              }}
+            >
+              {opportunity.title}
+            </Text>
+            <Text style={{ fontSize: 14, color: "grey", textAlign: "center" }}>
+              {opportunity.companyName}
+            </Text>
+
+            <View
+              style={{
+                width: "90%",
+                gap: 30,
+                alignSelf: "center",
+                marginTop: 30,
+                paddingHorizontal: 30,
+                flexDirection: "row",
+              }}
+            >
+              <View style={{ flexDirection: "row" }}>
+                <EvilIcons name="location" size={24} color="black" />
+                <Text>{opportunity.location}</Text>
+              </View>
+
+              <View style={{ flexDirection: "row" }}>
+                <Entypo name="awareness-ribbon" size={24} color="black" />
+                <Text>{opportunity.category}</Text>
+              </View>
             </View>
 
-            <View style={{ flexDirection: "row" }}>
-              <Entypo name="awareness-ribbon" size={24} color="black" />
-              <Text>{opportunity.category}</Text>
+            <View
+              style={{
+                width: "90%",
+                paddingHorizontal: 30,
+
+                marginBottom: 20,
+                marginTop: 30,
+              }}
+            >
+              <Text style={{ fontSize: 14, color: "grey", fontWeight: "bold" }}>
+                Description
+              </Text>
+              <Text style={{ fontSize: 16 }}>{opportunity.description}</Text>
             </View>
-          </View>
 
-          <View
-            style={{
-              width: "90%",
-              paddingHorizontal: 30,
+            <View
+              style={{
+                width: "90%",
+                paddingHorizontal: 30,
 
-              marginBottom: 20,
-              marginTop: 30,
-            }}
-          >
-            <Text style={{ fontSize: 14, color: "grey", fontWeight: "bold" }}>
-              Description
-            </Text>
-            <Text style={{ fontSize: 16 }}>{opportunity.description}</Text>
-          </View>
+                marginBottom: 20,
+              }}
+            >
+              <Text style={{ fontSize: 14, color: "grey", fontWeight: "bold" }}>
+                Commitment Period
+              </Text>
+              <Text style={{ fontSize: 16 }}>
+                {opportunity.commitmentPeriod}
+              </Text>
+            </View>
 
-          <View
-            style={{
-              width: "90%",
-              paddingHorizontal: 30,
-
-              marginBottom: 20,
-            }}
-          >
-            <Text style={{ fontSize: 14, color: "grey", fontWeight: "bold" }}>
-              Commitment Period
-            </Text>
-            <Text style={{ fontSize: 16 }}>{opportunity.commitmentPeriod}</Text>
-          </View>
-
-          {/* <View
+            {/* <View
           style={{
             width: "90%",
             paddingHorizontal: 30,
@@ -160,38 +173,49 @@ const Page = () => {
           </Text>
         </View> */}
 
-          <View
-            style={{
-              alignSelf: "center",
-              width: "90%",
-              paddingHorizontal: 30,
-              gap: 5,
-              marginTop: 30,
-            }}
-          ></View>
+            <View
+              style={{
+                alignSelf: "center",
+                width: "90%",
+                paddingHorizontal: 30,
+                gap: 5,
+                marginTop: 30,
+              }}
+            ></View>
 
-          <Text
-            style={{
-              color: "red",
-              textAlign: "center",
-              marginBottom: 8,
-              fontSize: 14,
-            }}
-          >
-            By clicking “Apply”, you will be redirected to the organisation’s
-            application page.
-          </Text>
-          <View style={{ marginBottom: 100 }}>
-            <TouchableOpacity
-              onPress={() =>
-                handleRedirect(opportunity.registrationFormUrl, opportunity)
-              }
-              style={styles.buttonStyle}
+            <Text
+              style={{
+                color: "red",
+                textAlign: "center",
+                marginBottom: 8,
+                fontSize: 14,
+              }}
             >
-              <Text style={styles.buttonText}>Apply</Text>
-            </TouchableOpacity>
+              By clicking “Apply”, you will be redirected to the organisation’s
+              application page.
+            </Text>
+            <View style={{ marginBottom: 100 }}>
+              <TouchableOpacity
+                onPress={() =>
+                  handleRedirect(opportunity.registrationFormUrl, opportunity)
+                }
+                style={[styles.buttonStyle, isLoading && styles.buttonDisabled]}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <View style={{ flexDirection: "row", gap: 5 }}>
+                      <ActivityIndicator />
+                      <Text style={styles.buttonText}>Redirecting…</Text>
+                    </View>
+                  </>
+                ) : (
+                  <Text style={styles.buttonText}>Apply</Text>
+                )}
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        </ScrollView>
       </SafeAreaView>
     </>
   );
