@@ -29,7 +29,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 import { useApplicationsStore } from "@/userStore/volApplicationStore";
 import { useFilterStore } from "@/userStore/useFilterStore";
-import applicationDetail from "@/app/org/applicationDetail/[id]";
+import useFilter from "@/hooks/vol/useFilter";
 
 const one = () => {
   const { volunteer } = useVolunteerStore();
@@ -45,6 +45,7 @@ const one = () => {
   const [loading, setLoading] = useState(true);
   const [closedApp, setClosedApp] = useState<Application[]>();
   const [isCurrent, setIsCurrent] = useState(true);
+  const { applyFilter } = useFilter();
 
   useEffect(() => {
     setApps(applications);
@@ -164,10 +165,63 @@ const one = () => {
               alignItems: "center",
             }}
           >
-            <View style={styles.filterRow}>
+            {/* <View style={styles.filterRow}>
               {category && <Text style={styles.filterTag}>{category}</Text>}
               {commitment && <Text style={styles.filterTag}>{commitment}</Text>}
               {location && <Text style={styles.filterTag}>{location}</Text>}
+            </View> */}
+            <View style={styles.filterRow}>
+              {category && (
+                <View style={styles.filterTag}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      applyFilter("", commitment, location, fromDate, toDate)
+                    }
+                  >
+                    <AntDesign
+                      name="close"
+                      size={12}
+                      color="#fff"
+                      style={styles.filterTagIcon}
+                    />
+                  </TouchableOpacity>
+                  <Text style={styles.filterTagText}>{category}</Text>
+                </View>
+              )}
+              {commitment && (
+                <View style={styles.filterTag}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      applyFilter(category, "", location, fromDate, toDate)
+                    }
+                  >
+                    <AntDesign
+                      name="close"
+                      size={12}
+                      color="#fff"
+                      style={styles.filterTagIcon}
+                    />
+                  </TouchableOpacity>
+                  <Text style={styles.filterTagText}>{commitment}</Text>
+                </View>
+              )}
+              {location && (
+                <View style={styles.filterTag}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      applyFilter(category, commitment, "", fromDate, toDate)
+                    }
+                  >
+                    <AntDesign
+                      name="close"
+                      size={12}
+                      color="#fff"
+                      style={styles.filterTagIcon}
+                    />
+                  </TouchableOpacity>
+                  <Text style={styles.filterTagText}>{location}</Text>
+                </View>
+              )}
             </View>
           </ScrollView>
           <View
@@ -503,13 +557,20 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   filterTag: {
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: "#0d528f",
-    color: "#fff",
-    paddingHorizontal: 6,
-    paddingVertical: 2,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
     borderRadius: 12,
+    marginRight: 8,
+  },
+  filterTagIcon: {
+    marginRight: 4, // space between icon and text
+  },
+  filterTagText: {
+    color: "#fff",
     fontSize: 12,
     fontWeight: "500",
-    marginRight: 8,
   },
 });
