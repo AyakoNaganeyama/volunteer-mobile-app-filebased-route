@@ -32,6 +32,7 @@ import useManageOpportunities from "@/hooks/org/uesManageOpportunities";
 import { useFetchOpportunities } from "@/hooks/org/useFetchOpportunities";
 import { useOpportunitiesStore } from "@/userStore/orgOpportunityStore";
 import AskIfDelete from "@/components/orgpost/AskIfDelete";
+import { useNewUserStore } from "@/userStore/isNew";
 
 const one = () => {
   const { createOpportunity } = useManageOpportunities();
@@ -44,6 +45,7 @@ const one = () => {
   const { clearOpportunities, addOpportunity, opportunities } =
     useOpportunitiesStore();
   const [isLoading, setIsLoading] = useState(true);
+  const { isNew, clearNew } = useNewUserStore();
 
   useEffect(() => {
     fetchOpportunities()
@@ -131,6 +133,21 @@ const one = () => {
                 </Text>
               </TouchableOpacity>
             </View>
+            {isNew && (
+              <>
+                <View style={styles.con}>
+                  <View style={styles.arrow} />
+                  <View style={styles.bubble}>
+                    <Text style={styles.text}>
+                      Tip: you can add opportunities
+                    </Text>
+                    <TouchableOpacity onPress={() => clearNew()}>
+                      <Ionicons name="close" size={16} color="#555" />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </>
+            )}
 
             {/* Opportunity List */}
             <ScrollView
@@ -377,5 +394,44 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
+  },
+  bubble: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    // Shadow for iOS
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    // Elevation for Android
+    elevation: 2,
+    width: 150,
+  },
+  text: {
+    flex: 1,
+    fontSize: 14,
+    color: "#333",
+    marginRight: 8,
+  },
+  arrow: {
+    width: 0,
+    height: 0,
+    // ↓ make the triangle point upward
+    borderBottomWidth: 10,
+    borderBottomColor: "#fff",
+    borderLeftWidth: 10,
+    borderLeftColor: "transparent",
+    borderRightWidth: 10,
+    borderRightColor: "transparent",
+    // ↓ tuck it into the top of the bubble
+    marginLeft: 16,
+    marginBottom: -1,
+  },
+  con: {
+    alignItems: "flex-start",
   },
 });

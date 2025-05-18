@@ -17,8 +17,10 @@ import { useEffect } from "react";
 import { useRouter } from "expo-router";
 import { useToast } from "../useToast";
 import { useState } from "react";
+import { useNewUserStore } from "@/userStore/isNew";
 const useSignup = () => {
   const { showSuccessToast, showErrorToast } = useToast();
+  const { setNew } = useNewUserStore();
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(authentication);
   const { setOrg, org } = useOrgStore();
@@ -102,6 +104,7 @@ const useSignup = () => {
         }
 
         if (newUser) {
+          setNew();
           router.replace("/org/(tabs)/one");
         }
       }
