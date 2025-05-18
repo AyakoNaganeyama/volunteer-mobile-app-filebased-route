@@ -16,6 +16,7 @@ import { useVolunteerStore } from "@/userStore/volSore";
 import { useEffect } from "react";
 import { useRouter } from "expo-router";
 import { useToast } from "../useToast";
+import { useNewUserStore } from "@/userStore/isNew";
 
 const useSignup = () => {
   const { showSuccessToast, showErrorToast } = useToast();
@@ -30,6 +31,7 @@ const useSignup = () => {
 
   const router = useRouter();
   const [passError, setPassError] = useState("");
+  const { setNew } = useNewUserStore();
 
   useEffect(() => {
     if (volunteer) {
@@ -114,6 +116,7 @@ const useSignup = () => {
         }
 
         if (newUser) {
+          setNew();
           router.replace("/vol/(group)/one");
           showSuccessToast(`Welcome ${userDoc.fullName}`, userDoc.email);
         }

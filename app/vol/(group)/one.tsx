@@ -33,8 +33,11 @@ import useFilter from "@/hooks/vol/useFilter";
 
 import { Animated } from "react-native";
 import { useRef } from "react";
+import { useNewUserStore } from "@/userStore/isNew";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const one = () => {
+  const { isNew, clearNew } = useNewUserStore();
   const { volunteer } = useVolunteerStore();
   const { category, commitment, location, fromDate, toDate } = useFilterStore();
   const { opportunities, filteredOpportunities, setFilteredAll } =
@@ -373,17 +376,37 @@ const one = () => {
         )}
 
         {!searchClicked && (
-          <Text
-            style={{
-              color: "#0d528f",
-              fontSize: 18,
-              fontWeight: "bold",
-              marginLeft: 16,
-              marginTop: 30,
-            }}
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            Discover
-          </Text>
+            <Text
+              style={{
+                color: "#0d528f",
+                fontSize: 18,
+                fontWeight: "bold",
+                marginLeft: 16,
+                marginTop: 30,
+              }}
+            >
+              Discover
+            </Text>
+
+            {isNew && (
+              <>
+                <View style={styles.con}>
+                  <View style={styles.arrow} />
+                  <View style={styles.bubble}>
+                    <Text style={styles.text}>
+                      Tip: you can filter opportunities
+                    </Text>
+                    <TouchableOpacity onPress={() => clearNew()}>
+                      <Ionicons name="close" size={16} color="#555" />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </>
+            )}
+          </View>
         )}
       </Animated.View>
       {/* closed */}
@@ -616,5 +639,45 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginLeft: 16,
+  },
+
+  bubble: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    // Shadow for iOS
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    // Elevation for Android
+    elevation: 2,
+    width: 150,
+  },
+  text: {
+    flex: 1,
+    fontSize: 14,
+    color: "#333",
+    marginRight: 8,
+  },
+  arrow: {
+    width: 0,
+    height: 0,
+    // ↓ make the triangle point upward
+    borderBottomWidth: 10,
+    borderBottomColor: "#fff",
+    borderLeftWidth: 10,
+    borderLeftColor: "transparent",
+    borderRightWidth: 10,
+    borderRightColor: "transparent",
+    // ↓ tuck it into the top of the bubble
+    marginLeft: 16,
+    marginBottom: -1,
+  },
+  con: {
+    alignItems: "flex-start",
   },
 });
