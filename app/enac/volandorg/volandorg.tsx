@@ -7,11 +7,12 @@ import {
   TouchableOpacity,
   SafeAreaView,
   TextInput,
+  SectionList,
 } from "react-native";
 import React from "react";
 import { useVolunteerListStore } from "@/userStore/volusersArrayStore";
 import { Volunteer } from "@/constants/types";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter, Link } from "expo-router";
 
 const volandorg = () => {
@@ -22,7 +23,10 @@ const volandorg = () => {
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
-    setVolunteers(volunteerList);
+    const sorted = [...volunteerList].sort((a, b) =>
+      a.fullName.localeCompare(b.fullName)
+    );
+    setVolunteers(sorted);
   }, [volunteerList]);
 
   const filtered = volunteers.filter((v) => {
@@ -31,6 +35,21 @@ const volandorg = () => {
       v.fullName.toLowerCase().includes(q) || v.email.toLowerCase().includes(q)
     );
   });
+
+  const sections = useMemo(() => {
+    const groups: Record<string, Volunteer[]> = {};
+    filtered.forEach((v) => {
+      const letter = v.fullName[0].toUpperCase();
+      if (!groups[letter]) groups[letter] = [];
+      groups[letter].push(v);
+    });
+    return Object.keys(groups)
+      .sort()
+      .map((letter) => ({
+        title: letter,
+        data: groups[letter],
+      }));
+  }, [filtered]);
 
   return (
     <>
@@ -47,7 +66,7 @@ const volandorg = () => {
             onChangeText={setSearchText}
             autoCapitalize="none"
           />
-          {searchText !== "" && (
+          {!!searchText && (
             <TouchableOpacity
               onPress={() => setSearchText("")}
               style={styles.clearButton}
@@ -57,13 +76,13 @@ const volandorg = () => {
           )}
         </View>
 
-        <ScrollView contentContainerStyle={styles.container}>
-          {filtered.length === 0 && (
-            <View style={styles.empty}>
-              <Text>No volunteers match your search.</Text>
-            </View>
+        <SectionList
+          sections={sections}
+          keyExtractor={(item) => item.id}
+          renderSectionHeader={({ section: { title } }) => (
+            <Text style={styles.sectionHeader}>{title}</Text>
           )}
-          {filtered.map((item) => (
+          renderItem={({ item }) => (
             <Link key={item.id} href={`../eachvolunteer/${item.id}`} asChild>
               <TouchableOpacity style={styles.item}>
                 <Image source={defaultProfileIcon} style={styles.avatar} />
@@ -73,8 +92,14 @@ const volandorg = () => {
                 </View>
               </TouchableOpacity>
             </Link>
-          ))}
-        </ScrollView>
+          )}
+          ListEmptyComponent={() => (
+            <View style={styles.empty}>
+              <Text>No volunteers match your search.</Text>
+            </View>
+          )}
+          contentContainerStyle={styles.container}
+        />
       </SafeAreaView>
     </>
   );
@@ -93,20 +118,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginHorizontal: 16,
     marginBottom: 12,
-
-    // make the container look like the input
     borderColor: "#ccc",
     borderWidth: 1,
     borderRadius: 8,
     backgroundColor: "#fff",
-    height: 40, // match TextInput height
+    height: 40,
     position: "relative",
   },
   searchInput: {
     flex: 1,
     height: "100%",
     paddingHorizontal: 12,
-    paddingRight: 32, // leave room for the clear icon
+    paddingRight: 32,
   },
   clearButton: {
     position: "absolute",
@@ -121,8 +144,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#888",
   },
-  container: {
+  sectionHeader: {
+    backgroundColor: "#f0f0f0",
+    paddingVertical: 4,
     paddingHorizontal: 16,
+    fontSize: 14,
+    fontWeight: "700",
+  },
+  container: {
     paddingBottom: 24,
   },
   item: {
@@ -131,7 +160,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 12,
     borderRadius: 8,
-    marginBottom: 12,
+    marginHorizontal: 16,
+    marginVertical: 6,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
