@@ -26,6 +26,7 @@ import { Organisation } from "@/constants/types";
 import * as MailComposer from "expo-mail-composer";
 import Askdelete from "@/components/enac/Askdelete";
 import { SafeAreaView } from "react-native-safe-area-context";
+import UpdateOpp from "@/components/enac/UpdateOpp";
 
 const detail = () => {
   const router = useRouter();
@@ -40,9 +41,14 @@ const detail = () => {
   const [org, setOrg] = useState<Organisation | null>(null);
   const [apps, setApps] = useState<Application[]>([]);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [updateModalVisible, setUpdateModalVisible] = useState(false);
 
-  const handleEdit = () => {
-    // TODO: implement edit functionality
+  const openUpdateModal = () => {
+    setUpdateModalVisible(true);
+  };
+
+  const closeUpdateModal = () => {
+    setUpdateModalVisible(false);
   };
 
   const openDeleteModal = () => {
@@ -338,7 +344,10 @@ const detail = () => {
           </View>
 
           <View style={styles.actionButtonsContainer}>
-            <TouchableOpacity onPress={handleEdit} style={styles.actionButton}>
+            <TouchableOpacity
+              onPress={openUpdateModal}
+              style={styles.actionButton}
+            >
               <Text style={styles.actionButtonText}>Edit</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -353,6 +362,14 @@ const detail = () => {
           <Askdelete
             visible={deleteModalVisible}
             onClose={closeDeleteModal}
+            opp={opportunity}
+          />
+        )}
+
+        {updateModalVisible && (
+          <UpdateOpp
+            visible={updateModalVisible}
+            onClose={closeUpdateModal}
             opp={opportunity}
           />
         )}
