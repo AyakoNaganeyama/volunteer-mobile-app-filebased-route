@@ -7,11 +7,12 @@ import {
   TouchableOpacity,
   SafeAreaView,
   TextInput,
+  SectionList,
 } from "react-native";
 import React from "react";
 import { useOrganisationStore } from "@/userStore/orgArrayStore";
 import { Volunteer } from "@/constants/types";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter, Link } from "expo-router";
 import { Organisation } from "@/constants/types";
 const organisationList = () => {
@@ -22,7 +23,10 @@ const organisationList = () => {
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
-    setOrgs(orgList);
+    const sorted = [...orgList].sort((a, b) =>
+      a.organisationName.localeCompare(b.organisationName)
+    );
+    setOrgs(sorted);
   }, [orgList]);
 
   const filtered = orgs.filter((v) => {
@@ -33,49 +37,72 @@ const organisationList = () => {
     );
   });
 
+  const sections = useMemo(() => {
+    const groups: Record<string, Organisation[]> = {};
+    filtered.forEach((v) => {
+      const letter = v.organisationName[0].toUpperCase();
+      if (!groups[letter]) groups[letter] = [];
+      groups[letter].push(v);
+    });
+    return Object.keys(groups)
+      .sort()
+      .map((letter) => ({
+        title: letter,
+        data: groups[letter],
+      }));
+  }, [filtered]);
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Text onPress={() => router.back()} style={styles.backText}>
-        ← Back
-      </Text>
+    <>
+      <SafeAreaView style={{ flex: 1 }}>
+        <Text onPress={() => router.back()} style={styles.backText}>
+          ← Back
+        </Text>
 
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search by name or email"
-          value={searchText}
-          onChangeText={setSearchText}
-          autoCapitalize="none"
-        />
-        {searchText !== "" && (
-          <TouchableOpacity
-            onPress={() => setSearchText("")}
-            style={styles.clearButton}
-          >
-            <Text style={styles.clearButtonText}>×</Text>
-          </TouchableOpacity>
-        )}
-      </View>
-
-      <ScrollView contentContainerStyle={styles.container}>
-        {filtered.length === 0 && (
-          <View style={styles.empty}>
-            <Text>No volunteers match your search.</Text>
-          </View>
-        )}
-        {filtered.map((item) => (
-          <Link key={item.id} href={`../oppsofeachorg/${item.id}`} asChild>
-            <TouchableOpacity style={styles.item}>
-              <Image source={defaultProfileIcon} style={styles.avatar} />
-              <View style={styles.info}>
-                <Text style={styles.name}>{item.organisationName}</Text>
-                <Text style={styles.email}>{item.email}</Text>
-              </View>
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search by name or email"
+            value={searchText}
+            onChangeText={setSearchText}
+            autoCapitalize="none"
+          />
+          {!!searchText && (
+            <TouchableOpacity
+              onPress={() => setSearchText("")}
+              style={styles.clearButton}
+            >
+              <Text style={styles.clearButtonText}>×</Text>
             </TouchableOpacity>
-          </Link>
-        ))}
-      </ScrollView>
-    </SafeAreaView>
+          )}
+        </View>
+
+        <SectionList
+          sections={sections}
+          keyExtractor={(item) => item.id}
+          renderSectionHeader={({ section: { title } }) => (
+            <Text style={styles.sectionHeader}>{title}</Text>
+          )}
+          renderItem={({ item }) => (
+            <Link key={item.id} href={`../oppsofeachorg/${item.id}`} asChild>
+              <TouchableOpacity style={styles.item}>
+                <Image source={defaultProfileIcon} style={styles.avatar} />
+                <View style={styles.info}>
+                  <Text style={styles.name}>{item.organisationName}</Text>
+                  <Text style={styles.email}>{item.email}</Text>
+                </View>
+              </TouchableOpacity>
+            </Link>
+          )}
+          ListEmptyComponent={() => (
+            <View style={styles.empty}>
+              <Text>No Organisation match your search.</Text>
+            </View>
+          )}
+          contentContainerStyle={styles.container}
+        />
+      </SafeAreaView>
+    </>
   );
 };
 
@@ -92,20 +119,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginHorizontal: 16,
     marginBottom: 12,
-
-    // make the container look like the input
     borderColor: "#ccc",
     borderWidth: 1,
     borderRadius: 8,
     backgroundColor: "#fff",
-    height: 40, // match TextInput height
+    height: 40,
     position: "relative",
   },
   searchInput: {
     flex: 1,
     height: "100%",
     paddingHorizontal: 12,
-    paddingRight: 32, // leave room for the clear icon
+    paddingRight: 32,
   },
   clearButton: {
     position: "absolute",
@@ -120,8 +145,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#888",
   },
-  container: {
+  sectionHeader: {
+    backgroundColor: "#f0f0f0",
+    paddingVertical: 4,
     paddingHorizontal: 16,
+    fontSize: 14,
+    fontWeight: "700",
+  },
+  container: {
     paddingBottom: 24,
   },
   item: {
@@ -130,7 +161,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 12,
     borderRadius: 8,
-    marginBottom: 12,
+    marginHorizontal: 16,
+    marginVertical: 6,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
