@@ -1,4 +1,11 @@
-import { ScrollView, View, Text, StyleSheet, SafeAreaView } from "react-native";
+import {
+  ScrollView,
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import { useApplicationListStore } from "@/userStore/enacApplicationStore";
 import { useOppStore } from "@/userStore/oppArrayStore";
@@ -33,7 +40,50 @@ const eachVol = () => {
       >
         ← Back
       </Text>
-      <Text style={styles.header}>Applications for {vol?.fullName}</Text>
+      {vol && (
+        <>
+          <View
+            style={{
+              backgroundColor: "#eef5ff",
+              marginVertical: 8,
+              borderRadius: 8,
+              width: "90%",
+
+              paddingVertical: 20,
+              paddingLeft: 10,
+            }}
+          >
+            <Text style={{ fontSize: 18, fontWeight: "600" }}>
+              {vol.fullName}
+            </Text>
+            <TouchableOpacity onPress={() => {}}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: "blue",
+                  textDecorationLine: "underline",
+                }}
+              >
+                {vol.email}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: "700",
+              color: "#0d528f",
+
+              marginVertical: 12,
+              marginLeft: 10,
+            }}
+          >
+            {vol.fullName}'s application list
+          </Text>
+        </>
+      )}
+
       <ScrollView contentContainerStyle={styles.list}>
         {myApps.length === 0 && (
           <Text style={styles.noApps}>No applications found.</Text>

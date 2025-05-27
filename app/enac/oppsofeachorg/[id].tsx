@@ -13,17 +13,23 @@ import EvilIcons from "@expo/vector-icons/EvilIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Organisation } from "@/constants/types";
+import { useOrganisationStore } from "@/userStore/orgArrayStore";
 
 const EachList = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { opportunities } = useOppStore();
   const [opps, setOpps] = useState<Opportunity[]>([]);
   const router = useRouter();
+  const [org, setOrg] = useState<Organisation>();
+  const { orgList } = useOrganisationStore();
 
   useEffect(() => {
     if (!id) return;
 
     const filtered = opportunities.filter((o) => o.companyId === id);
+    const foundOrg = orgList.find((o) => o.id === id);
+    setOrg(foundOrg);
     setOpps(filtered);
   }, [opportunities, id]);
 
@@ -34,6 +40,35 @@ const EachList = () => {
           ← Back
         </Text>
 
+        {org && (
+          <View
+            style={{
+              backgroundColor: "#eef5ff",
+              marginVertical: 8,
+              borderRadius: 8,
+              width: "90%",
+              paddingHorizontal: 30,
+              paddingVertical: 20,
+              alignSelf: "center",
+            }}
+          >
+            <Text style={{ fontSize: 18, fontWeight: "600" }}>
+              {org.organisationName}
+            </Text>
+            <TouchableOpacity onPress={() => {}}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: "blue",
+                  textDecorationLine: "underline",
+                }}
+              >
+                {org.email}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
         {opps.length === 0 ? (
           <View style={styles.empty}>
             <Text style={styles.emptyText}>
@@ -41,57 +76,73 @@ const EachList = () => {
             </Text>
           </View>
         ) : (
-          <ScrollView
-            style={{ flex: 1 }}
-            contentContainerStyle={{ flexGrow: 1, padding: 16 }}
-            keyboardShouldPersistTaps="handled"
-            keyboardDismissMode="on-drag"
-          >
-            {opps.map((item) => (
-              <Link
-                href={`../detailofAppandOpp/${item.id}`}
-                key={item.id}
-                asChild
-              >
-                <TouchableOpacity
-                  style={styles.card}
-                  activeOpacity={0.8}
+          <>
+            <Text
+              style={{
+                padding: 16,
+                fontSize: 18,
+                fontWeight: "600",
+                color: "#0d528f",
+
+                borderRadius: 8,
+                marginHorizontal: 16,
+                marginTop: 8,
+              }}
+            >
+              Posted Opportunities
+            </Text>
+            <ScrollView
+              style={{ flex: 1 }}
+              contentContainerStyle={{ flexGrow: 1, padding: 16 }}
+              keyboardShouldPersistTaps="handled"
+              keyboardDismissMode="on-drag"
+            >
+              {opps.map((item) => (
+                <Link
+                  href={`../detailofAppandOpp/${item.id}`}
                   key={item.id}
+                  asChild
                 >
-                  <View style={styles.cardHeader}>
-                    <Text style={styles.title}>{item.title}</Text>
-                    <View style={styles.icons}>
-                      <AntDesign name="right" size={24} color="black" />
+                  <TouchableOpacity
+                    style={styles.card}
+                    activeOpacity={0.8}
+                    key={item.id}
+                  >
+                    <View style={styles.cardHeader}>
+                      <Text style={styles.title}>{item.title}</Text>
+                      <View style={styles.icons}>
+                        <AntDesign name="right" size={24} color="black" />
+                      </View>
                     </View>
-                  </View>
 
-                  <View style={styles.statusRow}>
-                    <Text style={styles.label}>Approval:</Text>
-                    <Text
-                      style={[
-                        styles.badge,
-                        item.isApproved ? styles.approved : styles.pending,
-                      ]}
-                    >
-                      {item.isApproved ? "Approved" : "Pending"}
-                    </Text>
-                  </View>
+                    <View style={styles.statusRow}>
+                      <Text style={styles.label}>Approval:</Text>
+                      <Text
+                        style={[
+                          styles.badge,
+                          item.isApproved ? styles.approved : styles.pending,
+                        ]}
+                      >
+                        {item.isApproved ? "Approved" : "Pending"}
+                      </Text>
+                    </View>
 
-                  <View style={styles.statusRow}>
-                    <Text style={styles.label}>Open:</Text>
-                    <Text
-                      style={[
-                        styles.badge,
-                        item.isOpen ? styles.approved : styles.pending,
-                      ]}
-                    >
-                      {item.isOpen ? "Active" : "Inactive"}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              </Link>
-            ))}
-          </ScrollView>
+                    <View style={styles.statusRow}>
+                      <Text style={styles.label}>Open:</Text>
+                      <Text
+                        style={[
+                          styles.badge,
+                          item.isOpen ? styles.approved : styles.pending,
+                        ]}
+                      >
+                        {item.isOpen ? "Active" : "Inactive"}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </Link>
+              ))}
+            </ScrollView>
+          </>
         )}
       </SafeAreaView>
     </>
