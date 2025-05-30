@@ -86,7 +86,7 @@ const CreateOpp = () => {
     location: "",
     category: "",
     commitmentPeriod: "",
-    registrationFormUrl: "",
+    registrationFormUrl: "https://",
     imageURL: "",
     date: null,
     companyId: org?.id ?? "",
