@@ -18,7 +18,6 @@ export const useFetchOpportunities = () => {
     clearOpportunities();
     clearApplications();
 
-    // if we don't have an org ID yet, bail
     if (!org?.id) return;
 
     try {

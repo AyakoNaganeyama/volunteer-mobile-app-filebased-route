@@ -11,7 +11,6 @@ import Fontisto from "@expo/vector-icons/Fontisto";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useRouter } from "expo-router";
 
-// Import your custom login hook
 import useLogin from "@/hooks/vol/useLogin";
 
 interface InputFields {
@@ -28,13 +27,11 @@ const VolunteerLogin = () => {
   const [errors, setErrors] = useState({ email: "", pass: "" });
   const [showPass, setShowPass] = useState(false);
 
-  // Extract the login function (and optionally loading and error)
   const { login, loading, error } = useLogin();
 
   // Handle login when button is pressed.
   const handleLogin = async () => {
     try {
-      // Call your custom login function with inputs.
       await login(inputs);
       // If login is successful, navigate to the desired screen.
       // router.replace("/vol/(group)/one");
@@ -97,7 +94,6 @@ const VolunteerLogin = () => {
           </Text>
         </TouchableOpacity>
 
-        {/* You can also display an error message if login fails */}
         {error && (
           <Text style={styles.errorText}>
             The email or password you entered is incorrect

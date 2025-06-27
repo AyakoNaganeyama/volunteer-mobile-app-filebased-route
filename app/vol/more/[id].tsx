@@ -42,7 +42,6 @@ const Page = () => {
   //   }
   // };
 
-  // in your Page component
   const handleRedirect = async (url: string, opp: Opportunity) => {
     setIsLoading(true);
     try {

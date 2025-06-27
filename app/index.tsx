@@ -66,12 +66,10 @@ const Index = () => {
     loadInfo();
   }, []); // Run once on mount
 
-  // While we're loading, do not redirect.
   if (loading) {
     return <Loader />;
   }
 
-  // Now, redirect based on what's loaded:
   if (volunteer) {
     // If volunteer info is found, redirect to volunteer screen.
     return <Redirect href="/vol/(group)/one" />;

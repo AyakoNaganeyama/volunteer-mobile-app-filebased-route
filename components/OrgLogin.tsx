@@ -32,7 +32,6 @@ const OrgLogin = () => {
   const handleLogin = async () => {
     try {
       await login(inputs);
-      // You can uncomment the router.replace in useLogin if you prefer redirect there
     } catch (e) {
       console.log("Login error:", e);
     }

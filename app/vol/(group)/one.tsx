@@ -84,7 +84,6 @@ const one = () => {
   const params = useGlobalSearchParams();
 
   useEffect(() => {
-    // wrap in an async IIFE so we can await fetchListings
     (async () => {
       setLoading(true);
       await fetchListings();
@@ -111,10 +110,7 @@ const one = () => {
 
     clearSearchClicked();
 
-    // 2) copy the full list into filteredOpportunities
     setFilteredAll();
-
-    // 3) update the local view
 
     setRefreshing(false);
   }, [clearSearchClicked, setFilteredAll]);
@@ -666,14 +662,14 @@ const styles = StyleSheet.create({
   arrow: {
     width: 0,
     height: 0,
-    // ↓ make the triangle point upward
+
     borderBottomWidth: 10,
     borderBottomColor: "#fff",
     borderLeftWidth: 10,
     borderLeftColor: "transparent",
     borderRightWidth: 10,
     borderRightColor: "transparent",
-    // ↓ tuck it into the top of the bubble
+
     marginLeft: 16,
     marginBottom: -1,
   },

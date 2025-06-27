@@ -29,7 +29,6 @@ const useDeleteOpportunity = () => {
     console.log(opp?.title);
 
     try {
-      // 1) find all applications for this opportunity
       const appsQuery = query(
         collection(firestore, "applications"),
         where("opportunity.id", "==", opp.id)
@@ -45,7 +44,6 @@ const useDeleteOpportunity = () => {
       // }
 
       if (!appsSnap.empty) {
-        // 2) only if there ARE applications, delete them
         for (const appDoc of appsSnap.docs) {
           await deleteDoc(doc(firestore, "applications", appDoc.id));
           removeApplication(appDoc.id);

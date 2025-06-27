@@ -242,8 +242,8 @@ const UpdateOpp = ({ visible, opp, onClose }: EditOpportunityModalProps) => {
 export default UpdateOpp;
 const styles = StyleSheet.create({
   modalScroll: {
-    flexGrow: 1, // let it expand to fill the view
-    justifyContent: "center", // or top-align as you prefer
+    flexGrow: 1,
+    justifyContent: "center",
     backgroundColor: "#fff",
     margin: 20,
     borderRadius: 12,

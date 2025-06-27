@@ -263,8 +263,6 @@ const applicationDetail = () => {
               })
             )}
           </View>
-
-          {/* ← your Approve switch & modal, etc. */}
         </ScrollView>
       </SafeAreaView>
     </>

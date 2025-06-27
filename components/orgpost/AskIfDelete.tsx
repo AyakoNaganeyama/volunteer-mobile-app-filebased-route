@@ -62,7 +62,7 @@ const AskIfDelete = ({ visible, onClose, opp }: DetailsProps) => {
           <TouchableOpacity
             style={{
               ...styles.saveButton,
-              opacity: loading ? 0.5 : 1, // fade when disabled
+              opacity: loading ? 0.5 : 1,
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",

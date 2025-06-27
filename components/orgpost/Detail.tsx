@@ -16,7 +16,7 @@ import { Picker } from "@react-native-picker/picker";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { Opportunity } from "@/constants/types";
 import useUpdateOpportunity from "@/hooks/org/useUpdateOpportunity";
-// You can move these arrays into a shared constants file if you like
+
 const locationsArray = [
   "Auckland CBD",
   "North Shore",
@@ -250,8 +250,8 @@ export default function EditOpportunityModal({
 
 const styles = StyleSheet.create({
   modalScroll: {
-    flexGrow: 1, // let it expand to fill the view
-    justifyContent: "center", // or top-align as you prefer
+    flexGrow: 1,
+    justifyContent: "center",
     backgroundColor: "#fff",
     margin: 20,
     borderRadius: 12,

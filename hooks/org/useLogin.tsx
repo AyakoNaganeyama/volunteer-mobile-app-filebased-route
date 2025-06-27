@@ -58,8 +58,7 @@ const useLogin = () => {
         }
         if (docSnapOrg.exists()) {
           const data = docSnapOrg.data();
-          // At this point, data is of type DocumentData, but we are sure it exists.
-          // To satisfy TypeScript, we can cast it to Volunteer if the structure matches.
+
           const orgData: Organisation = data as Organisation;
 
           console.log(orgData.organisationName);
@@ -89,13 +88,11 @@ const useLogin = () => {
 
         if (docSnapEnac.exists()) {
           const data = docSnapEnac.data();
-          // At this point, data is of type DocumentData, but we are sure it exists.
-          // To satisfy TypeScript, we can cast it to Volunteer if the structure matches.
+
           const enacData: Enac = data as Enac;
 
           console.log(enacData.fullName, enacData.id);
 
-          // Store the volunteer data in AsyncStorage and update the Zustand store.
           await AsyncStorage.setItem("enac-info", JSON.stringify(enacData));
 
           const storedUserString = await AsyncStorage.getItem("enac-info");

@@ -65,7 +65,6 @@ const MonthlyVolunteerChart = () => {
 
   const router = useRouter();
 
-  // replace these with your real monthly data (or default to 0)
   const values = [
     12, // Jan
     18, // Feb

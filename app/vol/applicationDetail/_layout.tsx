@@ -33,7 +33,7 @@ const _layout = () => {
             />
           ),
           headerTitleAlign: "center",
-          // Hide the default back button so only your custom one shows:
+
           headerBackVisible: false,
           headerLeft: () => <HeaderLeft />,
           headerShown: true,

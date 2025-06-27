@@ -26,14 +26,14 @@ const useFetchListings = () => {
   const { volunteer } = useVolunteerStore();
 
   const fetchListings = async () => {
-    // 1) clear old data
+    // clear old data
     clearOpportunities();
     clearSearchClicked();
     clearApplications();
     clearClosedApplications();
     clearWholeOpportunities();
 
-    // 2) fetch all opportunities & build a lookup map
+    // fetch all opportunities & build a lookup map
     const oppSnap = await getDocs(collection(firestore, "opportunities"));
 
     oppSnap.forEach((doc) => {
@@ -50,7 +50,7 @@ const useFetchListings = () => {
       }
     });
 
-    // 3) fetch all applications
+    // fetch all applications
     const appSnap = await getDocs(collection(firestore, "applications"));
     const appliedOppIds = new Set<string>();
 
@@ -64,19 +64,16 @@ const useFetchListings = () => {
       const freshOpp = oppMap.get(raw.opportunity.id);
       if (!freshOpp) return; // no matching opp, skip
 
-      // remember we've applied here
       appliedOppIds.add(freshOpp.id);
 
-      // convert Firestore Timestamp → JS Date
       const appliedDate =
         raw.appliedDate instanceof Timestamp
           ? raw.appliedDate.toDate()
           : new Date(raw.appliedDate);
 
-      // assemble a fully‐typed Application object
       const app: Application = {
         id: doc.id,
-        opportunity: freshOpp, // <— fresh data
+        opportunity: freshOpp,
         volunteer: raw.volunteer,
         appliedDate,
         status: raw.status,
@@ -90,7 +87,6 @@ const useFetchListings = () => {
       }
     });
 
-    // 4) seed your “discover” list with any remaining, un-applied opps
     for (const [id, opp] of oppMap) {
       if (!appliedOppIds.has(id) && opp.isOpen) {
         addOpportunity(opp);

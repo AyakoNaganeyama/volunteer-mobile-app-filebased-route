@@ -47,13 +47,11 @@ const useLogin = () => {
         }
 
         const data = docSnap.data();
-        // At this point, data is of type DocumentData, but we are sure it exists.
-        // To satisfy TypeScript, we can cast it to Volunteer if the structure matches.
+
         const volunteerData: Volunteer = data as Volunteer;
 
         console.log(volunteerData.fullName);
 
-        // Store the volunteer data in AsyncStorage and update the Zustand store.
         await AsyncStorage.setItem("user-info", JSON.stringify(volunteerData));
 
         const storedUserString = await AsyncStorage.getItem("user-info");

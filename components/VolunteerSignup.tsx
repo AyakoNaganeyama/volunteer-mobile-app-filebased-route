@@ -47,7 +47,7 @@ const VolunteerSignup = () => {
         email: inputs.email,
         pass: inputs.pass,
       });
-      // on success you might want to navigate:
+
       // router.replace("/volunteer/welcome");
     } catch (err) {
       showErrorToast("Signup failed", "error");
@@ -196,6 +196,6 @@ const styles = StyleSheet.create({
     color: "red",
     alignSelf: "flex-start",
     marginBottom: 12,
-    marginLeft: 16, // match your input padding if you like
+    marginLeft: 16,
   },
 });
