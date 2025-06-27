@@ -208,9 +208,9 @@ const approvePage = () => {
             marginTop: 30,
             paddingHorizontal: 30,
             flexDirection: "row",
-            justifyContent: "flex-end", // pushes content to the right
+            justifyContent: "flex-end",
             alignItems: "center",
-            gap: 10, // optional spacing
+            gap: 10,
           }}
         >
           <Text>Approve</Text>

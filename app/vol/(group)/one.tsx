@@ -615,7 +615,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   filterTagIcon: {
-    marginRight: 4, // space between icon and text
+    marginRight: 4,
   },
   filterTagText: {
     color: "#fff",

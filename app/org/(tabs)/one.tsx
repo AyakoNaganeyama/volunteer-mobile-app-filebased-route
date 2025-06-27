@@ -153,7 +153,7 @@ const one = () => {
             <ScrollView
               style={{ flex: 1 }}
               contentContainerStyle={{ flexGrow: 1 }}
-              keyboardShouldPersistTaps="handled" // or "always"
+              keyboardShouldPersistTaps="handled"
               keyboardDismissMode="on-drag"
             >
               {opps.length > 0 && (

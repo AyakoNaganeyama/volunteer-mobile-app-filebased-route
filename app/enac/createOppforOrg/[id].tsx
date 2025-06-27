@@ -377,12 +377,12 @@ const styles = StyleSheet.create({
   picker: {
     height: Platform.OS === "ios" ? 150 : 50,
     width: "100%",
-    color: "#333", // Explicit color
+    color: "#333",
   },
 
   pickerItem: {
     fontSize: 16,
     height: 150,
-    color: "#333", // explicit color to avoid transparency
+    color: "#333",
   },
 });
