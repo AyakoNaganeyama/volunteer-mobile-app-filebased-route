@@ -36,6 +36,19 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "18eb286a-729b-4319-ab6f-e037c849b6a1"
+      }
+    },
+    "owner": "ayakonaganeyama",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/18eb286a-729b-4319-ab6f-e037c849b6a1"
     }
   }
 }
