@@ -2,7 +2,7 @@
 
 ## About
 
-This documentation outlines the design and development of a functional Volunteer Opportunity Mobile Application for Project Compassion Ministry at Every Nation Auckland City (ENAC), a Christian church and non-profit organisation based in Auckland. The app aims to connect the ENAC church members with Project Compassion’s partner charities by providing a central platform to discover and manage volunteer opportunities.. <br />
+This documentation outlines the design and development of a Volunteer Opportunity Mobile Application prototype for Project Compassion Ministry at Every Nation Auckland City (ENAC), a Christian church and non-profit organisation based in Auckland. The app aims to connect the ENAC church members with Project Compassion’s partner charities by providing a central platform to discover and manage volunteer opportunities.. <br />
 
 ## Prerequisites
 
