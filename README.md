@@ -1,51 +1,47 @@
-# Welcome to your Expo app 👋
+# Volunteer Seeking Mobile App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## About
 
-## Get started
+This documentation outlines the design and development of a functional Volunteer Opportunity Mobile Application for Project Compassion Ministry at Every Nation Auckland City (ENAC), a Christian church and non-profit organisation based in Auckland. The app aims to connect the ENAC church members with Project Compassion’s partner charities by providing a central platform to discover and manage volunteer opportunities.. <br />
 
-1. Install dependencies
+## Prerequisites
 
-   ```bash
-   npm install
-   ```
+1. **Install Expo Go (you do no need to register to use the app)**:
+   - **iOS**: [Download Expo Go from the App Store](https://apps.apple.com/us/app/expo-go/id982107779).
+   - **Android**: [Download Expo Go from Google Play](https://play.google.com/store/apps/details?id=host.exp.exponent).<br />
 
-2. Start the app
+## Running the App
 
-   ```bash
-    npx expo start
-   ```
+1. **How to view the app**:
+   - Scan the QR code displayed below using the **Expo Go** app on your phone or by scanning it with your camera.
+     The app hosted live and can be viewed by downloading the **Expo Go** app from your app store and scanning the following QR code below:
 
-In the output, you'll find options to open the app in a
+[Scan this QR code to view the app](https://expo.dev/preview/update?message=Fix+bug+in+login+screen&updateRuntimeVersion=1.0.0&createdAt=2025-08-10T09%3A59%3A33.583Z&slug=exp&projectId=ba97eb8d-f733-4ac9-b817-975a16122842&group=80ae8c98-d873-4f64-b566-1754e83e5d33https://expo.dev/preview/update?message=SDK+updated&updateRuntimeVersion=1.0.0&createdAt=2025-09-28T23%3A58%3A48.422Z&slug=exp&projectId=18eb286a-729b-4319-ab6f-e037c849b6a1&group=1a5f38ae-f4e5-4d87-a45b-074c13452d75).
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### If link is not working can scan here
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+![QR code](./QRcode.jpg)<br />
 
-## Get a fresh project
+## High Level File Structure
 
-When you're ready, run:
+The below is high level overview of the app’s folder structure. Orange represents UI layer, green represents business logic layer, purple is the folder for reusable UI components, and blue is folder to store global state management files. Here I considered separation of concerns by keeping those layers in its folder. As I mentioned in the project proposal, my goal was to design and develop a working application that is expandable, this folder structure design will make it easier to update the application later.
 
-```bash
-npm run reset-project
-```
+![alt text](./folderStructure.jpg)<br />
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Database Diagram
 
-## Learn more
+The blow shows databse design implemeted.
 
-To learn more about developing your project with Expo, look at the following resources:
+![alt text](./databaseDiagram.jpg)<br /><br/>
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Firebase Service
 
-## Join the community
+Below explains how I used Firebase services. I used Firebase Authentication Service to store user’s authentication information (email and password) for all user types (volunteer, organisation, ENAC church admin). Firebase Authentication service is only for purpose of authenticate users, it allows them to signup, login, and logout. I used Firestore to store all other information like volunteers, organisations, ENAC admin, opportunities, applications. \*currently chaning to Supabase
 
-Join our community of developers creating universal apps.
+![alt text](./firebaseService.jpg)<br /><br/>
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
-# volunteer-mobile-app-filebased-route
+## Architecture Diagram
+
+Below is the high level architecture of the application.
+
+![alt text](./archtectureDiagram.jpg)<br /><br/>
