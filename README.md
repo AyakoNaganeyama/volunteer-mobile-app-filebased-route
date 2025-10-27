@@ -141,9 +141,9 @@ Here are some screenshots showcasing the key pages and interactions within the a
 | -------------------------------------- | ---------------------------------------------- | ---------------------------------- |
 | ![Volunteer List](./volunteerList.jpg) | ![Opportunity Detail](./opportunityDetail.jpg) | ![Filter Screen](./filterPage.jpg) |
 
-| Recently Visited              | Apply (External Form)               |     |
-| ----------------------------- | ----------------------------------- | --- |
-| ![Visited](./visitedList.jpg) | ![Apply Screen](./applyExample.jpg) |     |
+| Recently Visited          | Apply (External Form)         |     |
+| ------------------------- | ----------------------------- | --- |
+| ![Filtered](filtered.jpg) | ![Visited](./visitedList.jpg) |     |
 
 ---
 
