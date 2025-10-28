@@ -26,7 +26,7 @@ The app connects volunteers with charities by providing a **central platform** t
 
 If the link does not work, you can scan this QR code:
 
-![QR code](./QRcode.jpg)
+![QR code](./assets/readme/QRcode.jpg)
 
 ---
 
@@ -41,7 +41,7 @@ The following diagram shows the app’s **folder structure**:
 
 This structure follows the principle of **separation of concerns**, making the application **modular** and **easy to expand** in future updates.
 
-![Folder Structure](./folderStructure.jpg)
+![Folder Structure](./assets/readme/folderStructure.jpg)
 
 ---
 
@@ -49,7 +49,7 @@ This structure follows the principle of **separation of concerns**, making the a
 
 Below is the implemented **database schema** using Firebase Firestore:
 
-![Database Diagram](./databaseDiagram.jpg)
+![Database Diagram](./assets/readme/databaseDiagram.jpg)
 
 ---
 
@@ -66,7 +66,7 @@ The app integrates two Firebase services:
 
 > ⚙️ _Note: Currently migrating from Firebase to Supabase._
 
-![Firebase Service](./firebaseService.jpg)
+![Firebase Service](./assets/readme/firebaseService.jpg)
 
 ---
 
@@ -74,7 +74,7 @@ The app integrates two Firebase services:
 
 The high-level system architecture is illustrated below:
 
-![Architecture Diagram](./archtectureDiagram.jpg)
+![Architecture Diagram](./assets/readme/archtectureDiagram.jpg)
 
 ### Layers Overview
 
@@ -125,49 +125,49 @@ Here are some screenshots showcasing the key pages and interactions within the a
 
 ### 🔹 Authentication & User Flow
 
-| Choose Page                      | Volunteer Signup                           | Organisation Signup                              |
-| -------------------------------- | ------------------------------------------ | ------------------------------------------------ |
-| ![Choose Page](./choosePage.jpg) | ![Volunteer Signup](./volunteerSignup.jpg) | ![Organisation Signup](./organisationSignup.jpg) |
+| Choose Page            | Volunteer Signup         | Organisation Signup      |
+| ---------------------- | ------------------------ | ------------------------ |
+| ![alt text](image.png) | ![alt text](image-1.png) | ![alt text](image-2.png) |
 
-| Volunteer Login                          | Organisation Login                          | Admin Login                          |
-| ---------------------------------------- | ------------------------------------------- | ------------------------------------ |
-| ![Volunteer Login](./volunteerLogin.jpg) | ![Organisation Login](./volunteerLogin.jpg) | ![Admin Login](./volunteerLogin.jpg) |
+| Volunteer Login          | Organisation Login        | Admin Login              |
+| ------------------------ | ------------------------- | ------------------------ |
+| ![alt text](image-3.png) | !![alt text](image-4.png) | ![alt text](image-5.png) |
 
 ---
 
 ### 🔹 Volunteer Portal
 
-| Opportunity List                       | Opportunity Detail                             | Filter Opportunities               |
-| -------------------------------------- | ---------------------------------------------- | ---------------------------------- |
-| ![Volunteer List](./volunteerList.jpg) | ![Opportunity Detail](./opportunityDetail.jpg) | ![Filter Screen](./filterPage.jpg) |
+| Opportunity List         | Opportunity Detail       | Filter Opportunities     |
+| ------------------------ | ------------------------ | ------------------------ |
+| ![alt text](image-6.png) | ![alt text](image-7.png) | ![alt text](image-8.png) |
 
-| Recently Visited          | Apply (External Form)         |     |
-| ------------------------- | ----------------------------- | --- |
-| ![Filtered](filtered.jpg) | ![Visited](./visitedList.jpg) |     |
+| Filtered                 | Recently Visited List     |     |
+| ------------------------ | ------------------------- | --- |
+| ![alt text](image-9.png) | ![alt text](image-10.png) |     |
 
 ---
 
 ### 🔹 Organisation Portal
 
-| Organisation Dashboard               | Create Opportunity          | Edit Opportunity        |
-| ------------------------------------ | --------------------------- | ----------------------- |
-| ![Org Dashboard](./orgDashboard.jpg) | ![Create](./createPost.jpg) | ![Edit](./editPost.jpg) |
+| Organisation Dashboard    | Create Opportunity        | Edit Opportunity          |
+| ------------------------- | ------------------------- | ------------------------- |
+| ![alt text](image-11.png) | ![alt text](image-12.png) | ![alt text](image-13.png) |
 
-| Applicants List                     | Delete Confirmation         |     |
-| ----------------------------------- | --------------------------- | --- |
-| ![Applicants](./applicantsList.jpg) | ![Delete](./deletePost.jpg) |     |
+| Applicants List           | Delete Post               |     |
+| ------------------------- | ------------------------- | --- |
+| ![alt text](image-15.png) | ![alt text](image-14.png) |     |
 
 ---
 
 ### 🔹 Project Compassion Admin Portal
 
-| Pending Approval                  | Approved Opportunities          | Manage on Behalf                          |
-| --------------------------------- | ------------------------------- | ----------------------------------------- |
-| ![Pending](./pendingApproval.jpg) | ![Approved](./approvedList.jpg) | ![Manage On Behalf](./manageOnBehalf.jpg) |
+| Pending Approval          | Approve Opportunities     | Approve Opportunity       |
+| ------------------------- | ------------------------- | ------------------------- |
+| ![alt text](image-16.png) | ![alt text](image-17.png) | ![alt text](image-18.png) |
 
-| Volunteer Overview                          | Organisation Overview           | Search Function             |
-| ------------------------------------------- | ------------------------------- | --------------------------- |
-| ![Volunteer List](./adminVolunteerList.jpg) | ![Org List](./adminOrgList.jpg) | ![Search](./searchUser.jpg) |
+| Volunteer Overview        | Organisation Overview     | Manage Opportunity        |
+| ------------------------- | ------------------------- | ------------------------- |
+| ![alt text](image-19.png) | ![alt text](image-20.png) | ![alt text](image-21.png) |
 
 ---
 
