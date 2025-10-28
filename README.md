@@ -165,9 +165,13 @@ Here are some screenshots showcasing the key pages and interactions within the a
 | ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
 | ![alt text](./assets/readme/image-16.png) | ![alt text](./assets/readme/image-17.png) | ![alt text](./assets/readme/image-18.png) |
 
-| Volunteer Overview                        | Organisation Overview                     | Manage Opportunity                        |
-| ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
-| ![alt text](./assets/readme/image-19.png) | ![alt text](./assets/readme/image-20.png) | ![alt text](./assets/readme/image-21.png) |
+| Volunteer Overview                        | Organisation Overview                     | Opportunity |
+| ----------------------------------------- | ----------------------------------------- | ----------- |
+| ![alt text](./assets/readme/image-19.png) | ![alt text](./assets/readme/image-20.png) |             |
+
+| Opportunities by Each Org                   | Opportunity Details                        | Manage Opportunity on Behalf                    |
+| ------------------------------------------- | ------------------------------------------ | ----------------------------------------------- |
+| ![alt text](./assets/readme/oppeachOrg.png) | ![alt text](./assets/readme/oppDetail.png) | ![alt text](./assets/readme/manageonBehalf.png) |
 
 ---
 
