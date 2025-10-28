@@ -125,49 +125,49 @@ Here are some screenshots showcasing the key pages and interactions within the a
 
 ### 🔹 Authentication & User Flow
 
-| Choose Page            | Volunteer Signup         | Organisation Signup      |
-| ---------------------- | ------------------------ | ------------------------ |
-| ![alt text](image.png) | ![alt text](image-1.png) | ![alt text](image-2.png) |
+| Choose Page                            | Volunteer Signup                         | Organisation Signup                      |
+| -------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| ![alt text](./assets/readme/image.png) | ![alt text](./assets/readme/image-1.png) | ![alt text](./assets/readme/image-2.png) |
 
-| Volunteer Login          | Organisation Login        | Admin Login              |
-| ------------------------ | ------------------------- | ------------------------ |
-| ![alt text](image-3.png) | !![alt text](image-4.png) | ![alt text](image-5.png) |
+| Volunteer Login                          | Organisation Login                        | Admin Login                              |
+| ---------------------------------------- | ----------------------------------------- | ---------------------------------------- |
+| ![alt text](./assets/readme/image-3.png) | !![alt text](./assets/readme/image-4.png) | ![alt text](./assets/readme/image-5.png) |
 
 ---
 
 ### 🔹 Volunteer Portal
 
-| Opportunity List         | Opportunity Detail       | Filter Opportunities     |
-| ------------------------ | ------------------------ | ------------------------ |
-| ![alt text](image-6.png) | ![alt text](image-7.png) | ![alt text](image-8.png) |
+| Opportunity List                         | Opportunity Detail                       | Filter Opportunities                     |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| ![alt text](./assets/readme/image-6.png) | ![alt text](./assets/readme/image-7.png) | ![alt text](./assets/readme/image-8.png) |
 
-| Filtered                 | Recently Visited List     |     |
-| ------------------------ | ------------------------- | --- |
-| ![alt text](image-9.png) | ![alt text](image-10.png) |     |
+| Filtered                                 | Recently Visited List                     |     |
+| ---------------------------------------- | ----------------------------------------- | --- |
+| ![alt text](./assets/readme/image-9.png) | ![alt text](./assets/readme/image-10.png) |     |
 
 ---
 
 ### 🔹 Organisation Portal
 
-| Organisation Dashboard    | Create Opportunity        | Edit Opportunity          |
-| ------------------------- | ------------------------- | ------------------------- |
-| ![alt text](image-11.png) | ![alt text](image-12.png) | ![alt text](image-13.png) |
+| Organisation Dashboard                    | Create Opportunity                        | Edit Opportunity                          |
+| ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
+| ![alt text](./assets/readme/image-11.png) | ![alt text](./assets/readme/image-12.png) | ![alt text](./assets/readme/image-13.png) |
 
-| Applicants List           | Delete Post               |     |
-| ------------------------- | ------------------------- | --- |
-| ![alt text](image-15.png) | ![alt text](image-14.png) |     |
+| Applicants List                           | Delete Post                               |     |
+| ----------------------------------------- | ----------------------------------------- | --- |
+| ![alt text](./assets/readme/image-15.png) | ![alt text](./assets/readme/image-14.png) |     |
 
 ---
 
 ### 🔹 Project Compassion Admin Portal
 
-| Pending Approval          | Approve Opportunities     | Approve Opportunity       |
-| ------------------------- | ------------------------- | ------------------------- |
-| ![alt text](image-16.png) | ![alt text](image-17.png) | ![alt text](image-18.png) |
+| Pending Approval                          | Approve Opportunities                     | Approve Opportunity                       |
+| ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
+| ![alt text](./assets/readme/image-16.png) | ![alt text](./assets/readme/image-17.png) | ![alt text](./assets/readme/image-18.png) |
 
-| Volunteer Overview        | Organisation Overview     | Manage Opportunity        |
-| ------------------------- | ------------------------- | ------------------------- |
-| ![alt text](image-19.png) | ![alt text](image-20.png) | ![alt text](image-21.png) |
+| Volunteer Overview                        | Organisation Overview                     | Manage Opportunity                        |
+| ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
+| ![alt text](./assets/readme/image-19.png) | ![alt text](./assets/readme/image-20.png) | ![alt text](./assets/readme/image-21.png) |
 
 ---
 
