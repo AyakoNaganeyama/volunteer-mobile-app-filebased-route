@@ -123,55 +123,57 @@ The high-level system architecture is illustrated below:
 
 Here are some screenshots showcasing the key pages and interactions within the app:
 
+---
+
 ### 🔹 Authentication & User Flow
 
-| Choose Page                            | Volunteer Signup                         | Organisation Signup                      |
-| -------------------------------------- | ---------------------------------------- | ---------------------------------------- |
-| ![alt text](./assets/readme/image.png) | ![alt text](./assets/readme/image-1.png) | ![alt text](./assets/readme/image-2.png) |
+| Choose Page                                        | Volunteer Signup                                     | Organisation Signup                                  |
+| -------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- |
+| <img src="./assets/readme/image.png" width="250"/> | <img src="./assets/readme/image-1.png" width="250"/> | <img src="./assets/readme/image-2.png" width="250"/> |
 
-| Volunteer Login                          | Organisation Login                        | Admin Login                              |
-| ---------------------------------------- | ----------------------------------------- | ---------------------------------------- |
-| ![alt text](./assets/readme/image-3.png) | !![alt text](./assets/readme/image-4.png) | ![alt text](./assets/readme/image-5.png) |
+| Volunteer Login                                      | Organisation Login                                   | Admin Login                                          |
+| ---------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- |
+| <img src="./assets/readme/image-3.png" width="250"/> | <img src="./assets/readme/image-4.png" width="250"/> | <img src="./assets/readme/image-5.png" width="250"/> |
 
 ---
 
 ### 🔹 Volunteer Portal
 
-| Opportunity List                         | Opportunity Detail                       | Filter Opportunities                     |
-| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
-| ![alt text](./assets/readme/image-6.png) | ![alt text](./assets/readme/image-7.png) | ![alt text](./assets/readme/image-8.png) |
+| Opportunity List                                     | Opportunity Detail                                   | Filter Opportunities                                 |
+| ---------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- |
+| <img src="./assets/readme/image-6.png" width="250"/> | <img src="./assets/readme/image-7.png" width="250"/> | <img src="./assets/readme/image-8.png" width="250"/> |
 
-| Filtered                                 | Recently Visited List                     |     |
-| ---------------------------------------- | ----------------------------------------- | --- |
-| ![alt text](./assets/readme/image-9.png) | ![alt text](./assets/readme/image-10.png) |     |
+| Filtered                                             | Recently Visited List                                 |     |
+| ---------------------------------------------------- | ----------------------------------------------------- | --- |
+| <img src="./assets/readme/image-9.png" width="250"/> | <img src="./assets/readme/image-10.png" width="250"/> |     |
 
 ---
 
 ### 🔹 Organisation Portal
 
-| Organisation Dashboard                    | Create Opportunity                        | Edit Opportunity                          |
-| ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
-| ![alt text](./assets/readme/image-11.png) | ![alt text](./assets/readme/image-12.png) | ![alt text](./assets/readme/image-13.png) |
+| Organisation Dashboard                                | Create Opportunity                                    | Edit Opportunity                                      |
+| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
+| <img src="./assets/readme/image-11.png" width="250"/> | <img src="./assets/readme/image-12.png" width="250"/> | <img src="./assets/readme/image-13.png" width="250"/> |
 
-| Applicants List                           | Delete Post                               |     |
-| ----------------------------------------- | ----------------------------------------- | --- |
-| ![alt text](./assets/readme/image-15.png) | ![alt text](./assets/readme/image-14.png) |     |
+| Applicants List                                       | Delete Post                                           |     |
+| ----------------------------------------------------- | ----------------------------------------------------- | --- |
+| <img src="./assets/readme/image-15.png" width="250"/> | <img src="./assets/readme/image-14.png" width="250"/> |     |
 
 ---
 
 ### 🔹 Project Compassion Admin Portal
 
-| Pending Approval                          | Approve Opportunities                     | Approve Opportunity                       |
-| ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
-| ![alt text](./assets/readme/image-16.png) | ![alt text](./assets/readme/image-17.png) | ![alt text](./assets/readme/image-18.png) |
+| Pending Approval                                      | Approve Opportunities                                 | Approve Opportunity                                   |
+| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
+| <img src="./assets/readme/image-16.png" width="250"/> | <img src="./assets/readme/image-17.png" width="250"/> | <img src="./assets/readme/image-18.png" width="250"/> |
 
-| Volunteer Overview                        | Organisation Overview                     |     |
-| ----------------------------------------- | ----------------------------------------- | --- |
-| ![alt text](./assets/readme/image-19.png) | ![alt text](./assets/readme/image-20.png) |     |
+| Volunteer Overview                                    | Organisation Overview                                 |     |
+| ----------------------------------------------------- | ----------------------------------------------------- | --- |
+| <img src="./assets/readme/image-19.png" width="250"/> | <img src="./assets/readme/image-20.png" width="250"/> |     |
 
-| Opportunities by Each Org                   | Opportunity Details                        | Manage Opportunity on Behalf                    |
-| ------------------------------------------- | ------------------------------------------ | ----------------------------------------------- |
-| ![alt text](./assets/readme/oppeachOrg.png) | ![alt text](./assets/readme/oppDetail.png) | ![alt text](./assets/readme/manageonBehalf.png) |
+| Opportunities by Each Org                               | Opportunity Details                                    | Manage Opportunity on Behalf                                |
+| ------------------------------------------------------- | ------------------------------------------------------ | ----------------------------------------------------------- |
+| <img src="./assets/readme/oppeachOrg.png" width="250"/> | <img src="./assets/readme/oppDetail.png" width="250"/> | <img src="./assets/readme/manageonBehalf.png" width="250"/> |
 
 ---
 
@@ -253,7 +255,6 @@ All MVP features were implemented, and additional functionality such as approval
 - [Firebase Firestore](https://firebase.google.com/docs/firestore)
 - [Zustand GitHub Repository](https://github.com/pmndrs/zustand)
 - [Every Nation Auckland City](https://www.everynationauckland.city/compassion)
-- [Supabase Documentation](https://supabase.com/pricing)
 
 ---
 
