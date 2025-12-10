@@ -234,7 +234,7 @@ Here are some screenshots showcasing the key pages and interactions within the a
 ## 🏁 Project Status
 
 ✅ The **prototype is fully functional** and meets all the deliverables defined in the project proposal.
-All MVP features were implemented, and additional functionality such as approval workflow and applicant tracking were added based on client feedback.
+All MVP features were implemented, and additional functionalities were added based on client feedback. I deployed it using Expo’s internal distribution (EAS Update) so the client can install it on their devices for testing.
 
 ---
 
