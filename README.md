@@ -64,8 +64,6 @@ The app integrates two Firebase services:
 - **Firestore:**
   Stores all other data such as users, opportunities, and applications.
 
-> ⚙️ _Note: Currently migrating from Firebase to Supabase._
-
 ![Firebase Service](./assets/readme/firebaseService.jpg)
 
 ---
